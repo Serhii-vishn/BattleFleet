@@ -7,4 +7,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="src\Game\" />
+    <Folder Include="resources\logs\" />
+    <Folder Include="resources\saves\" />
+    <Folder Include="src\Tests\" />
+  </ItemGroup>
+
 </Project>
