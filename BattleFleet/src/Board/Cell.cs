@@ -7,15 +7,17 @@ namespace BattleFleet.src.Board
         private int row;
         private char column;
         private CellStatus cellStatus;
+        private string cellCode;
 
-        Cell(int row, char column)
+        public Cell(int row, char column)
         {
             this.row = row;
             this.column = column;
             cellStatus = CellStatus.EMPTY;
+            cellCode = $"   |";
         }
 
-        Cell(int row, char column, CellStatus cellStatus)
+        public Cell(int row, char column, CellStatus cellStatus)
         {
             this.row = row;
             this.column = column;
@@ -25,6 +27,11 @@ namespace BattleFleet.src.Board
         public CellStatus GetCellStatus()
         {
             return cellStatus;
+        }
+
+        public string GetCellCode()
+        {
+            return cellCode;
         }
 
         public bool UpdateCellStatus(CellStatus newStatusCell)
