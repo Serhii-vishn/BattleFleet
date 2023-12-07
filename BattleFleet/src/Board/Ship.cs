@@ -20,7 +20,6 @@ namespace BattleFleet.src.Board
         public Ship(ShipClass shipClass)
         {
             this.shipClass = shipClass;
-            this.position.Add('X', -1);
             health = (int)shipClass;
             this.isSunk = false;
         }

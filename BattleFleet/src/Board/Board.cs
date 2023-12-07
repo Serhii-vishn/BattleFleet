@@ -16,6 +16,7 @@ namespace BattleFleet.src.Board
         public Board()
         {
             grid = new Cell[10, 10];
+            shipsList = new List<Ship>();
             InitializeBoard();
             InitializeShips();
         }
@@ -66,17 +67,38 @@ namespace BattleFleet.src.Board
 
             return board.ToString();
         }
+    
+        public bool checkMove(int row, char column)
+        {
+            try
+            {
+                if (row < 0 || row >= kGridLength)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(row), "Incorrect value for a row.");
+                }
 
+                int columnIndex = validateColumn(column);
+                if (columnIndex == -1)
+                    throw new ArgumentException("Invalid value for a column.", nameof(column));
 
+                CellStatus state = grid[row, columnIndex].GetCellStatus();
+                return state == CellStatus.EMPTY;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return false;
+            }
+        }
 
-        //private void CreateShips()
-        //{
-        //    shipsList.Add(new Ship())
-        //}
-        //public bool placeShip(Ship)
-        //{
-
-        //}
-
+        public int validateColumn(char column)
+        {
+            for (int i = 0; i < kGridLength; i++)
+            {
+                if (alphabetCells[i] == char.ToUpper(column))
+                    return i;
+            }
+            return -1;
+        }
     }
 }
