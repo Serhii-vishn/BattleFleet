@@ -17,6 +17,7 @@ namespace BattleFleet.src.Board
         {
             grid = new Cell[10, 10];
             shipsList = new List<Ship>();
+
             InitializeBoard();
             InitializeShips();
         }
@@ -73,9 +74,7 @@ namespace BattleFleet.src.Board
             try
             {
                 if (row < 0 || row >= kGridLength)
-                {
                     throw new ArgumentOutOfRangeException(nameof(row), "Incorrect value for a row.");
-                }
 
                 int columnIndex = validateColumn(column);
                 if (columnIndex == -1)
