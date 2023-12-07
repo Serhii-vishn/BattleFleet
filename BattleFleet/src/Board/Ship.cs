@@ -9,11 +9,18 @@ namespace BattleFleet.src.Board
         private int health;
         private bool isSunk;
 
-
         public Ship(ShipClass shipClass, Dictionary<char, int> position)
         {
             this.shipClass = shipClass;
             this.position = position;
+            health = (int)shipClass;
+            this.isSunk = false;
+        }
+
+        public Ship(ShipClass shipClass)
+        {
+            this.shipClass = shipClass;
+            this.position.Add('X', -1);
             health = (int)shipClass;
             this.isSunk = false;
         }

@@ -17,6 +17,7 @@ namespace BattleFleet.src.Board
         {
             grid = new Cell[10, 10];
             InitializeBoard();
+            InitializeShips();
         }
 
         private void InitializeBoard()
@@ -28,6 +29,23 @@ namespace BattleFleet.src.Board
                     grid[i, j] = new Cell(i, alphabetCells[j]);
                 }
             }
+        }
+
+        private void InitializeShips()
+        {
+            shipsList.Add(new Ship(ShipClass.FIVE_DECK));
+
+            shipsList.Add(new Ship(ShipClass.THREE_DECK));
+            shipsList.Add(new Ship(ShipClass.THREE_DECK));
+
+            shipsList.Add(new Ship(ShipClass.TWO_DECK));
+            shipsList.Add(new Ship(ShipClass.TWO_DECK));
+            shipsList.Add(new Ship(ShipClass.TWO_DECK));
+
+            shipsList.Add(new Ship(ShipClass.ONE_DECK));
+            shipsList.Add(new Ship(ShipClass.ONE_DECK));
+            shipsList.Add(new Ship(ShipClass.ONE_DECK));
+            shipsList.Add(new Ship(ShipClass.ONE_DECK));
         }
 
         public string DrawBoard()
@@ -48,6 +66,8 @@ namespace BattleFleet.src.Board
 
             return board.ToString();
         }
+
+
 
         //private void CreateShips()
         //{
