@@ -23,13 +23,22 @@ namespace BattleFleet.src.PlayerBoard
             this.column = column;
             this.cellStatus = cellStatus;
         }
+        public int Row
+        {
+            get { return row; }
+        }
+
+        public char Column
+        {
+            get { return column; }
+        }
 
         public CellStatus GetCellStatus()
         {
             return cellStatus;
         }
 
-        public string GetCellCode()
+        public string ToString()
         {
             return cellCode;
         }
