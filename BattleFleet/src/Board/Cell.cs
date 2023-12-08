@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BattleFleet.src.Board
+namespace BattleFleet.src.PlayerBoard
 {
     class Cell
     {

@@ -1,4 +1,4 @@
-﻿namespace BattleFleet.src.Board
+﻿namespace BattleFleet.src.PlayerBoard
 {
 	enum CellStatus
 	{

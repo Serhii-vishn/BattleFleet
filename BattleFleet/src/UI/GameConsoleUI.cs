@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BattleFleet.src.UI
 {
-    internal class GameConsoleUI
+    class GameConsoleUI
     {
+
+      
+
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BattleFleet.src.Board
+namespace BattleFleet.src.PlayerBoard
 {
     class Board
     {
