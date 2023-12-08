@@ -29,6 +29,11 @@ namespace BattleFleet.src.PlayerBoard
             isSunk = true;
         }
 
+        public bool IsSunk()
+        {
+            return isSunk;
+        }
+
         public void hit()
         {
             if (health > 0)
@@ -50,6 +55,11 @@ namespace BattleFleet.src.PlayerBoard
         public int getHealth()
         {
             return health;
+        }
+
+        public Dictionary<char, int> getPosition()
+        {
+            return position;
         }
     }
 }
