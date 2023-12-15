@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BattleFleet.src.Board;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,7 +64,7 @@ namespace BattleFleet.src.PlayerBoard
                 board.AppendLine(horizontalSeparator);
                 board.Append($" {alphabetCells[i]} |");
 
-                board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].GetCellCode())));
+                board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].ToString())));
             }
 
             return board.ToString();
@@ -72,13 +73,8 @@ namespace BattleFleet.src.PlayerBoard
         public bool checkMove(int row, char column)
         {
             try
-            {
-                if (row < 0 || row >= kGridLength)
-                    throw new ArgumentOutOfRangeException(nameof(row), "Incorrect value for a row.");
-
-                int columnIndex = validateColumn(column);
-                if (columnIndex == -1)
-                    throw new ArgumentException("Invalid value for a column.", nameof(column));
+            {               
+                int columnIndex = verifyPosition(row, column);
 
                 CellStatus state = grid[row, columnIndex].GetCellStatus();
                 return state == CellStatus.EMPTY;
@@ -90,14 +86,45 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        public int validateColumn(char column)
+        private int verifyPosition(int row, char column)
         {
+            if (row < 0 || row >= kGridLength)
+                throw new ArgumentOutOfRangeException(nameof(row), "Incorrect value for a row.");
+
+            int columnIndex = -1;
             for (int i = 0; i < kGridLength; i++)
             {
                 if (alphabetCells[i] == char.ToUpper(column))
-                    return i;
+                    columnIndex = i;
             }
-            return -1;
+            if (columnIndex == -1)
+                throw new ArgumentException("Invalid value for a column.", nameof(column));
+
+            return columnIndex;
+        }
+
+        public void placeShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
+        {
+
+           
+           //throw new NotImplementedException();
+        }
+
+        private bool CanPlaceShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
+        {
+
+            for (int i = 0, coord = row; i < ((int)shipClass); coord++, i++)
+            {
+                // if (grid[row, validatecolumn(column)].getcellstatus() != cellstatus.empty)
+                //  return false;
+            }
+
+            return true;
+        }
+
+        private bool CanPlaceShip(char column, int shipSize)
+        {
+            throw new NotImplementedException();
         }
     }
 }
