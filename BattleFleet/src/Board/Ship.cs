@@ -52,14 +52,24 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
         
-        public int getHealth()
+        public void setPosition(Dictionary<char, int> position)
         {
-            return health;
+            this.position = position;
         }
 
         public Dictionary<char, int> getPosition()
         {
             return position;
+        }
+
+        public int getHealth()
+        {
+            return health;
+        }
+
+        public ShipClass getShipClass()
+        { 
+            return shipClass; 
         }
     }
 }
