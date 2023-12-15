@@ -107,31 +107,29 @@ namespace BattleFleet.src.PlayerBoard
         {
             try
             {
-                int columnIndex = verifyPosition(row, column);             
+                int columnIndex = verifyPosition(row, column);
+                CanPlaceShip(row, columnIndex, shipClass, shipDirection);
 
-                if (CanPlaceShip(row, columnIndex, shipClass, shipDirection))
+                switch (shipDirection)
                 {
-                    switch (shipDirection)
-                    {
-                        case ShipDirection.VERTICAL:
+                    case ShipDirection.VERTICAL:
+                        {
+                            for (int size = 1, i = row; size <= ((int)shipClass); i++, size++)
                             {
-                                for (int size = 1, i = row; size <= ((int)shipClass); i++, size++)
-                                {
-                                    grid[i, columnIndex].UpdateCellStatus(CellStatus.OCCUPIED);
-                                }
-                                break;
+                                grid[i, columnIndex].UpdateCellStatus(CellStatus.OCCUPIED);
                             }
-                        case ShipDirection.HORIZONTAL:
+                            break;
+                        }
+                    case ShipDirection.HORIZONTAL:
+                        {
+                            for (int size = 1, i = columnIndex; size <= ((int)shipClass); i++, size++)
                             {
-                                for (int size = 1, i = columnIndex; size <= ((int)shipClass); i++, size++)
-                                {
-                                    grid[row, i].UpdateCellStatus(CellStatus.OCCUPIED);
-                                }
-                                break;
-                            }                      
-                        default:
-                            throw new ArgumentException("Invalid value for a Direction ship.");
-                    }
+                                grid[row, i].UpdateCellStatus(CellStatus.OCCUPIED);
+                            }
+                            break;
+                        }                      
+                    default:
+                        throw new ArgumentException("Invalid value for a Direction ship.");
                 }
 
                 return true;
@@ -143,16 +141,21 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        private bool CanPlaceShip(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
+        private void CanPlaceShip(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
         {
             switch (shipDirection)
             {
                 case ShipDirection.VERTICAL:
                     {
                         for(int size = 1; size <= ((int)shipClass); row++, size++)
-                        {
+                        {                          
                             if (grid[row, column].GetCellStatus() != CellStatus.EMPTY)
-                                return false;
+                            {
+                                if (grid[row, column].GetCellStatus() == CellStatus.OCCUPIED)
+                                    throw new ArgumentException("Сan't put a ship in its way, there is another ship");
+                                else if (grid[row, column].GetCellStatus() == CellStatus.FORBIDDEN)
+                                    throw new ArgumentException("Сan't place a ship, it occupies the free zone of another ship");
+                            }                               
                         }
                         break;
                     }
@@ -160,16 +163,16 @@ namespace BattleFleet.src.PlayerBoard
                     {
                         for (int size = 1; size <= ((int)shipClass); column++, size++)
                         {
-                            if (grid[row, column].GetCellStatus() != CellStatus.EMPTY)
-                                return false;
+                            if (grid[row, column].GetCellStatus() == CellStatus.OCCUPIED)
+                                throw new ArgumentException("Сan't put a ship in its way, there is another ship");
+                            else if (grid[row, column].GetCellStatus() == CellStatus.FORBIDDEN)
+                                throw new ArgumentException("Сan't place a ship, it occupies the free zone of another ship");
                         }
                         break;
                     }
                 default:
                     throw new ArgumentException("Invalid value for a Direction ship.");
             }
-
-            return true;
         }
     }
 }

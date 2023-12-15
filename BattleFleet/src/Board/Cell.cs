@@ -48,7 +48,7 @@ namespace BattleFleet.src.PlayerBoard
             if (cellStatus == CellStatus.HIT)
                 return false;
 
-            cellStatus = newStatusCell;
+            this.cellStatus = newStatusCell;
             updateCellCode(newStatusCell);
 
             return true;   
