@@ -49,6 +49,8 @@ namespace BattleFleet.src.PlayerBoard
                 return false;
 
             cellStatus = newStatusCell;
+            updateCellCode(newStatusCell);
+
             return true;   
         }
 

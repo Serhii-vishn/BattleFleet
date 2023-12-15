@@ -57,12 +57,12 @@ namespace BattleFleet.src.PlayerBoard
             StringBuilder board = new StringBuilder();
 
             board.Append(" X |");
-            board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {i} |")));
+            board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));
 
             for (int i = 0; i < kGridLength; i++)
             {
                 board.AppendLine(horizontalSeparator);
-                board.Append($" {alphabetCells[i]} |");
+                board.Append($" {i} |");
 
                 board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].ToString())));
             }
@@ -103,28 +103,73 @@ namespace BattleFleet.src.PlayerBoard
             return columnIndex;
         }
 
-        public void placeShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
+        public bool placeShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
         {
+            try
+            {
+                int columnIndex = verifyPosition(row, column);             
 
-           
-           //throw new NotImplementedException();
+                if (CanPlaceShip(row, columnIndex, shipClass, shipDirection))
+                {
+                    switch (shipDirection)
+                    {
+                        case ShipDirection.VERTICAL:
+                            {
+                                for (int size = 1, i = row; size <= ((int)shipClass); i++, size++)
+                                {
+                                    grid[i, columnIndex].UpdateCellStatus(CellStatus.OCCUPIED);
+                                }
+                                break;
+                            }
+                        case ShipDirection.HORIZONTAL:
+                            {
+                                for (int size = 1, i = columnIndex; size <= ((int)shipClass); i++, size++)
+                                {
+                                    grid[row, i].UpdateCellStatus(CellStatus.OCCUPIED);
+                                }
+                                break;
+                            }                      
+                        default:
+                            throw new ArgumentException("Invalid value for a Direction ship.");
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return false;
+            }
         }
 
-        private bool CanPlaceShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
+        private bool CanPlaceShip(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
         {
-
-            for (int i = 0, coord = row; i < ((int)shipClass); coord++, i++)
+            switch (shipDirection)
             {
-                // if (grid[row, validatecolumn(column)].getcellstatus() != cellstatus.empty)
-                //  return false;
+                case ShipDirection.VERTICAL:
+                    {
+                        for(int size = 1; size <= ((int)shipClass); row++, size++)
+                        {
+                            if (grid[row, column].GetCellStatus() != CellStatus.EMPTY)
+                                return false;
+                        }
+                        break;
+                    }
+                case ShipDirection.HORIZONTAL:
+                    {
+                        for (int size = 1; size <= ((int)shipClass); column++, size++)
+                        {
+                            if (grid[row, column].GetCellStatus() != CellStatus.EMPTY)
+                                return false;
+                        }
+                        break;
+                    }
+                default:
+                    throw new ArgumentException("Invalid value for a Direction ship.");
             }
 
             return true;
-        }
-
-        private bool CanPlaceShip(char column, int shipSize)
-        {
-            throw new NotImplementedException();
         }
     }
 }
