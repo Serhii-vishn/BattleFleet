@@ -20,7 +20,7 @@ namespace BattleFleet.src.PlayerBoard
             shipsList = new List<Ship>();
 
             InitializeBoard();
-            InitializeShips();
+            //InitializeShips();
         }
 
         private void InitializeBoard()
@@ -89,7 +89,7 @@ namespace BattleFleet.src.PlayerBoard
         private int verifyPosition(int row, char column)
         {
             if (row < 0 || row >= kGridLength)
-                throw new ArgumentOutOfRangeException(nameof(row), "Incorrect value for a row.");
+                throw new ArgumentOutOfRangeException("Incorrect value for a row.", nameof(row));
 
             int columnIndex = -1;
             for (int i = 0; i < kGridLength; i++)
@@ -98,7 +98,7 @@ namespace BattleFleet.src.PlayerBoard
                     columnIndex = i;
             }
             if (columnIndex == -1)
-                throw new ArgumentException("Invalid value for a column.", nameof(column));
+                throw new ArgumentException("Incorrect value for a column.", nameof(column));
 
             return columnIndex;
         }
@@ -131,7 +131,7 @@ namespace BattleFleet.src.PlayerBoard
                     default:
                         throw new ArgumentException("Invalid value for a Direction ship.");
                 }
-
+                shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }));
                 return true;
             }
             catch (Exception ex)
@@ -140,6 +140,7 @@ namespace BattleFleet.src.PlayerBoard
                 return false;
             }
         }
+
 
         private void CanPlaceShip(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
         {
