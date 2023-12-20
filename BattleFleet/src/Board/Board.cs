@@ -94,6 +94,8 @@ namespace BattleFleet.src.PlayerBoard
                 int columnIndex = verifyPosition(row, column);
                 CanPlaceShip(row, columnIndex, shipClass, shipDirection);
 
+                MarkForbiddenCells(row, columnIndex, shipClass, shipDirection);
+
                 switch (shipDirection)
                 {
                     case ShipDirection.VERTICAL:
@@ -116,8 +118,6 @@ namespace BattleFleet.src.PlayerBoard
                         throw new ArgumentException("Invalid value for a Direction ship.");
                 }
                 shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }));
-
-                MarkForbiddenCells(row, columnIndex, shipClass, shipDirection);
 
                 return true;
             }
@@ -213,22 +213,44 @@ namespace BattleFleet.src.PlayerBoard
         {
             switch (shipDirection)
             {
-                case ShipDirection.VERTICAL:
+                case ShipDirection.HORIZONTAL:
                     {
-                        int startRow = row--;
-                        for(int )
+                        int startRow = Math.Max(row - 1, 0);
+                        int endRow = Math.Min(row + 1, kGridLength - 1);
+                        int startColumn = Math.Max(column - 1, 0);
+                        int endColumn = Math.Min(column + (int)shipClass, kGridLength - 1);
 
+                        for (int i = startRow; i <= endRow; i++)
+                        {
+                            for (int j = startColumn; j <= endColumn; j++)
+                            {
+                                grid[i, j].UpdateCellStatus(CellStatus.FORBIDDEN);
+                            }
+                        }
 
                         break;
                     }
-                case ShipDirection.HORIZONTAL:
+                case ShipDirection.VERTICAL:
                     {
-                        
+                        int startRow = Math.Max(row - 1, 0);
+                        int endRow = Math.Min(row + (int)shipClass, kGridLength - 1);
+                        int startColumn = Math.Max(column - 1, 0);
+                        int endColumn = Math.Min(column + 1, kGridLength - 1);
+
+                        for (int i = startRow; i <= endRow; i++)
+                        {
+                            for (int j = startColumn; j <= endColumn; j++)
+                            {
+                                grid[i, j].UpdateCellStatus(CellStatus.FORBIDDEN);
+                            }
+                        }
+
                         break;
                     }
                 default:
                     throw new ArgumentException("Invalid value for a Direction ship.");
             }
         }
+
     }
 }
