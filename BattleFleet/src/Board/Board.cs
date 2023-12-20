@@ -20,7 +20,6 @@ namespace BattleFleet.src.PlayerBoard
             shipsList = new List<Ship>();
 
             InitializeBoard();
-            //InitializeShips();
         }
 
         private void InitializeBoard()
@@ -32,24 +31,7 @@ namespace BattleFleet.src.PlayerBoard
                     grid[i, j] = new Cell(i, alphabetCells[j]);
                 }
             }
-        }
-
-        private void InitializeShips()
-        {
-            shipsList.Add(new Ship(ShipClass.FIVE_DECK));
-
-            shipsList.Add(new Ship(ShipClass.THREE_DECK));
-            shipsList.Add(new Ship(ShipClass.THREE_DECK));
-
-            shipsList.Add(new Ship(ShipClass.TWO_DECK));
-            shipsList.Add(new Ship(ShipClass.TWO_DECK));
-            shipsList.Add(new Ship(ShipClass.TWO_DECK));
-
-            shipsList.Add(new Ship(ShipClass.ONE_DECK));
-            shipsList.Add(new Ship(ShipClass.ONE_DECK));
-            shipsList.Add(new Ship(ShipClass.ONE_DECK));
-            shipsList.Add(new Ship(ShipClass.ONE_DECK));
-        }
+        }    
 
         public string DrawBoard()
         {
@@ -107,6 +89,8 @@ namespace BattleFleet.src.PlayerBoard
         {
             try
             {
+                CanCreateNewShip(shipClass);
+                
                 int columnIndex = verifyPosition(row, column);
                 CanPlaceShip(row, columnIndex, shipClass, shipDirection);
 
@@ -127,11 +111,14 @@ namespace BattleFleet.src.PlayerBoard
                                 grid[row, i].UpdateCellStatus(CellStatus.OCCUPIED);
                             }
                             break;
-                        }                      
+                        }
                     default:
                         throw new ArgumentException("Invalid value for a Direction ship.");
                 }
                 shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }));
+
+                MarkForbiddenCells(row, columnIndex, shipClass, shipDirection);
+
                 return true;
             }
             catch (Exception ex)
@@ -141,6 +128,52 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
+        private void CanCreateNewShip(ShipClass shipClass)
+        {
+            int numberShips = 0;
+
+            foreach (Ship ship in shipsList)
+            {
+                if (ship.getShipClass() == shipClass)
+                {
+                    numberShips++;
+                }
+            }
+
+            switch (shipClass)
+            {
+                case ShipClass.ONE_DECK:
+                    {
+                        if (numberShips >= 4)
+                            throw new InvalidOperationException("Cannot place more than 4 ships of ONE_DECK class.");
+
+                        break;
+                    }
+                case ShipClass.TWO_DECK:
+                    {
+                        if (numberShips >= 3)
+                            throw new InvalidOperationException("Cannot place more than 3 ships of TWO_DECK class.");
+
+                        break;
+                    }
+                case ShipClass.THREE_DECK:
+                    {
+                        if (numberShips >= 2)
+                            throw new InvalidOperationException("Cannot place more than 2 ships of THREE_DECK class.");
+
+                        break;
+                    }
+                case ShipClass.FIVE_DECK:
+                    {
+                        if (numberShips >= 1)
+                            throw new InvalidOperationException("Cannot place more than 1 ship of FIVE_DECK class.");
+
+                        break;
+                    }
+                default:
+                    throw new ArgumentException("Invalid ship class");
+            }
+        }
 
         private void CanPlaceShip(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
         {
@@ -169,6 +202,28 @@ namespace BattleFleet.src.PlayerBoard
                             else if (grid[row, column].GetCellStatus() == CellStatus.FORBIDDEN)
                                 throw new ArgumentException("Сan't place a ship, it occupies the free zone of another ship");
                         }
+                        break;
+                    }
+                default:
+                    throw new ArgumentException("Invalid value for a Direction ship.");
+            }
+        }
+
+        private void MarkForbiddenCells(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
+        {
+            switch (shipDirection)
+            {
+                case ShipDirection.VERTICAL:
+                    {
+                        int startRow = row--;
+                        for(int )
+
+
+                        break;
+                    }
+                case ShipDirection.HORIZONTAL:
+                    {
+                        
                         break;
                     }
                 default:
