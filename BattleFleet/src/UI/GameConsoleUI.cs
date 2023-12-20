@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BattleFleet.src.UI
 {
@@ -56,9 +52,13 @@ namespace BattleFleet.src.UI
         {
             Console.ReadKey();
             Console.Clear();
+
+            Console.WriteLine("\t\t\tSelect the menu item:");
+            Console.WriteLine("\t\t\t\t1. Start a new game");
+            Console.WriteLine("\t\t\t\t2. Watch previous matches");
+            Console.WriteLine("\t\t\t\t3. Read the rules of the game");
+            Console.WriteLine("\t\t\t\t0. Exit");
+            Console.Write("\t\t\tOption: ");
         }
-
-
-
     }
 }

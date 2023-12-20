@@ -9,6 +9,27 @@ namespace BattleFleet.src.PlayerBoard
         private CellStatus cellStatus;
         private string cellCode;
 
+        private void updateCellCode(CellStatus newStatusCell)
+        {
+            switch (newStatusCell)
+            {
+                case CellStatus.EMPTY:
+                    cellCode = $"   |";
+                    break;
+                case CellStatus.OCCUPIED:
+                    cellCode = $" ■ |";
+                    break;
+                case CellStatus.HIT:
+                    cellCode = $" X |";
+                    break;
+                case CellStatus.FORBIDDEN:
+                    cellCode = $"   |";
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public Cell(int row, char column)
         {
             this.row = row;
@@ -52,27 +73,6 @@ namespace BattleFleet.src.PlayerBoard
             updateCellCode(newStatusCell);
 
             return true;   
-        }
-
-        private void updateCellCode(CellStatus newStatusCell)
-        {
-            switch (newStatusCell)
-            {
-                case CellStatus.EMPTY:
-                    cellCode = $"   |";
-                    break;
-                case CellStatus.OCCUPIED:
-                    cellCode = $" ■ |";
-                    break;
-                case CellStatus.HIT:
-                    cellCode = $" X |";
-                    break;
-                case CellStatus.FORBIDDEN:
-                    cellCode = $"   |";
-                    break;
-                default:
-                    break;
-            }
-        }
+        }      
     }
 }
