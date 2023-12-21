@@ -27,9 +27,9 @@ namespace BattleFleet.src.Game
 
         }
 
-        private void SwitchPlayer()
+        public void SwitchTurn()
         {
-
+            //currentPlayer = (currentPlayer == player1) ? player2 : player1;
         }
 
         public void EndGame()
