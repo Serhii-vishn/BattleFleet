@@ -1,24 +1,46 @@
 ﻿using System;
-using BattleFleet.src.PlayerBoard;
 
 namespace BattleFleet.src.Game
 {
+    using BattleFleet.src.PlayerBoard;
+    using BattleFleet.src.Player;
+
     class Game
     {
         private Board player1Board;
         private Board player2Board;
-        //private Player currentPlayer;
+        private Player currentPlayer;
 
-        //public Game(Player player1, Player player2);
+        public Game(Player player1, Player player2)
+        {
+            player1Board = new Board();
+            player2Board = new Board();
 
-        //public void StartGame();
+           // player1.Initialize(player1Board, player2Board);
+           // player2.Initialize(player2Board, player1Board);
 
-        //private void SwitchPlayer();
+            currentPlayer = player1;
+        }
 
-        //public void EndGame();
+        public void StartGame()
+        {
 
-        //public bool IsGameOver();
+        }
 
+        private void SwitchPlayer()
+        {
 
+        }
+
+        public void EndGame()
+        {
+
+        }
+
+        public bool IsGameOver()
+        {
+
+            return false;
+        }
     }
 }
