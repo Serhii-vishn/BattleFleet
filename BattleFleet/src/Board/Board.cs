@@ -238,12 +238,31 @@ namespace BattleFleet.src.PlayerBoard
                 int columnIndex = verifyPosition(row, column);
 
                 CellStatus state = grid[row, columnIndex].GetCellStatus();
-                return state == CellStatus.EMPTY;
+                if (state == CellStatus.HIT)
+                    throw new Exception("Cannot be re-fired");
+                return state != CellStatus.HIT;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
                 return false;
+            }
+        }
+
+        public void moveShoot(int row, char column)
+        {
+            try
+            {
+                int columnIndex = verifyPosition(row, column);
+
+                CellStatus state = grid[row, columnIndex].GetCellStatus();
+               // if (state == CellStatus.OCCUPIED)
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
     }
