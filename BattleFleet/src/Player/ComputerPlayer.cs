@@ -19,5 +19,10 @@ namespace BattleFleet.src.Player
             // Логіка для автоматичного визначення координат ходу комп'ютера
             // Обробка ходу та оновлення дошки
         }
+
+        public override void PlaceShips()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -21,6 +21,8 @@ namespace BattleFleet.src.Player
 
         public abstract void Initialize(Board ownBoard, Board opponentBoard);
 
+        public abstract void PlaceShips();
+
         public abstract void MakeMove();
     }
 }
