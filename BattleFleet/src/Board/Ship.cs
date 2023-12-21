@@ -7,34 +7,34 @@ namespace BattleFleet.src.PlayerBoard
         private ShipClass shipClass;
         private Dictionary<char, int> position;
         private int health;
-        private bool isSunk;
+        private bool isShipSunk;
 
         public Ship(ShipClass shipClass, Dictionary<char, int> position)
         {
             this.shipClass = shipClass;
             this.position = position;
             health = (int)shipClass;
-            this.isSunk = false;
+            this.isShipSunk = false;
         }
 
         public Ship(ShipClass shipClass)
         {
             this.shipClass = shipClass;
             health = (int)shipClass;
-            this.isSunk = false;
+            this.isShipSunk = false;
         }
 
-        private void UpdateStatus()
+        private void updateStatus()
         {
-            isSunk = true;
+            isShipSunk = true;
         }
 
         public bool IsSunk()
         {
-            return isSunk;
+            return isShipSunk;
         }
 
-        public void hit()
+        public void Hit()
         {
             if (health > 0)
             {
@@ -43,7 +43,7 @@ namespace BattleFleet.src.PlayerBoard
 
                 if (health == 0)
                 {
-                    UpdateStatus();
+                    updateStatus();
                 }
             }
             else
@@ -52,22 +52,22 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
         
-        public void setPosition(Dictionary<char, int> position)
+        public void SetPosition(Dictionary<char, int> position)
         {
             this.position = position;
         }
 
-        public Dictionary<char, int> getPosition()
+        public Dictionary<char, int> GetPosition()
         {
             return position;
         }
 
-        public int getHealth()
+        public int GetHealth()
         {
             return health;
         }
 
-        public ShipClass getShipClass()
+        public ShipClass GetShipClass()
         { 
             return shipClass; 
         }

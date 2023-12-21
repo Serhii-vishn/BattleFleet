@@ -9,6 +9,20 @@ namespace BattleFleet.src.PlayerBoard
         private CellStatus cellStatus;
         private string cellCode;
 
+        public Cell(int row, char column)
+        {
+            this.row = row;
+            this.column = column;
+            cellStatus = CellStatus.EMPTY;
+            cellCode = $"   |";
+        }
+        public Cell(int row, char column, CellStatus cellStatus)
+        {
+            this.row = row;
+            this.column = column;
+            this.cellStatus = cellStatus;
+        }
+
         private void updateCellCode(CellStatus newStatusCell)
         {
             switch (newStatusCell)
@@ -30,20 +44,6 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        public Cell(int row, char column)
-        {
-            this.row = row;
-            this.column = column;
-            cellStatus = CellStatus.EMPTY;
-            cellCode = $"   |";
-        }
-
-        public Cell(int row, char column, CellStatus cellStatus)
-        {
-            this.row = row;
-            this.column = column;
-            this.cellStatus = cellStatus;
-        }
         public int Row
         {
             get { return row; }

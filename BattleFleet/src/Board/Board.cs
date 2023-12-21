@@ -16,10 +16,10 @@ namespace BattleFleet.src.PlayerBoard
             grid = new Cell[10, 10];
             shipsList = new List<Ship>();
 
-            InitializeBoard();
+            initializeBoard();
         }
 
-        private void InitializeBoard()
+        private void initializeBoard()
         {
             for(int i = 0; i < kGridLength; i++)
             {
@@ -47,13 +47,13 @@ namespace BattleFleet.src.PlayerBoard
             return columnIndex;
         }      
 
-        private void CanCreateNewShip(ShipClass shipClass)
+        private void canCreateNewShip(ShipClass shipClass)
         {
             int numberShips = 0;
 
             foreach (Ship ship in shipsList)
             {
-                if (ship.getShipClass() == shipClass)
+                if (ship.GetShipClass() == shipClass)
                 {
                     numberShips++;
                 }
@@ -94,7 +94,7 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        private void CanPlaceShip(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
+        private void canPlaceShip(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
         {
             switch (shipDirection)
             {
@@ -128,7 +128,7 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        private void MarkForbiddenCells(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
+        private void markForbiddenCells(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
         {
             switch (shipDirection)
             {
@@ -188,16 +188,16 @@ namespace BattleFleet.src.PlayerBoard
             return board.ToString();
         }
 
-        public bool placeShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
+        public bool MovePlaceShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
         {
             try
             {
-                CanCreateNewShip(shipClass);
+                canCreateNewShip(shipClass);
 
                 int columnIndex = verifyPosition(row, column);
-                CanPlaceShip(row, columnIndex, shipClass, shipDirection);
+                canPlaceShip(row, columnIndex, shipClass, shipDirection);
 
-                MarkForbiddenCells(row, columnIndex, shipClass, shipDirection);
+                markForbiddenCells(row, columnIndex, shipClass, shipDirection);
 
                 switch (shipDirection)
                 {
@@ -231,7 +231,7 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        public bool checkMove(int row, char column)
+        public bool CheckMove(int row, char column)
         {
             try
             {
@@ -249,7 +249,7 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        public void moveShoot(int row, char column)
+        public void MoveShoot(int row, char column)
         {
             try
             {

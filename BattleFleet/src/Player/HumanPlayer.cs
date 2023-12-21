@@ -56,7 +56,7 @@ namespace BattleFleet.src.Player
             }
             ShipDirection shipDirection = (ShipDirection)Enum.ToObject(typeof(ShipDirection), direction);
 
-            ownBoard.placeShip(row, column, shipClass, shipDirection);
+            ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
         }
 
         public override void MakeMove()
@@ -71,7 +71,7 @@ namespace BattleFleet.src.Player
                 Console.Write(" row (0-9): ");
                 int row = int.Parse(Console.ReadLine());              
 
-                if (opponentBoard.checkMove(row, column))
+                if (opponentBoard.CheckMove(row, column))
                 {
                     //opponentBoard.
                 }
@@ -81,8 +81,5 @@ namespace BattleFleet.src.Player
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
-
-
     }
-
 }
