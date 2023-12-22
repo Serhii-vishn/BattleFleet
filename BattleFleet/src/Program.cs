@@ -1,48 +1,57 @@
 ﻿using BattleFleet.src.Player;
 using BattleFleet.src.PlayerBoard;
 using BattleFleet.src.UI;
+using System.Data.Common;
 
 internal class Program
 {
     public static void Main()
     {
-        Console.OutputEncoding = System.Text.Encoding.UTF8;
+        GameConsoleUI gameConsoleUI = new GameConsoleUI();
+        gameConsoleUI.DisplayHeader();
 
-        //GameConsoleUI gameConsoleUI = new GameConsoleUI();
-        //gameConsoleUI.DisplayHeader();
+        bool keyMainMenu = true;
 
-        //gameConsoleUI.DisplayMainMenu();
-
-        Console.Clear();
-        Board b1 = new Board();
-        Board b2 = new Board();
-
-        HumanPlayer humanPlayer = new HumanPlayer("pl1");
-        humanPlayer.Initialize(b1, b2);
-
-
-        do
+        while (keyMainMenu)
         {
-            Console.Clear();
-            humanPlayer.DrawBoard();
+            gameConsoleUI.DisplayMainMenu();
+            char option = Console.ReadKey().KeyChar;
 
-            try
+            switch (option)
             {
-                humanPlayer.PlaceShips();
+                case '1':
+                    {
+                        Console.Clear();
+                        Board b1 = new Board();
+                        Board b2 = new Board();
+
+                        HumanPlayer humanPlayer = new HumanPlayer("pl1");
+                        humanPlayer.Initialize(b1, b2);
+                        break;
+                    }
+                case '2':
+                    {
+                        break;
+                    }
+                case '3':
+                    {
+                        gameConsoleUI.DisplayRules();
+                        break;
+                    }
+                case '0':
+                    {
+                        gameConsoleUI.ExitGame();
+                        keyMainMenu = false;
+                        break;
+                    }
+                default:
+                    {
+                        Console.Write("\n\t\t\tInvalid option, try again...");
+                        break;
+                    }
             }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine($"\nError: {ex.Message}");
-            }
-
-            Console.Write("Do you want to place another ship? (Y/N): ");
-
-        } while (Console.ReadKey().Key == ConsoleKey.Y);
-
-
-        Console.ReadKey();
-
-        // humanPlayer.MakeMove();
+        }
+        
         Console.ReadKey();
     }
 }

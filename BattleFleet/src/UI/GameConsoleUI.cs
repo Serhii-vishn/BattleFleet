@@ -53,12 +53,40 @@ namespace BattleFleet.src.UI
             Console.ReadKey();
             Console.Clear();
 
-            Console.WriteLine("\t\t\tSelect the menu item:");
+            Console.WriteLine("\n\n\n\t\t\tSelect the menu item:");
             Console.WriteLine("\t\t\t\t1. Start a new game");
             Console.WriteLine("\t\t\t\t2. Watch previous matches");
             Console.WriteLine("\t\t\t\t3. Read the rules of the game");
             Console.WriteLine("\t\t\t\t0. Exit");
             Console.Write("\t\t\tOption: ");
+        }
+
+        public void DisplayRules()
+        {
+            Console.Clear();
+
+            Console.WriteLine("\n\n\n\t\t\t\t    Rules of the game 'BattleFleet':");
+            Console.WriteLine("\t\t-------------------------------------------------------------------------");
+            Console.WriteLine("\t\t1. Players place their ships on the playing field");
+            Console.WriteLine("\t\t2. Each player has their own playing field and the opponent's field");
+            Console.WriteLine("\t\t3. Players take turns choosing cells to fire, trying to sink enemy ships");
+            Console.WriteLine("\t\t4. The game continues until all the ships of one of the players are sunk");
+            Console.WriteLine("\t\t5. The player who is the first to sink all the enemy ships wins");
+            Console.WriteLine("\t\t-------------------------------------------------------------------------");
+            Console.Write("\t\tPress any key to return to the main menu...");
+
+            Console.ReadKey();
+        }
+
+        public void ExitGame()
+        {
+            Console.Clear();
+
+            Console.WriteLine("\n\n\n\t\t\t\t\tThank you for playing!");
+            Console.WriteLine("\t\t\t\tWe wish you a good day and good mood!");
+
+            Console.WriteLine("\t\t\t\tThe game is closed. See you soon!");
+            Environment.Exit(0);
         }
     }
 }
