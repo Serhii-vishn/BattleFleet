@@ -7,6 +7,11 @@ namespace BattleFleet.src.Player
     {
         public ComputerPlayer(string playerName) : base(playerName) { }
 
+        public override void DrawBoard()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Initialize(Board ownBoard, Board opponentBoard)
         {
             this.ownBoard = ownBoard;
