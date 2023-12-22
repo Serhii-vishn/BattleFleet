@@ -13,7 +13,7 @@ namespace BattleFleet.src.Player
             this.opponentBoard = opponentBoard;
         }
 
-        public void DrawBoard()
+        public override void DrawBoard()
         {
             Console.WriteLine($"Player's board: {playerName}");
             Console.WriteLine(this.ownBoard.DrawBoard());
