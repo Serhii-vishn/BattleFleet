@@ -67,6 +67,14 @@ namespace BattleFleet.src.PlayerBoard
             return cellCode;
         }
 
+        public string ToStringHide()
+        {
+            if (cellStatus == CellStatus.OCCUPIED)
+                return $"   |";
+
+            return cellCode;
+        }
+
         public bool UpdateCellStatus(CellStatus newStatusCell)
         {
             if (cellStatus == CellStatus.HIT)
