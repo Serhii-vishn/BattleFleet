@@ -73,7 +73,14 @@ namespace BattleFleet.src.Player
 
                 if (opponentBoard.CheckMove(row, column))
                 {
-                    //opponentBoard.
+                    if(opponentBoard.MoveShoot(row, column))
+                    {
+                        Console.WriteLine("Nice shoot!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Naaah miss");
+                    }
                 }
             }
             catch (Exception ex)
