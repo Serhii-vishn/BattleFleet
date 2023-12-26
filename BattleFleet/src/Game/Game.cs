@@ -10,12 +10,12 @@ namespace BattleFleet.src.Game
         private Board player1Board;
         private Board player2Board;
 
-        private Player player1;
-        private Player player2;
+        private HumanPlayer player1;
+        private HumanPlayer player2;
 
         private Player currentPlayer;
 
-        public Game(Player player1, Player player2)
+        public Game(HumanPlayer player1, HumanPlayer player2)
         {
             player1Board = new Board();
             player2Board = new Board();
@@ -50,12 +50,50 @@ namespace BattleFleet.src.Game
 
             } while (Console.ReadKey().Key == ConsoleKey.Y);
 
+            Console.Clear();
+            Console.Write ("Final. ");
+            currentPlayer.DrawBoard();
+
             Console.ReadKey();
+        }
+
+        private bool IsGameOver()
+        {
+            if(player1Board.GetAliveShipsCount() > 0 || player2Board.GetAliveShipsCount() > 0)
+                return false;
+            else
+                return true;
         }
 
         private void startBattle()
         {
+            Console.Clear();
+            Console.WriteLine("Battle start. Now you have to shoot on the field");
 
+            while (!IsGameOver())
+            {
+                currentPlayer.DrawBoard();
+                try
+                {
+                    bool successfulShot = currentPlayer.MakeMove();
+                    if (!successfulShot)
+                    {
+                        Console.WriteLine("Missed!");
+                        SwitchTurn();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Nice shoot!");
+                    }
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"\nError: {ex.Message}");
+                }
+
+                Console.ReadKey();
+                Console.Clear();
+            }
         }
 
         public void StartGame()

@@ -23,7 +23,9 @@ namespace BattleFleet.src.Game
             Console.WriteLine($"Player 1: {player1.GetPlayerName()}");
             Console.WriteLine($"Player 2: {player2.GetPlayerName()}");
 
-            Game game = new Game(player1, player2);
+            HumanPlayer human1 = new HumanPlayer(player1.GetPlayerName());
+            HumanPlayer human2 = new HumanPlayer(player2.GetPlayerName());
+            Game game = new Game(human1, human2);
 
             return game;
         }
