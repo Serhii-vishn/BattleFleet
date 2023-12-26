@@ -1,6 +1,6 @@
 ﻿namespace BattleFleet.src.Game
 {
-    interface GameRules
+    interface IGameRules
     {
         public void StartGame();
         public void EndGame();
