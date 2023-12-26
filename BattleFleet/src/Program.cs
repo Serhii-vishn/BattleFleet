@@ -1,4 +1,5 @@
-﻿using BattleFleet.src.Player;
+﻿using BattleFleet.src.Game;
+using BattleFleet.src.Player;
 using BattleFleet.src.PlayerBoard;
 using BattleFleet.src.UI;
 using System.Data.Common;
@@ -22,15 +23,23 @@ internal class Program
                 case '1':
                     {
                         Console.Clear();
-                        Board b1 = new Board();
-                        Board b2 = new Board();
+                        HumanPlayer player1 = new HumanPlayer();
+                        HumanPlayer player2 = new HumanPlayer();
 
-                        HumanPlayer humanPlayer = new HumanPlayer("pl1");
-                        humanPlayer.Initialize(b1, b2);
+                        GameManager gameManager = new GameManager(player1, player2);
+                        Game game = gameManager.InitializeGame();
+
+                        game.StartGame();
+
+                        game.EndGame();
+
+                        gameConsoleUI.ExitGame();
+                        keyMainMenu = false;
                         break;
                     }
                 case '2':
                     {
+                        Console.WriteLine("in development...");
                         break;
                     }
                 case '3':

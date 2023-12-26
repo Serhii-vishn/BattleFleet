@@ -17,6 +17,8 @@ namespace BattleFleet.src.Game
         public Game InitializeGame()
         {
             SetupPlayers();
+            Console.Clear();
+
             Console.WriteLine("The sea battle game has started!");
             Console.WriteLine($"Player 1: {player1.GetPlayerName()}");
             Console.WriteLine($"Player 2: {player2.GetPlayerName()}");

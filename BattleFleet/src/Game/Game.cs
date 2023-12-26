@@ -5,12 +5,14 @@ namespace BattleFleet.src.Game
     using BattleFleet.src.PlayerBoard;
     using BattleFleet.src.Player;
 
-    class Game : GameRules
+    class Game : IGameRules
     {
         private Board player1Board;
         private Board player2Board;
+
         private Player player1;
         private Player player2;
+
         private Player currentPlayer;
 
         public Game(Player player1, Player player2)
@@ -51,6 +53,11 @@ namespace BattleFleet.src.Game
             Console.ReadKey();
         }
 
+        private void startBattle()
+        {
+
+        }
+
         public void StartGame()
         {
             addShipsOnBoard();
@@ -58,10 +65,8 @@ namespace BattleFleet.src.Game
             SwitchTurn();
             addShipsOnBoard();
 
-
+            startBattle();
         }
-
-
 
         public void SwitchTurn()
         {
