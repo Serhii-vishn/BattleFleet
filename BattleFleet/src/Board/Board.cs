@@ -282,22 +282,27 @@ namespace BattleFleet.src.PlayerBoard
                         {
                             grid[row, columnIndex].UpdateCellStatus(CellStatus.HIT);
 
-                            foreach (var ship in shipsList)
-                            {
-                                if (ship.GetPosition().TryGetValue(column, out int shipRow) && shipRow == row)
-                                {
-                                    ship.Hit();
-                                    Console.WriteLine(ship.GetHealth());
-                                    //if (ship.GetHealth() == 0)
-                                    //{
-                                    //    var shipPosition = ship.GetPosition();
-                                    //    markShipAreaCells(shipPosition.Keys.First(), shipPosition.Values.First(), ship.GetShipClass(), ship.GetDirection(), CellStatus.MISS);
-                                    //}
-                                }
-                            }
+                            //foreach (Ship ship in shipsList)
+                            //{
+                            //    var shipPosition = ship.GetPosition();
+
+                            //    if (ship.GetPosition().TryGetValue(column, out int shipRow) && shipRow == row)
+                            //    {
+                            //        ship.Hit();
+                            //        Console.WriteLine(ship.GetHealth());
+                            //        //if (ship.GetHealth() == 0)
+                            //        //{
+                            //        //    var shipPosition = ship.GetPosition();
+                            //        //    markShipAreaCells(shipPosition.Keys.First(), shipPosition.Values.First(), ship.GetShipClass(), ship.GetDirection(), CellStatus.MISS);
+                            //        //}
+                            //    }
+                            //}
                             return true;
                         }
                     case CellStatus.EMPTY:
+                        grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
+                        break;
+                    case CellStatus.FORBIDDEN:
                         grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
                         break;
                     default:
