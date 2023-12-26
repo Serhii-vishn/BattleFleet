@@ -18,11 +18,12 @@ namespace BattleFleet.src.Player
             this.opponentBoard = opponentBoard;
         }
 
-        public override void MakeMove()
+        public override bool MakeMove()
         {
 
             // Логіка для автоматичного визначення координат ходу комп'ютера
             // Обробка ходу та оновлення дошки
+            return false;
         }
 
         public override void PlaceShips()

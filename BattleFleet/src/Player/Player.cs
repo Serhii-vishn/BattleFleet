@@ -30,6 +30,6 @@ namespace BattleFleet.src.Player
 
         public abstract void PlaceShips();
 
-        public abstract void MakeMove();
+        public abstract bool MakeMove();
     }
 }

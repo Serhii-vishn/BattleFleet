@@ -7,6 +7,11 @@ namespace BattleFleet.src.Player
     {
         public HumanPlayer() : base() { }
 
+        public HumanPlayer(string playerName)
+        {
+            this.playerName = playerName;
+        }
+
         public override void Initialize(Board ownBoard, Board opponentBoard)
         {
             this.ownBoard = ownBoard;
@@ -59,8 +64,10 @@ namespace BattleFleet.src.Player
             ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
         }
 
-        public override void MakeMove()
+        public override bool MakeMove()
         {
+            Console.WriteLine("Opponent Board");
+            Console.WriteLine(this.opponentBoard.DrawHideBoard());
             try
             {
                 Console.WriteLine($"Player's move: {playerName}.");
@@ -72,21 +79,13 @@ namespace BattleFleet.src.Player
                 int row = int.Parse(Console.ReadLine());              
 
                 if (opponentBoard.CheckMove(row, column))
-                {
-                    if(opponentBoard.MoveShoot(row, column))
-                    {
-                        Console.WriteLine("Nice shoot!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Naaah miss");
-                    }
-                }
+                    return opponentBoard.MoveShoot(row, column);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
+            return false;
         }
     }
 }
