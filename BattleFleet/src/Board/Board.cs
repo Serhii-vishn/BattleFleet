@@ -198,7 +198,7 @@ namespace BattleFleet.src.PlayerBoard
                 int columnIndex = verifyPosition(row, column);
                 canPlaceShip(row, columnIndex, shipClass, shipDirection);
 
-                markShipAreaCells(row, columnIndex, shipClass, shipDirection, CellStatus.OCCUPIED);
+                markShipAreaCells(row, columnIndex, shipClass, shipDirection, CellStatus.FORBIDDEN);
 
                 switch (shipDirection)
                 {
@@ -271,7 +271,7 @@ namespace BattleFleet.src.PlayerBoard
                                     ship.Hit();
                                     if (ship.GetHealth() == 0)
                                     {
-                                        markShipAreaCells(row, column, ship.GetShipClass(), ship.GetDirection(), CellStatus.OCCUPIED);
+                                        markShipAreaCells(row, column, ship.GetShipClass(), ship.GetDirection(), CellStatus.MISS);
                                     }
                                 });
 
