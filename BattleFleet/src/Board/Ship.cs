@@ -5,14 +5,16 @@ namespace BattleFleet.src.PlayerBoard
     class Ship
     {
         private ShipClass shipClass;
+        private ShipDirection shipDirection;
         private Dictionary<char, int> position;
         private int health;
         private bool isShipSunk;
 
-        public Ship(ShipClass shipClass, Dictionary<char, int> position)
+        public Ship(ShipClass shipClass, Dictionary<char, int> position, ShipDirection shipDirection)
         {
             this.shipClass = shipClass;
             this.position = position;
+            this.shipDirection = shipDirection;
             health = (int)shipClass;
             this.isShipSunk = false;
         }
@@ -70,6 +72,11 @@ namespace BattleFleet.src.PlayerBoard
         public ShipClass GetShipClass()
         { 
             return shipClass; 
+        }
+
+        public ShipDirection GetDirection()
+        {
+            return shipDirection;
         }
     }
 }
