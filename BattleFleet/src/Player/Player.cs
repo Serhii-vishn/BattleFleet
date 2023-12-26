@@ -8,8 +8,13 @@ namespace BattleFleet.src.Player
         protected string playerName;
         protected Board ownBoard;
         protected Board opponentBoard;
+        
+        public Player()
+        {
+            this.playerName = "player";
+        }
 
-        public Player(string playerName)
+        public void SetPlayerName(string playerName)
         {
             this.playerName = playerName;
         }

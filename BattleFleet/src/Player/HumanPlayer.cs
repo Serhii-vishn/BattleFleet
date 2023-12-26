@@ -5,7 +5,7 @@ namespace BattleFleet.src.Player
 {
     class HumanPlayer : Player
     {
-        public HumanPlayer(string playerName) : base(playerName) { }
+        public HumanPlayer() : base() { }
 
         public override void Initialize(Board ownBoard, Board opponentBoard)
         {

@@ -5,7 +5,7 @@ namespace BattleFleet.src.Player
 {
     class ComputerPlayer : Player
     {
-        public ComputerPlayer(string playerName) : base(playerName) { }
+        public ComputerPlayer() : base() { }
 
         public override void DrawBoard()
         {
