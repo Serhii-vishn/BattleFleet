@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Data.Common;
 using System.Text;
 
 namespace BattleFleet.src.PlayerBoard
@@ -128,7 +129,7 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        private void markForbiddenCells(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
+        private void markShipAreaCells(int row, int column, ShipClass shipClass, ShipDirection shipDirection, CellStatus newCellStatus)
         {
             switch (shipDirection)
             {
@@ -143,7 +144,7 @@ namespace BattleFleet.src.PlayerBoard
                         {
                             for (int j = startColumn; j <= endColumn; j++)
                             {
-                                grid[i, j].UpdateCellStatus(CellStatus.FORBIDDEN);
+                                grid[i, j].UpdateCellStatus(newCellStatus);
                             }
                         }
                         break;
@@ -159,7 +160,7 @@ namespace BattleFleet.src.PlayerBoard
                         {
                             for (int j = startColumn; j <= endColumn; j++)
                             {
-                                grid[i, j].UpdateCellStatus(CellStatus.FORBIDDEN);
+                                grid[i, j].UpdateCellStatus(newCellStatus);
                             }
                         }
                         break;
@@ -197,7 +198,7 @@ namespace BattleFleet.src.PlayerBoard
                 int columnIndex = verifyPosition(row, column);
                 canPlaceShip(row, columnIndex, shipClass, shipDirection);
 
-                markForbiddenCells(row, columnIndex, shipClass, shipDirection);
+                markShipAreaCells(row, columnIndex, shipClass, shipDirection, CellStatus.OCCUPIED);
 
                 switch (shipDirection)
                 {
@@ -220,7 +221,7 @@ namespace BattleFleet.src.PlayerBoard
                     default:
                         throw new ArgumentException("Invalid value for a Direction ship.");
                 }
-                shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }));
+                shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }, shipDirection));
 
                 return true;
             }
@@ -249,21 +250,45 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        public void MoveShoot(int row, char column)
+        public bool MoveShoot(int row, char column)
         {
             try
             {
                 int columnIndex = verifyPosition(row, column);
 
                 CellStatus state = grid[row, columnIndex].GetCellStatus();
-               // if (state == CellStatus.OCCUPIED)
+                switch (state)
+                {
+                    case CellStatus.OCCUPIED:
+                        {
+                            grid[row, columnIndex].UpdateCellStatus(CellStatus.HIT);
 
+                            shipsList
+                                .Where(ship => ship.GetPosition().TryGetValue(column, out int shipRow) && shipRow == row)
+                                .ToList()
+                                .ForEach(ship =>
+                                {
+                                    ship.Hit();
+                                    if (ship.GetHealth() == 0)
+                                    {
+                                        markShipAreaCells(row, column, ship.GetShipClass(), ship.GetDirection(), CellStatus.OCCUPIED);
+                                    }
+                                });
 
+                            return true;
+                        }
+                    case CellStatus.EMPTY:
+                        grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
+                        break;
+                    default:
+                        break;
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
+            return false;
         }
     }
 }
