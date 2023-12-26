@@ -290,5 +290,16 @@ namespace BattleFleet.src.PlayerBoard
             }
             return false;
         }
+
+        public int GetAliveShipsCount()
+        {
+            int aliveShipCount = 0;
+            foreach (var ship in shipsList) 
+            {
+                if(!ship.IsSunk())
+                    aliveShipCount++;
+            }
+            return aliveShipCount;
+        }
     }
 }
