@@ -5,6 +5,7 @@
         EMPTY,
         OCCUPIED,
         HIT,
+        MISS,
         FORBIDDEN
     }
 }
