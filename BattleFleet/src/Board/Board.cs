@@ -189,6 +189,25 @@ namespace BattleFleet.src.PlayerBoard
             return board.ToString();
         }
 
+        public string DrawHideBoard()
+        {
+            const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
+            StringBuilder board = new StringBuilder();
+
+            board.Append(" X |");
+            board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));
+
+            for (int i = 0; i < kGridLength; i++)
+            {
+                board.AppendLine(horizontalSeparator);
+                board.Append($" {i} |");
+
+                board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].ToStringHide())));
+            }
+
+            return board.ToString();
+        }
+
         public bool MovePlaceShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
         {
             try
@@ -263,18 +282,19 @@ namespace BattleFleet.src.PlayerBoard
                         {
                             grid[row, columnIndex].UpdateCellStatus(CellStatus.HIT);
 
-                            shipsList
-                                .Where(ship => ship.GetPosition().TryGetValue(column, out int shipRow) && shipRow == row)
-                                .ToList()
-                                .ForEach(ship =>
+                            foreach (var ship in shipsList)
+                            {
+                                if (ship.GetPosition().TryGetValue(column, out int shipRow) && shipRow == row)
                                 {
                                     ship.Hit();
-                                    if (ship.GetHealth() == 0)
-                                    {
-                                        markShipAreaCells(row, column, ship.GetShipClass(), ship.GetDirection(), CellStatus.MISS);
-                                    }
-                                });
-
+                                    Console.WriteLine(ship.GetHealth());
+                                    //if (ship.GetHealth() == 0)
+                                    //{
+                                    //    var shipPosition = ship.GetPosition();
+                                    //    markShipAreaCells(shipPosition.Keys.First(), shipPosition.Values.First(), ship.GetShipClass(), ship.GetDirection(), CellStatus.MISS);
+                                    //}
+                                }
+                            }
                             return true;
                         }
                     case CellStatus.EMPTY:
