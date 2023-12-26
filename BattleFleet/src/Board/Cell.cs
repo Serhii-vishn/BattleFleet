@@ -36,6 +36,9 @@ namespace BattleFleet.src.PlayerBoard
                 case CellStatus.HIT:
                     cellCode = $" X |";
                     break;
+                case CellStatus.MISS:
+                    cellCode = $" - |";
+                    break;
                 case CellStatus.FORBIDDEN:
                     cellCode = $"   |";
                     break;
