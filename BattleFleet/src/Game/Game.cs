@@ -119,7 +119,7 @@ namespace BattleFleet.src.Game
 
         public void EndGame()
         {
-
+            Console.WriteLine("Game end");
         }
     }
 }
