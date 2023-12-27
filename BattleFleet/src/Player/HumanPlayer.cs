@@ -5,11 +5,20 @@ namespace BattleFleet.src.Player
 {
     class HumanPlayer : Player
     {
-        public HumanPlayer() : base() { }
+        public Dictionary<ShipClass, int> AvailableShips { get; private set; }
+
+        public HumanPlayer() : base() {}
 
         public HumanPlayer(string playerName)
         {
             this.playerName = playerName;
+            AvailableShips = new Dictionary<ShipClass, int>
+            {
+                { ShipClass.FIVE_DECK, 1 },
+                { ShipClass.THREE_DECK, 2 },
+                { ShipClass.TWO_DECK, 3 },
+                { ShipClass.ONE_DECK, 4 }
+            };
         }
 
         public override void Initialize(Board ownBoard, Board opponentBoard)
@@ -36,32 +45,50 @@ namespace BattleFleet.src.Player
             int row;
             if (!int.TryParse(Console.ReadLine(), out row) || row < 0 || row > 9)
                 throw new ArgumentException("Invalid row. Please enter a number between 0 and 9.");
+         
+            ShipClass shipClass = selectShip();
 
+            int direction = 1;
 
-            Console.WriteLine($"Ship size in cells:(1){ShipClass.FIVE_DECK}" +
-                                $",(2){ShipClass.THREE_DECK}" +
-                                    $",(3){ShipClass.TWO_DECK}" +
-                                        $",(4){ShipClass.ONE_DECK}");
+            if (shipClass != ShipClass.ONE_DECK)
+            {
+                Console.Write($"Ship direction {ShipDirection.HORIZONTAL} - 0, {ShipDirection.VERTICAL} - 1: ");
 
-            Console.Write("Ship class: ");
+                if (!int.TryParse(Console.ReadLine(), out direction) ||
+                    !Enum.IsDefined(typeof(ShipDirection), direction))
+                {
+                    throw new ArgumentException("Invalid ship direction. Please enter a valid direction.");
+                }
+            }
+            ShipDirection shipDirection = (ShipDirection)Enum.ToObject(typeof(ShipDirection), direction);
+
+            ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
+        }
+
+        private ShipClass selectShip()
+        {
+            Console.Write($"Ship size in cells:" );
+            foreach (var kvp in AvailableShips)
+            {
+                Console.Write($" ({kvp.Value}){kvp.Key}");
+            }
+
+            Console.Write("Ship size: ");
             int shipSize;
             if (!int.TryParse(Console.ReadLine(), out shipSize) ||
                 !Enum.IsDefined(typeof(ShipClass), shipSize))
             {
                 throw new ArgumentException("Invalid ship size. Please enter a valid ship size.");
             }
-            ShipClass shipClass = (ShipClass)Enum.ToObject(typeof(ShipClass), shipSize);
 
-            Console.Write($"Ship direction {ShipDirection.HORIZONTAL} - 0, {ShipDirection.VERTICAL} - 1: ");
-            int direction;
-            if (!int.TryParse(Console.ReadLine(), out direction) ||
-                !Enum.IsDefined(typeof(ShipDirection), direction))
-            {
-                throw new ArgumentException("Invalid ship direction. Please enter a valid direction.");
-            }
-            ShipDirection shipDirection = (ShipDirection)Enum.ToObject(typeof(ShipDirection), direction);
+            ShipClass selectedShipClass = (ShipClass)shipSize;
 
-            ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
+            if (AvailableShips.ContainsKey(selectedShipClass) && AvailableShips[selectedShipClass] > 0)
+                AvailableShips[selectedShipClass]--;
+            else
+                throw new ArgumentException($"No more {selectedShipClass} ships available.");
+
+            return selectedShipClass;
         }
 
         public override bool MakeMove()

@@ -39,12 +39,12 @@ internal class Program
                     }
                 case '2':
                     {
-                        Console.WriteLine("in development...");
+                        Console.WriteLine("\nin development...");
                         break;
                     }
                 case '3':
                     {
-                        Console.WriteLine("in development...");
+                        Console.WriteLine("\nin development...");
                         break;
                     }
                 case '4':
