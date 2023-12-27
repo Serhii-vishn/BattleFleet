@@ -5,20 +5,11 @@ namespace BattleFleet.src.Player
 {
     class HumanPlayer : Player
     {
-        public Dictionary<ShipClass, int> AvailableShips { get; private set; }
-
         public HumanPlayer() : base() {}
 
         public HumanPlayer(string playerName)
         {
             this.playerName = playerName;
-            AvailableShips = new Dictionary<ShipClass, int>
-            {
-                { ShipClass.FIVE_DECK, 1 },
-                { ShipClass.THREE_DECK, 2 },
-                { ShipClass.TWO_DECK, 3 },
-                { ShipClass.ONE_DECK, 4 }
-            };
         }
 
         private char readColumn()
@@ -109,7 +100,6 @@ namespace BattleFleet.src.Player
             {
                 Console.WriteLine($"\nError: {ex.Message}");
             }
-
         }
 
         public override bool MakeMove()

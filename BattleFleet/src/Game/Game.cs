@@ -46,7 +46,8 @@ namespace BattleFleet.src.Game
                     Console.WriteLine($"\nError: {ex.Message}");
                 }
 
-                Console.Write("Do you want to place another ship? (Y/N): ");
+                Console.Write($"There are {currentPlayer.CountAvaliableShips()} more ships available. " +
+                                "\nDo you want to continue adding or start with an incomplete lineup? (Y/N): ");
 
             } while (Console.ReadKey().Key == ConsoleKey.Y);
 
