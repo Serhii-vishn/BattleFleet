@@ -14,9 +14,20 @@ namespace BattleFleet.src.Game
             this.player2 = player2;
         }
 
+        private void setupPlayers()
+        {
+            Console.Write("Enter Player 1 name: ");
+            string player1Name = Console.ReadLine();
+            player1.SetPlayerName(player1Name);
+
+            Console.Write("Enter Player 2 name: ");
+            string player2Name = Console.ReadLine();
+            player2.SetPlayerName(player2Name);
+        }
+
         public Game InitializeGame()
         {
-            SetupPlayers();
+            setupPlayers();
             Console.Clear();
 
             Console.WriteLine("The sea battle game has started!");
@@ -28,17 +39,6 @@ namespace BattleFleet.src.Game
             Game game = new Game(human1, human2);
 
             return game;
-        }
-
-        private void SetupPlayers()
-        {
-            Console.Write("Enter Player 1 name: ");
-            string player1Name = Console.ReadLine();
-            player1.SetPlayerName(player1Name);
-
-            Console.Write("Enter Player 2 name: ");
-            string player2Name = Console.ReadLine();
-            player2.SetPlayerName(player2Name);
         }
 
         public void DisplayGameStatistics(Game game)

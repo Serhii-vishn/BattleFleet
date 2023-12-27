@@ -63,7 +63,7 @@ namespace BattleFleet.src.Game
             Console.ReadKey();
         }
 
-        private bool IsGameOver()
+        private bool isGameOver()
         {
             if(player1Board.GetAliveShipsCount() > 0 || player2Board.GetAliveShipsCount() > 0)
                 return false;
@@ -76,7 +76,7 @@ namespace BattleFleet.src.Game
             Console.Clear();
             Console.WriteLine("Battle start. Now you have to shoot on the field");
 
-            while (!IsGameOver())
+            while (!isGameOver())
             {
                 currentPlayer.DrawBoard();
                 try
