@@ -54,9 +54,10 @@ namespace BattleFleet.src.UI
             Console.Clear();
 
             Console.WriteLine("\n\n\n\t\t\tSelect the menu item:");
-            Console.WriteLine("\t\t\t\t1. Start a new game");
-            Console.WriteLine("\t\t\t\t2. Watch previous matches");
-            Console.WriteLine("\t\t\t\t3. Read the rules of the game");
+            Console.WriteLine("\t\t\t\t1. Start PvP game");
+            Console.WriteLine("\t\t\t\t2. Start game against a computer");
+            Console.WriteLine("\t\t\t\t3. Watch previous matches");
+            Console.WriteLine("\t\t\t\t4. Read the rules of the game");
             Console.WriteLine("\t\t\t\t0. Exit");
             Console.Write("\t\t\tOption: ");
         }

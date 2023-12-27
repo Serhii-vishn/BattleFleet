@@ -44,6 +44,11 @@ internal class Program
                     }
                 case '3':
                     {
+                        Console.WriteLine("in development...");
+                        break;
+                    }
+                case '4':
+                    {
                         gameConsoleUI.DisplayRules();
                         break;
                     }
