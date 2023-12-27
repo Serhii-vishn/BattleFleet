@@ -21,59 +21,37 @@ namespace BattleFleet.src.Player
             };
         }
 
-        public override void Initialize(Board ownBoard, Board opponentBoard)
+        private char readColumn()
         {
-            this.ownBoard = ownBoard;
-            this.opponentBoard = opponentBoard;
-        }
+            Console.Write("Enter column (A-J): ");
+            char column = char.ToUpper(Console.ReadKey().KeyChar);
 
-        public override void DrawBoard()
-        {
-            Console.WriteLine($"Player's board: {playerName}");
-            Console.WriteLine(this.ownBoard.DrawBoard());
-        }
-
-        public override void PlaceShips()
-        {
-            char column;
-            Console.Write("Enter: column (A-J): ");
-            column = char.ToUpper(Console.ReadKey().KeyChar);
             if (column < 'A' || column > 'J')
                 throw new ArgumentException("Invalid column. Please enter a number between A and J.");
 
+            return column;
+        }
+
+        private int readRow()
+        {
             Console.Write(" row (0-9): ");
             int row;
+
             if (!int.TryParse(Console.ReadLine(), out row) || row < 0 || row > 9)
                 throw new ArgumentException("Invalid row. Please enter a number between 0 and 9.");
-         
-            ShipClass shipClass = selectShip();
 
-            int direction = 1;
-
-            if (shipClass != ShipClass.ONE_DECK)
-            {
-                Console.Write($"Ship direction {ShipDirection.HORIZONTAL} - 0, {ShipDirection.VERTICAL} - 1: ");
-
-                if (!int.TryParse(Console.ReadLine(), out direction) ||
-                    !Enum.IsDefined(typeof(ShipDirection), direction))
-                {
-                    throw new ArgumentException("Invalid ship direction. Please enter a valid direction.");
-                }
-            }
-            ShipDirection shipDirection = (ShipDirection)Enum.ToObject(typeof(ShipDirection), direction);
-
-            ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
+            return row;
         }
 
         private ShipClass selectShip()
         {
-            Console.Write($"Ship size in cells:" );
+            Console.Write($"Available ships:");
             foreach (var kvp in AvailableShips)
             {
                 Console.Write($" ({kvp.Value}){kvp.Key}");
             }
 
-            Console.Write("Ship size: ");
+            Console.Write("\nShip size: ");
             int shipSize;
             if (!int.TryParse(Console.ReadLine(), out shipSize) ||
                 !Enum.IsDefined(typeof(ShipClass), shipSize))
@@ -89,6 +67,49 @@ namespace BattleFleet.src.Player
                 throw new ArgumentException($"No more {selectedShipClass} ships available.");
 
             return selectedShipClass;
+        }
+
+        private ShipDirection readShipDirection(ShipClass shipClass)
+        {
+            if (shipClass == ShipClass.ONE_DECK)
+                return ShipDirection.HORIZONTAL;
+
+            Console.Write($"Ship direction {ShipDirection.HORIZONTAL} - 0, {ShipDirection.VERTICAL} - 1: ");
+            int direction;
+            if (!int.TryParse(Console.ReadLine(), out direction) || !Enum.IsDefined(typeof(ShipDirection), direction))
+                throw new ArgumentException("Invalid ship direction. Please enter a valid direction.");
+
+            return (ShipDirection)Enum.ToObject(typeof(ShipDirection), direction);
+        }
+
+        public override void Initialize(Board ownBoard, Board opponentBoard)
+        {
+            this.ownBoard = ownBoard;
+            this.opponentBoard = opponentBoard;
+        }
+
+        public override void DrawBoard()
+        {
+            Console.WriteLine($"Player's board: {playerName}");
+            Console.WriteLine(this.ownBoard.DrawBoard());
+        }
+
+        public override void PlaceShips()
+        {
+            try
+            {
+                char column = readColumn();
+                int row = readRow();
+                ShipClass shipClass = selectShip();
+                ShipDirection shipDirection = readShipDirection(shipClass);                
+
+                ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"\nError: {ex.Message}");
+            }
+
         }
 
         public override bool MakeMove()
