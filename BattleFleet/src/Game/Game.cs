@@ -45,11 +45,16 @@ namespace BattleFleet.src.Game
                 {
                     Console.WriteLine($"\nError: {ex.Message}");
                 }
-
+                if(currentPlayer.CountAvaliableShips()==0)
+                {
+                    Console.WriteLine("All ships have been used. Let's get to the game");
+                    Console.ReadKey();
+                    break;
+                }
                 Console.Write($"There are {currentPlayer.CountAvaliableShips()} more ships available. " +
-                                "\nDo you want to continue adding or start with an incomplete lineup? (Y/N): ");
+                                "\nEnter 'N' for an incomplete ship composition: ");
 
-            } while (Console.ReadKey().Key == ConsoleKey.Y);
+            } while (Console.ReadKey().Key != ConsoleKey.N);
 
             Console.Clear();
             Console.Write ("Final. ");

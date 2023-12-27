@@ -39,7 +39,8 @@ namespace BattleFleet.src.Player
             Console.Write($"Available ships:");
             foreach (var kvp in AvailableShips)
             {
-                Console.Write($" ({kvp.Value}){kvp.Key}");
+                if(kvp.Value > 0)
+                    Console.Write($" ({kvp.Value}){kvp.Key}");
             }
 
             Console.Write("\nShip size: ");
