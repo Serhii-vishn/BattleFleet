@@ -89,5 +89,15 @@ namespace BattleFleet.src.UI
             Console.WriteLine("\t\t\t\tThe game is closed. See you soon!");
             Environment.Exit(0);
         }
+
+        public void DisplayPlaceShipsMenu()
+        {
+            Console.WriteLine("Game start. Now you have to place the ships on the field");
+            Console.Write("\t\t1. Use ready-made templates" +
+                        "\t\t\n2. Randomize ship placement" +
+                        "\t\t\n3. Create your own ship distribution" +
+                        "\t\t\n0. Exit" +
+                        "\t\t\nOption: ");
+        }
     }
 }
