@@ -2,23 +2,19 @@
 
 namespace BattleFleet.src.UI
 {
-    class GameConsoleUI
+    public static class GameConsoleUI
     {
-        public int consoleWidth {  get; private set; }
-        public int consoleHeight { get; private set; }
+        private const int ConsoleWidth = 100;
+        private const int ConsoleHeight = 50;
 
-        public GameConsoleUI()
+        public static void Initialize()
         {
             Console.Title = "BattleFleet";
-
-            consoleWidth = 100;
-            consoleHeight = 50;
-
-            Console.SetWindowSize(consoleWidth, consoleHeight);
-            Console.SetBufferSize(consoleWidth, consoleHeight);
+            Console.SetWindowSize(ConsoleWidth, ConsoleHeight);
+            Console.SetBufferSize(ConsoleWidth, ConsoleHeight);
         }
 
-        public void DisplayHeader()
+        public static void DisplayHeader()
         {
             Console.Clear();
 
@@ -48,7 +44,7 @@ namespace BattleFleet.src.UI
         }
        
 
-        public void DisplayMainMenu()
+        public static void DisplayMainMenu()
         {
             Console.ReadKey();
             Console.Clear();
@@ -62,7 +58,7 @@ namespace BattleFleet.src.UI
             Console.Write("\t\t\tOption: ");
         }
 
-        public void DisplayRules()
+        public static void DisplayRules()
         {
             Console.Clear();
 
@@ -79,7 +75,7 @@ namespace BattleFleet.src.UI
             Console.ReadKey();
         }
 
-        public void ExitGame()
+        public static void ExitGame()
         {
             Console.Clear();
 
@@ -90,7 +86,7 @@ namespace BattleFleet.src.UI
             Environment.Exit(0);
         }
 
-        public void DisplayPlaceShipsMenu()
+        public static void DisplayPlaceShipsMenu()
         {
             Console.WriteLine("Game start. Now you have to place the ships on the field");
             Console.Write("\t\t1. Use ready-made templates" +
