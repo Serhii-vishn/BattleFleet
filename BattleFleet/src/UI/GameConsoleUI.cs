@@ -7,7 +7,7 @@ namespace BattleFleet.src.UI
         private const int ConsoleWidth = 100;
         private const int ConsoleHeight = 50;
 
-        public static void Initialize()
+        private static void Initialize()
         {
             Console.Title = "BattleFleet";
             Console.SetWindowSize(ConsoleWidth, ConsoleHeight);
@@ -16,6 +16,7 @@ namespace BattleFleet.src.UI
 
         public static void DisplayHeader()
         {
+            Initialize();
             Console.Clear();
 
             string[] initialMessages = {
@@ -33,8 +34,8 @@ namespace BattleFleet.src.UI
                 "\t      **Version 1.1"
             };
 
-            int centerX = consoleWidth / 2;
-            int centerY = (consoleHeight - initialMessages.Length) / 2;          
+            int centerX = ConsoleWidth / 2;
+            int centerY = (ConsoleHeight - initialMessages.Length) / 2;          
 
             foreach (string message in initialMessages)
             {
@@ -86,14 +87,16 @@ namespace BattleFleet.src.UI
             Environment.Exit(0);
         }
 
-        public static void DisplayPlaceShipsMenu()
+        public static void DisplayPlaceShipsMenu(string playerName)
         {
-            Console.WriteLine("Game start. Now you have to place the ships on the field");
-            Console.Write("\t\t1. Use ready-made templates" +
-                        "\t\t\n2. Randomize ship placement" +
-                        "\t\t\n3. Create your own ship distribution" +
-                        "\t\t\n0. Exit" +
-                        "\t\t\nOption: ");
+            Console.Clear();
+            Console.Write($"\n\t\t\t\t\tPlayer: {playerName} " +
+                        "\n\t\t\tGame start. Now you have to place the ships on the field" +
+                        "\n\t\t\t\t1. Use ready-made templates" +
+                        "\n\t\t\t\t2. Randomize ship placement" +
+                        "\n\t\t\t\t3. Create your own ship distribution" +
+                        "\n\t\t\t\t0. Exit" +
+                        "\n\t\t\tOption: ");
         }
     }
 }

@@ -8,7 +8,6 @@ internal class Program
 {
     public static void Main()
     {
-        GameConsoleUI.DisplayMainMenu();
         GameConsoleUI.DisplayHeader();
         bool keyMainMenu = true;
 
@@ -30,10 +29,6 @@ internal class Program
 
                         game.StartGame();
 
-                        game.EndGame();
-
-                        GameConsoleUI.ExitGame();
-                        keyMainMenu = false;
                         break;
                     }
                 case '2':
@@ -64,7 +59,7 @@ internal class Program
                     }
             }
         }
-        
+
         Console.ReadKey();
     }
 }
