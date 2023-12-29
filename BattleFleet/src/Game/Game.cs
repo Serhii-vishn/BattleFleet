@@ -4,6 +4,7 @@ namespace BattleFleet.src.Game
 {
     using BattleFleet.src.PlayerBoard;
     using BattleFleet.src.Player;
+    using BattleFleet.src.UI;
 
     class Game : IGameRules
     {
@@ -29,9 +30,39 @@ namespace BattleFleet.src.Game
             currentPlayer = this.player1;
         }
 
-        private void addShipsOnBoard()
+        private void placeShipsPhase()
         {
-            Console.WriteLine("Game start. Now you have to place the ships on the field");
+            bool keyMenu = true;
+
+            do
+            {
+                GameConsoleUI.DisplayPlaceShipsMenu(currentPlayer.GetPlayerName());
+                char option = Console.ReadKey().KeyChar;
+
+                switch (option)
+                {
+                    case '1':
+                        // UseReadyMadeTemplates();
+                        break;
+                    case '2':
+                        Console.WriteLine("\nIn development...");
+                        break;
+                    case '3':
+                        manualPlacementShips();
+                        break;
+                    case '0':
+                        keyMenu = false;
+                        break;
+                    default:
+                        Console.Write("\n\t\t\tInvalid option, try again...");
+                        break;
+                }
+
+            } while (keyMenu);
+        }
+
+        private void manualPlacementShips()
+        {
             do
             {
                 Console.Clear();
@@ -71,6 +102,17 @@ namespace BattleFleet.src.Game
                 return true;
         }
 
+        public void StartGame()
+        {
+            placeShipsPhase();
+
+            SwitchTurn();
+
+            placeShipsPhase();
+
+            startBattle();
+        }
+
         private void startBattle()
         {
             Console.Clear();
@@ -100,16 +142,6 @@ namespace BattleFleet.src.Game
                 Console.ReadKey();
                 Console.Clear();
             }
-        }
-
-        public void StartGame()
-        {
-            addShipsOnBoard();
-
-            SwitchTurn();
-            addShipsOnBoard();
-
-            startBattle();
         }
 
         public void SwitchTurn()

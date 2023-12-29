@@ -8,14 +8,12 @@ internal class Program
 {
     public static void Main()
     {
-        GameConsoleUI gameConsoleUI = new GameConsoleUI();
-        gameConsoleUI.DisplayHeader();
-
+        GameConsoleUI.DisplayHeader();
         bool keyMainMenu = true;
 
         while (keyMainMenu)
         {
-            gameConsoleUI.DisplayMainMenu();
+            GameConsoleUI.DisplayMainMenu();
             char option = Console.ReadKey().KeyChar;
 
             switch (option)
@@ -31,10 +29,6 @@ internal class Program
 
                         game.StartGame();
 
-                        game.EndGame();
-
-                        gameConsoleUI.ExitGame();
-                        keyMainMenu = false;
                         break;
                     }
                 case '2':
@@ -49,12 +43,12 @@ internal class Program
                     }
                 case '4':
                     {
-                        gameConsoleUI.DisplayRules();
+                        GameConsoleUI.DisplayRules();
                         break;
                     }
                 case '0':
                     {
-                        gameConsoleUI.ExitGame();
+                        GameConsoleUI.ExitGame();
                         keyMainMenu = false;
                         break;
                     }
@@ -65,7 +59,7 @@ internal class Program
                     }
             }
         }
-        
+
         Console.ReadKey();
     }
 }
