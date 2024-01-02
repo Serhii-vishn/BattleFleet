@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Data.Common;
-using System.Text;
+﻿using System.Text;
 
 namespace BattleFleet.src.PlayerBoard
 {
@@ -11,11 +8,13 @@ namespace BattleFleet.src.PlayerBoard
         private Cell[,] grid;
         private List<Ship> shipsList;
         private char[] alphabetCells = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
+        private List<string> shipPlacement;
 
         public Board()
         {
             grid = new Cell[10, 10];
             shipsList = new List<Ship>();
+            shipPlacement = new List<string>();
 
             initializeBoard();
         }
@@ -242,6 +241,8 @@ namespace BattleFleet.src.PlayerBoard
                 }
                 shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }, shipDirection));
 
+                shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
+
                 return true;
             }
             catch (Exception ex)
@@ -325,6 +326,11 @@ namespace BattleFleet.src.PlayerBoard
                     aliveShipCount++;
             }
             return aliveShipCount;
+        }
+
+        public List<string> GetShipPlacement()
+        {
+            return shipPlacement;
         }
     }
 }

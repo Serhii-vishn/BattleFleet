@@ -5,7 +5,7 @@ namespace BattleFleet.src.Player
 {
     class HumanPlayer : Player
     {
-        public HumanPlayer() : base() {}
+        public HumanPlayer() : base() { }
 
         public HumanPlayer(string playerName)
         {
