@@ -87,5 +87,17 @@
             Console.WriteLine("\t\t\t\tThe game is closed. See you soon!");
             Environment.Exit(0);
         }
+
+        public static void DisplayPlaceShipsMenu(string playerName)
+        {
+            Console.Clear();
+            Console.Write($"\n\t\t\t\t\tPlayer: {playerName} " +
+                        "\n\t\t\tGame start. Now you have to place the ships on the field" +
+                        "\n\t\t\t\t1. Use ready-made templates" +
+                        "\n\t\t\t\t2. Randomize ship placement" +
+                        "\n\t\t\t\t3. Create your own ship distribution" +
+                        "\n\t\t\t\t0. Exit" +
+                        "\n\t\t\tOption: ");
+        }
     }
 }

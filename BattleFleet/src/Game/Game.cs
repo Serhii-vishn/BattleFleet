@@ -1,9 +1,8 @@
-﻿using System;
-
-namespace BattleFleet.src.Game
+﻿namespace BattleFleet.src.Game
 {
     using BattleFleet.src.PlayerBoard;
     using BattleFleet.src.Player;
+    using BattleFleet.src.UI;
 
     class Game : IGameRules
     {
@@ -29,9 +28,52 @@ namespace BattleFleet.src.Game
             currentPlayer = this.player1;
         }
 
-        private void addShipsOnBoard()
+        private void placeShipsPhase()
         {
-            Console.WriteLine("Game start. Now you have to place the ships on the field");
+            bool keyMenu = true;
+
+            do
+            {
+                GameConsoleUI.DisplayPlaceShipsMenu(currentPlayer.GetPlayerName());
+                char option = Console.ReadKey().KeyChar;
+
+                switch (option)
+                {
+                    case '1':
+                        {
+                            // UseReadyMadeTemplates();
+                            keyMenu = false;
+                            break;
+                        }
+                    case '2':
+                        {
+                            Console.WriteLine("\nIn development...");
+                            keyMenu = false;
+                            break;
+                        }
+                    case '3':
+                        {
+                            manualPlacementShips();
+                            keyMenu = false;
+                            break;
+                        }
+                    case '0':
+                        {
+                            keyMenu = false;
+                            break;
+                        }
+                    default:
+                        {
+                            Console.Write("\n\t\t\tInvalid option, try again...");
+                            //keyMenu = true;
+                            break;
+                        }
+                }
+            } while (keyMenu);
+        }
+
+        private void manualPlacementShips()
+        {
             do
             {
                 Console.Clear();
@@ -57,6 +99,7 @@ namespace BattleFleet.src.Game
             } while (Console.ReadKey().Key != ConsoleKey.N);
 
             Console.Clear();
+
             Console.Write("Final. ");
             currentPlayer.DrawBoard();
 
@@ -104,10 +147,11 @@ namespace BattleFleet.src.Game
 
         public void StartGame()
         {
-            addShipsOnBoard();
+            placeShipsPhase();
 
             SwitchTurn();
-            addShipsOnBoard();
+
+            placeShipsPhase();
 
             startBattle();
         }
