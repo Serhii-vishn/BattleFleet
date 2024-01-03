@@ -2,18 +2,25 @@
 
 namespace BattleFleet.src.Game
 {
-    class ShipPlacementTemplateManager
+    class ShipTemplateManager
     {
         private List<string> templates;
         private string templatesFolderPath;
 
-        public ShipPlacementTemplateManager()
+        public ShipTemplateManager()
         {
-            this.templatesFolderPath = Path.Combine("saves", "Templates.txt");
+            string savesFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "resources", "saves");
+            this.templatesFolderPath = Path.Combine(savesFolderPath, "Templates.txt");
+
+            if (!Directory.Exists(savesFolderPath))
+            {
+                Directory.CreateDirectory(savesFolderPath);
+            }
+
             templates = new List<string>();
         }
 
-        public void SaveTemplate(string template, string templateName)
+        public void SaveTemplate(List<string> template, string templateName)
         {
             try
             {
