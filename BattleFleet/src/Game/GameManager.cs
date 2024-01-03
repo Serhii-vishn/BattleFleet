@@ -14,11 +14,11 @@
 
         private void setupPlayers()
         {
-            Console.Write("Enter Player 1 name: ");
+            Console.Write("\n\n\t\t\tEnter Player 1 name: ");
             string player1Name = Console.ReadLine();
             player1.SetPlayerName(player1Name);
 
-            Console.Write("Enter Player 2 name: ");
+            Console.Write("\n\t\t\tEnter Player 2 name: ");
             string player2Name = Console.ReadLine();
             player2.SetPlayerName(player2Name);
         }
