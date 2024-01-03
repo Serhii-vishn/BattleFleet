@@ -52,9 +52,7 @@ namespace BattleFleet.src.Player
 
             ShipClass selectedShipClass = (ShipClass)shipSize;
 
-            if (AvailableShips.ContainsKey(selectedShipClass) && AvailableShips[selectedShipClass] > 0)
-                AvailableShips[selectedShipClass]--;
-            else
+            if (AvailableShips.ContainsKey(selectedShipClass) && AvailableShips[selectedShipClass] < 0)
                 throw new ArgumentException($"No more {selectedShipClass} ships available.");
 
             return selectedShipClass;
@@ -69,6 +67,8 @@ namespace BattleFleet.src.Player
             int direction;
             if (!int.TryParse(Console.ReadLine(), out direction) || !Enum.IsDefined(typeof(ShipDirection), direction))
                 throw new ArgumentException("Invalid ship direction. Please enter a valid direction.");
+
+            AvailableShips[shipClass]--;
 
             return (ShipDirection)Enum.ToObject(typeof(ShipDirection), direction);
         }
@@ -95,6 +95,8 @@ namespace BattleFleet.src.Player
                 ShipDirection shipDirection = readShipDirection(shipClass);
 
                 ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
+
+                shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
             }
             catch (ArgumentException ex)
             {
