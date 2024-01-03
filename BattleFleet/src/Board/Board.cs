@@ -8,27 +8,25 @@ namespace BattleFleet.src.PlayerBoard
         private Cell[,] grid;
         private List<Ship> shipsList;
         private char[] alphabetCells = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
-        private List<string> shipPlacement;
 
         public Board()
         {
             grid = new Cell[10, 10];
             shipsList = new List<Ship>();
-            shipPlacement = new List<string>();
 
             initializeBoard();
         }
 
         private void initializeBoard()
         {
-            for(int i = 0; i < kGridLength; i++)
+            for (int i = 0; i < kGridLength; i++)
             {
                 for (int j = 0; j < kGridLength; j++)
                 {
                     grid[i, j] = new Cell(i, alphabetCells[j]);
                 }
             }
-        }    
+        }
 
         private int verifyPosition(int row, char column)
         {
@@ -45,7 +43,7 @@ namespace BattleFleet.src.PlayerBoard
                 throw new ArgumentException("Incorrect value for a column.", nameof(column));
 
             return columnIndex;
-        }      
+        }
 
         private void canCreateNewShip(ShipClass shipClass)
         {
@@ -100,15 +98,15 @@ namespace BattleFleet.src.PlayerBoard
             {
                 case ShipDirection.VERTICAL:
                     {
-                        for(int size = 1; size <= ((int)shipClass); row++, size++)
-                        {                          
+                        for (int size = 1; size <= ((int)shipClass); row++, size++)
+                        {
                             if (grid[row, column].GetCellStatus() != CellStatus.EMPTY)
                             {
                                 if (grid[row, column].GetCellStatus() == CellStatus.OCCUPIED)
                                     throw new ArgumentException("Сan't put a ship in its way, there is another ship");
                                 else if (grid[row, column].GetCellStatus() == CellStatus.FORBIDDEN)
                                     throw new ArgumentException("Сan't place a ship, it occupies the free zone of another ship");
-                            }                               
+                            }
                         }
                         break;
                     }
@@ -241,8 +239,6 @@ namespace BattleFleet.src.PlayerBoard
                 }
                 shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }, shipDirection));
 
-                shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
-
                 return true;
             }
             catch (Exception ex)
@@ -320,17 +316,12 @@ namespace BattleFleet.src.PlayerBoard
         public int GetAliveShipsCount()
         {
             int aliveShipCount = 0;
-            foreach (var ship in shipsList) 
+            foreach (var ship in shipsList)
             {
-                if(!ship.IsSunk())
+                if (!ship.IsSunk())
                     aliveShipCount++;
             }
             return aliveShipCount;
-        }
-
-        public List<string> GetShipPlacement()
-        {
-            return shipPlacement;
         }
     }
 }

@@ -1,22 +1,23 @@
-﻿using System;
-
-namespace BattleFleet.src.UI
+﻿namespace BattleFleet.src.UI
 {
-    public static class GameConsoleUI
+    class GameConsoleUI
     {
-        private const int ConsoleWidth = 100;
-        private const int ConsoleHeight = 50;
+        public int consoleWidth { get; private set; }
+        public int consoleHeight { get; private set; }
 
-        private static void Initialize()
+        public GameConsoleUI()
         {
             Console.Title = "BattleFleet";
-            Console.SetWindowSize(ConsoleWidth, ConsoleHeight);
-            Console.SetBufferSize(ConsoleWidth, ConsoleHeight);
+
+            consoleWidth = 100;
+            consoleHeight = 50;
+
+            Console.SetWindowSize(consoleWidth, consoleHeight);
+            Console.SetBufferSize(consoleWidth, consoleHeight);
         }
 
-        public static void DisplayHeader()
+        public void DisplayHeader()
         {
-            Initialize();
             Console.Clear();
 
             string[] initialMessages = {
@@ -34,8 +35,8 @@ namespace BattleFleet.src.UI
                 "\t      **Version 1.1"
             };
 
-            int centerX = ConsoleWidth / 2;
-            int centerY = (ConsoleHeight - initialMessages.Length) / 2;          
+            int centerX = consoleWidth / 2;
+            int centerY = (consoleHeight - initialMessages.Length) / 2;
 
             foreach (string message in initialMessages)
             {
@@ -43,9 +44,9 @@ namespace BattleFleet.src.UI
                 Console.WriteLine(message);
             }
         }
-       
 
-        public static void DisplayMainMenu()
+
+        public void DisplayMainMenu()
         {
             Console.ReadKey();
             Console.Clear();
@@ -59,7 +60,7 @@ namespace BattleFleet.src.UI
             Console.Write("\t\t\tOption: ");
         }
 
-        public static void DisplayRules()
+        public void DisplayRules()
         {
             Console.Clear();
 
@@ -76,7 +77,7 @@ namespace BattleFleet.src.UI
             Console.ReadKey();
         }
 
-        public static void ExitGame()
+        public void ExitGame()
         {
             Console.Clear();
 
@@ -85,18 +86,6 @@ namespace BattleFleet.src.UI
 
             Console.WriteLine("\t\t\t\tThe game is closed. See you soon!");
             Environment.Exit(0);
-        }
-
-        public static void DisplayPlaceShipsMenu(string playerName)
-        {
-            Console.Clear();
-            Console.Write($"\n\t\t\t\t\tPlayer: {playerName} " +
-                        "\n\t\t\tGame start. Now you have to place the ships on the field" +
-                        "\n\t\t\t\t1. Use ready-made templates" +
-                        "\n\t\t\t\t2. Randomize ship placement" +
-                        "\n\t\t\t\t3. Create your own ship distribution" +
-                        "\n\t\t\t\t0. Exit" +
-                        "\n\t\t\tOption: ");
         }
     }
 }

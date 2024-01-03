@@ -1,5 +1,4 @@
 ﻿using BattleFleet.src.PlayerBoard;
-using System;
 
 namespace BattleFleet.src.Player
 {
@@ -39,7 +38,7 @@ namespace BattleFleet.src.Player
             Console.Write($"Available ships:");
             foreach (var kvp in AvailableShips)
             {
-                if(kvp.Value > 0)
+                if (kvp.Value > 0)
                     Console.Write($" ({kvp.Value}){kvp.Key}");
             }
 
@@ -93,7 +92,7 @@ namespace BattleFleet.src.Player
                 char column = readColumn();
                 int row = readRow();
                 ShipClass shipClass = selectShip();
-                ShipDirection shipDirection = readShipDirection(shipClass);                
+                ShipDirection shipDirection = readShipDirection(shipClass);
 
                 ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
             }
@@ -115,7 +114,7 @@ namespace BattleFleet.src.Player
                 char column = Console.ReadKey().KeyChar;
 
                 Console.Write(" row (0-9): ");
-                int row = int.Parse(Console.ReadLine());              
+                int row = int.Parse(Console.ReadLine());
 
                 if (opponentBoard.CheckMove(row, column))
                     return opponentBoard.MoveShoot(row, column);

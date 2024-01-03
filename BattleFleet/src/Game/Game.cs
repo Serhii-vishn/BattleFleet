@@ -4,7 +4,6 @@ namespace BattleFleet.src.Game
 {
     using BattleFleet.src.PlayerBoard;
     using BattleFleet.src.Player;
-    using BattleFleet.src.UI;
 
     class Game : IGameRules
     {
@@ -30,39 +29,9 @@ namespace BattleFleet.src.Game
             currentPlayer = this.player1;
         }
 
-        private void placeShipsPhase()
+        private void addShipsOnBoard()
         {
-            bool keyMenu = true;
-
-            do
-            {
-                GameConsoleUI.DisplayPlaceShipsMenu(currentPlayer.GetPlayerName());
-                char option = Console.ReadKey().KeyChar;
-
-                switch (option)
-                {
-                    case '1':
-                        // UseReadyMadeTemplates();
-                        break;
-                    case '2':
-                        Console.WriteLine("\nIn development...");
-                        break;
-                    case '3':
-                        manualPlacementShips();
-                        break;
-                    case '0':
-                        keyMenu = false;
-                        break;
-                    default:
-                        Console.Write("\n\t\t\tInvalid option, try again...");
-                        break;
-                }
-
-            } while (keyMenu);
-        }
-
-        private void manualPlacementShips()
-        {
+            Console.WriteLine("Game start. Now you have to place the ships on the field");
             do
             {
                 Console.Clear();
@@ -76,7 +45,7 @@ namespace BattleFleet.src.Game
                 {
                     Console.WriteLine($"\nError: {ex.Message}");
                 }
-                if(currentPlayer.CountAvaliableShips()==0)
+                if (currentPlayer.CountAvaliableShips() == 0)
                 {
                     Console.WriteLine("All ships have been used. Let's get to the game");
                     Console.ReadKey();
@@ -88,7 +57,7 @@ namespace BattleFleet.src.Game
             } while (Console.ReadKey().Key != ConsoleKey.N);
 
             Console.Clear();
-            Console.Write ("Final. ");
+            Console.Write("Final. ");
             currentPlayer.DrawBoard();
 
             Console.ReadKey();
@@ -96,21 +65,10 @@ namespace BattleFleet.src.Game
 
         private bool isGameOver()
         {
-            if(player1Board.GetAliveShipsCount() > 0 || player2Board.GetAliveShipsCount() > 0)
+            if (player1Board.GetAliveShipsCount() > 0 || player2Board.GetAliveShipsCount() > 0)
                 return false;
             else
                 return true;
-        }
-
-        public void StartGame()
-        {
-            placeShipsPhase();
-
-            SwitchTurn();
-
-            placeShipsPhase();
-
-            startBattle();
         }
 
         private void startBattle()
@@ -142,6 +100,16 @@ namespace BattleFleet.src.Game
                 Console.ReadKey();
                 Console.Clear();
             }
+        }
+
+        public void StartGame()
+        {
+            addShipsOnBoard();
+
+            SwitchTurn();
+            addShipsOnBoard();
+
+            startBattle();
         }
 
         public void SwitchTurn()

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BattleFleet.src.PlayerBoard
+﻿namespace BattleFleet.src.PlayerBoard
 {
     class Cell
     {
@@ -47,16 +45,6 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        public int Row
-        {
-            get { return row; }
-        }
-
-        public char Column
-        {
-            get { return column; }
-        }
-
         public CellStatus GetCellStatus()
         {
             return cellStatus;
@@ -83,7 +71,7 @@ namespace BattleFleet.src.PlayerBoard
             this.cellStatus = newStatusCell;
             updateCellCode(newStatusCell);
 
-            return true;   
-        }      
+            return true;
+        }
     }
 }

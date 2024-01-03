@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BattleFleet.src.PlayerBoard
+﻿namespace BattleFleet.src.PlayerBoard
 {
     class Ship
     {
@@ -50,10 +48,10 @@ namespace BattleFleet.src.PlayerBoard
             }
             else
             {
-                throw new ShipAlreadySunkException();
+                throw new ArgumentException("Cannot hit a ship that is already sunk.");
             }
         }
-        
+
         public void SetPosition(Dictionary<char, int> position)
         {
             this.position = position;
@@ -70,8 +68,8 @@ namespace BattleFleet.src.PlayerBoard
         }
 
         public ShipClass GetShipClass()
-        { 
-            return shipClass; 
+        {
+            return shipClass;
         }
 
         public ShipDirection GetDirection()
@@ -79,9 +77,4 @@ namespace BattleFleet.src.PlayerBoard
             return shipDirection;
         }
     }
-}
-
-public class ShipAlreadySunkException : Exception
-{
-    public ShipAlreadySunkException() : base("Cannot hit a ship that is already sunk."){}
 }

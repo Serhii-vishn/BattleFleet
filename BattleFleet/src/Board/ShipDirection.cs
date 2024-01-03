@@ -1,8 +1,8 @@
 ﻿namespace BattleFleet.src.PlayerBoard
 {
-	enum ShipDirection
+    enum ShipDirection
     {
-        HORIZONTAL,       
-        VERTICAL,        
-	}
+        HORIZONTAL,
+        VERTICAL,
+    }
 }

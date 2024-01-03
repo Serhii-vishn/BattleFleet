@@ -1,19 +1,19 @@
 ﻿using BattleFleet.src.Game;
 using BattleFleet.src.Player;
-using BattleFleet.src.PlayerBoard;
 using BattleFleet.src.UI;
-using System.Data.Common;
 
 internal class Program
 {
     public static void Main()
     {
-        GameConsoleUI.DisplayHeader();
+        GameConsoleUI gameConsoleUI = new GameConsoleUI();
+        gameConsoleUI.DisplayHeader();
+
         bool keyMainMenu = true;
 
         while (keyMainMenu)
         {
-            GameConsoleUI.DisplayMainMenu();
+            gameConsoleUI.DisplayMainMenu();
             char option = Console.ReadKey().KeyChar;
 
             switch (option)
@@ -29,6 +29,10 @@ internal class Program
 
                         game.StartGame();
 
+                        game.EndGame();
+
+                        gameConsoleUI.ExitGame();
+                        keyMainMenu = false;
                         break;
                     }
                 case '2':
@@ -43,12 +47,12 @@ internal class Program
                     }
                 case '4':
                     {
-                        GameConsoleUI.DisplayRules();
+                        gameConsoleUI.DisplayRules();
                         break;
                     }
                 case '0':
                     {
-                        GameConsoleUI.ExitGame();
+                        gameConsoleUI.ExitGame();
                         keyMainMenu = false;
                         break;
                     }
