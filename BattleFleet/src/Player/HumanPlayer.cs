@@ -61,7 +61,10 @@ namespace BattleFleet.src.Player
         private ShipDirection readShipDirection(ShipClass shipClass)
         {
             if (shipClass == ShipClass.ONE_DECK)
+            {
+                AvailableShips[shipClass]--;
                 return ShipDirection.HORIZONTAL;
+            }
 
             Console.Write($"Ship direction {ShipDirection.HORIZONTAL} - 0, {ShipDirection.VERTICAL} - 1: ");
             int direction;

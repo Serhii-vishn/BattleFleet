@@ -14,6 +14,8 @@
 
         private Player currentPlayer;
 
+        private ShipTemplateManager templateManager;
+
         public Game(HumanPlayer player1, HumanPlayer player2)
         {
             player1Board = new Board();
@@ -26,6 +28,8 @@
             this.player2.Initialize(player2Board, player1Board);
 
             currentPlayer = this.player1;
+
+            this.templateManager = new ShipTemplateManager();
         }
 
         private void placeShipsPhase()
@@ -41,7 +45,7 @@
                 {
                     case '1':
                         {
-                            // UseReadyMadeTemplates();
+                            useReadyMadeTemplates();
                             keyMenu = false;
                             break;
                         }
@@ -70,6 +74,11 @@
                         }
                 }
             } while (keyMenu);
+        }
+
+        private void useReadyMadeTemplates()
+        {
+
         }
 
         private void manualPlacementShips()
@@ -102,6 +111,16 @@
 
             Console.Write("Final. ");
             currentPlayer.DrawBoard();
+
+            Console.Write("If you want to save this template (Y/N): ");
+            if(Console.ReadKey().Key == ConsoleKey.Y)
+            {
+                Console.Write("\nEnter template name: ");
+                string tplName = Console.ReadLine();
+                var template = currentPlayer.GetShipPlacement();
+
+                templateManager.SaveTemplate(template, tplName);
+            }
 
             Console.ReadKey();
         }
