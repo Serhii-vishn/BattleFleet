@@ -7,6 +7,7 @@ namespace BattleFleet.src.Player
         protected string playerName;
         protected Board ownBoard;
         protected Board opponentBoard;
+        protected List<string> shipPlacement;
         public Dictionary<ShipClass, int> AvailableShips { get; private set; }
 
         public Player()
@@ -19,6 +20,7 @@ namespace BattleFleet.src.Player
                 { ShipClass.TWO_DECK, 3 },
                 { ShipClass.ONE_DECK, 4 }
             };
+            shipPlacement = new List<string>();
         }
 
         public void SetPlayerName(string playerName)
@@ -43,6 +45,11 @@ namespace BattleFleet.src.Player
                 shipsCount += kvp.Value;
             }
             return shipsCount;
+        }
+
+        public List<string> GetShipPlacement()
+        {
+            return shipPlacement;
         }
     }
 }
