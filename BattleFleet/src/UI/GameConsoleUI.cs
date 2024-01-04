@@ -96,7 +96,6 @@
                         "\n\t\t\t\t1. Use ready-made templates" +
                         "\n\t\t\t\t2. Randomize ship placement" +
                         "\n\t\t\t\t3. Create your own ship distribution" +
-                        "\n\t\t\t\t0. Exit" +
                         "\n\t\t\tOption: ");
         }
     }

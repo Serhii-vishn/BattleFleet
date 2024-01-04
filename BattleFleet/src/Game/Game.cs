@@ -46,24 +46,19 @@
                 {
                     case '1':
                         {
-                            useReadyMadeTemplates();
+                            templatesPlacementShips();
                             keyMenu = false;
                             break;
                         }
                     case '2':
                         {
-                            Console.WriteLine("\nIn development...");
+                            randomPlacementShips();
                             keyMenu = false;
                             break;
                         }
                     case '3':
                         {
                             manualPlacementShips();
-                            keyMenu = false;
-                            break;
-                        }
-                    case '0':
-                        {
                             keyMenu = false;
                             break;
                         }
@@ -76,7 +71,7 @@
             } while (keyMenu);
         }
 
-        private void useReadyMadeTemplates()
+        private void templatesPlacementShips()
         {
             do
             {
@@ -109,6 +104,11 @@
                 Console.Write("\nUse this template (Y/N): ");
             } while (Console.ReadKey().Key != ConsoleKey.Y);
             Console.ReadKey();
+        }
+
+        private void randomPlacementShips()
+        {
+
         }
 
         private void manualPlacementShips()
