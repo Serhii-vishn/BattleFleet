@@ -43,12 +43,12 @@
                 Console.SetCursorPosition(centerX - message.Length / 2, centerY++);
                 Console.WriteLine(message);
             }
+            Console.ReadKey();
         }
 
 
         public void DisplayMainMenu()
         {
-            Console.ReadKey();
             Console.Clear();
 
             Console.WriteLine("\n\n\n\t\t\tSelect the menu item:");

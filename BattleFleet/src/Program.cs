@@ -11,7 +11,7 @@ internal class Program
 
         bool keyMainMenu = true;
 
-        while (keyMainMenu)
+        do
         {
             gameConsoleUI.DisplayMainMenu();
             char option = Console.ReadKey().KeyChar;
@@ -58,11 +58,11 @@ internal class Program
                     }
                 default:
                     {
-                        Console.Write("\n\t\t\tInvalid option, try again...");
+                        //Console.Write("\n\t\t\tInvalid option, try again...");
                         break;
                     }
             }
-        }
+        } while (keyMainMenu);
 
         Console.ReadKey();
     }
