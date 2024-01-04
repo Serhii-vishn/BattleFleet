@@ -34,8 +34,10 @@ namespace BattleFleet.src.Player
         }
 
         public abstract void Initialize(Board ownBoard, Board opponentBoard);
+        public abstract void ClearBoard();
         public abstract void DrawBoard();
         public abstract void PlaceShips();
+        public abstract void PlaceShipsTemplate(List<string> shipsTemplate);
         public abstract bool MakeMove();
         public int CountAvaliableShips()
         {

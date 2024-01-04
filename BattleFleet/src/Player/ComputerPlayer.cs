@@ -7,6 +7,11 @@ namespace BattleFleet.src.Player
     {
         public ComputerPlayer() : base() { }
 
+        public override void ClearBoard()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void DrawBoard()
         {
             throw new NotImplementedException();
@@ -27,6 +32,11 @@ namespace BattleFleet.src.Player
         }
 
         public override void PlaceShips()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void PlaceShipsTemplate(List<string> shipsTemplate)
         {
             throw new NotImplementedException();
         }

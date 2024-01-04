@@ -70,7 +70,6 @@
                     default:
                         {
                             Console.Write("\n\t\t\tInvalid option, try again...");
-                            //keyMenu = true;
                             break;
                         }
                 }
@@ -79,7 +78,37 @@
 
         private void useReadyMadeTemplates()
         {
+            do
+            {
+                Console.Clear();
+                currentPlayer.ClearBoard();
 
+                Console.WriteLine("\n\t\t\tList of all templates:");
+                var templNames = templateManager.GetTemplateNames();
+                int i = 0;
+                foreach (var name in templNames)
+                {
+                    i++;
+                    Console.WriteLine($"\t\t\t\t{i}. {name}");
+                }
+
+                Console.Write("\t\t\tSelect by number: ");
+                if (!int.TryParse(Console.ReadLine(), out int templNumber) || templNumber < 1 || templNumber > templNames.Count)
+                {
+                    Console.WriteLine("\t\tInvalid data. Please enter a valid template number.");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                var template = templateManager.GetTemplateByName(templNames[templNumber - 1]);
+
+                currentPlayer.PlaceShipsTemplate(template);
+
+                currentPlayer.DrawBoard();
+
+                Console.Write("\nUse this template (Y/N): ");
+            } while (Console.ReadKey().Key != ConsoleKey.Y);
+            Console.ReadKey();
         }
 
         private void manualPlacementShips()

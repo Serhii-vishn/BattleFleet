@@ -85,7 +85,7 @@ namespace BattleFleet.src.Player
         public override void DrawBoard()
         {
             Console.WriteLine($"Player's board: {playerName}");
-            Console.WriteLine(this.ownBoard.DrawBoard());
+            Console.WriteLine(this.ownBoard.Draw());
         }
 
         public override void PlaceShips()
@@ -107,10 +107,36 @@ namespace BattleFleet.src.Player
             }
         }
 
+        public override void PlaceShipsTemplate(List<string> shipsData)
+        {
+            try
+            {
+                foreach (string ship in shipsData) 
+                {
+                    string[] parts = ship.Split(',');
+                    if (parts.Length == 4)
+                    {
+                        int row = int.Parse(parts[0]);
+                        char column = parts[1][0];
+                        ShipClass shipClass = (ShipClass)Enum.Parse(typeof(ShipClass), parts[2]);
+                        ShipDirection shipDirection = (ShipDirection)Enum.Parse(typeof(ShipDirection), parts[3]);
+
+                        ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
+
+                        shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
+                    }
+                }               
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"\nError: {ex.Message}");
+            }
+        }
+
         public override bool MakeMove()
         {
             Console.WriteLine("Opponent Board");
-            Console.WriteLine(this.opponentBoard.DrawHideBoard());
+            Console.WriteLine(this.opponentBoard.DrawHide());
             try
             {
                 Console.WriteLine($"Player's move: {playerName}.");
@@ -121,7 +147,7 @@ namespace BattleFleet.src.Player
                 Console.Write(" row (0-9): ");
                 int row = int.Parse(Console.ReadLine());
 
-                if (opponentBoard.CheckMove(row, column))
+                if (opponentBoard.MoveCheck(row, column))
                     return opponentBoard.MoveShoot(row, column);
             }
             catch (Exception ex)
@@ -129,6 +155,12 @@ namespace BattleFleet.src.Player
                 Console.WriteLine($"Error: {ex.Message}");
             }
             return false;
+        }
+
+        public override void ClearBoard()
+        {
+            shipPlacement.Clear();
+            ownBoard.Clear();
         }
     }
 }
