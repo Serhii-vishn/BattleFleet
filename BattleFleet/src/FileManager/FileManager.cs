@@ -27,7 +27,7 @@
                 }
                 catch (Exception ex)
                 {
-                    throw new ArgumentException($"Error creating directory {directoryPath}: {ex.Message}");
+                    Console.WriteLine($"Error creating directory {directoryPath}: {ex.Message}");
                 }
             }
         }
@@ -36,14 +36,10 @@
         {
             string filePath = Path.Combine(mainFolderPath, fileName);
 
-            if (File.Exists(filePath))
-            {
-                return filePath;
-            }
-            else
-            {
+            if (!File.Exists(filePath))
                 throw new ArgumentException($"File '{fileName}' does not exist.");
-            }
+
+            return filePath;
         }
     }
 }
