@@ -167,7 +167,7 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        public string DrawBoard()
+        public string Draw()
         {
             const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
             StringBuilder board = new StringBuilder();
@@ -186,7 +186,7 @@ namespace BattleFleet.src.PlayerBoard
             return board.ToString();
         }
 
-        public string DrawHideBoard()
+        public string DrawHide()
         {
             const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
             StringBuilder board = new StringBuilder();
@@ -248,7 +248,7 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        public bool CheckMove(int row, char column)
+        public bool MoveCheck(int row, char column)
         {
             try
             {
@@ -322,6 +322,19 @@ namespace BattleFleet.src.PlayerBoard
                     aliveShipCount++;
             }
             return aliveShipCount;
+        }
+
+        public void Clear()
+        {
+            shipsList.Clear();
+
+            for (int i = 0; i < kGridLength; i++)
+            {
+                for (int j = 0; j < kGridLength; j++)
+                {
+                    grid[i, j].UpdateCellStatus(CellStatus.EMPTY);
+                }
+            }
         }
     }
 }
