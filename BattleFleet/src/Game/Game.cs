@@ -3,6 +3,7 @@
     using BattleFleet.src.PlayerBoard;
     using BattleFleet.src.Player;
     using BattleFleet.src.UI;
+    using BattleFleet.src.FileManager;
 
     class Game : IGameRules
     {

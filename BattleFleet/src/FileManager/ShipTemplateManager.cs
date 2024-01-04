@@ -1,22 +1,13 @@
-﻿using System;
-
-namespace BattleFleet.src.Game
+﻿namespace BattleFleet.src.FileManager
 {
-    class ShipTemplateManager
+    class ShipTemplateManager : FileManager
     {
         private List<string> templates;
-        private string templatesFolderPath;
+        private string templatesFilePath;
 
-        public ShipTemplateManager()
+        public ShipTemplateManager():base()
         {
-            string savesFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "resources", "saves");
-            this.templatesFolderPath = Path.Combine(savesFolderPath, "Templates.txt");
-
-            if (!Directory.Exists(savesFolderPath))
-            {
-                Directory.CreateDirectory(savesFolderPath);
-            }
-
+            templatesFilePath = Path.Combine(savesFolderPath, "Templates.txt");
             templates = new List<string>();
         }
 
@@ -24,22 +15,25 @@ namespace BattleFleet.src.Game
         {
             try
             {
-                using (FileStream fileStream = new FileStream(templatesFolderPath, FileMode.Append, FileAccess.Write))
+                using (FileStream fileStream = new FileStream(templatesFilePath, FileMode.Append, FileAccess.Write))
                 using (StreamWriter writer = new StreamWriter(fileStream))
                 {
-                    writer.WriteLine(template);
                     writer.WriteLine(templateName);
+                    foreach (var str in template)
+                    {
+                        writer.WriteLine(str);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error saving chat history: " + ex.Message);
+                throw new ArgumentException("Error saving chat history: " + ex.Message);
             }
         }
 
         //public List<string> GetTemplateNames()
         //{
-            
+
         //}
 
         public string GetTemplateByName(string templateName)
@@ -47,10 +41,10 @@ namespace BattleFleet.src.Game
             string template = string.Empty;
             try
             {
-                using (FileStream fileStream = new FileStream(templatesFolderPath, FileMode.Append, FileAccess.Write))
+                using (FileStream fileStream = new FileStream(templatesFilePath, FileMode.Append, FileAccess.Write))
                 using (StreamWriter writer = new StreamWriter(fileStream))
                 {
-                   
+
                 }
             }
             catch (Exception ex)
