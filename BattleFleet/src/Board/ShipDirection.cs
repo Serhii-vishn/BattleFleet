@@ -2,7 +2,7 @@
 {
     enum ShipDirection
     {
-        HORIZONTAL,
-        VERTICAL,
+        HORIZONTAL = 1,
+        VERTICAL = 2,
     }
 }

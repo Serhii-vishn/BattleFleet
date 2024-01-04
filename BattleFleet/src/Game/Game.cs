@@ -113,10 +113,10 @@
             Console.Write("Final. ");
             currentPlayer.DrawBoard();
 
-            Console.Write("If you want to save this template (Y/N): ");
+            Console.Write("\n\tWant to save this template(Y/N): ");
             if(Console.ReadKey().Key == ConsoleKey.Y)
             {
-                Console.Write("\nEnter template name: ");
+                Console.Write("\n\tEnter template name: ");
                 string tplName = Console.ReadLine();
                 var template = currentPlayer.GetShipPlacement();
 

@@ -66,7 +66,7 @@ namespace BattleFleet.src.Player
                 return ShipDirection.HORIZONTAL;
             }
 
-            Console.Write($"Ship direction {ShipDirection.HORIZONTAL} - 0, {ShipDirection.VERTICAL} - 1: ");
+            Console.Write($"Ship direction {ShipDirection.HORIZONTAL} - 1, {ShipDirection.VERTICAL} - 2: ");
             int direction;
             if (!int.TryParse(Console.ReadLine(), out direction) || !Enum.IsDefined(typeof(ShipDirection), direction))
                 throw new ArgumentException("Invalid ship direction. Please enter a valid direction.");
