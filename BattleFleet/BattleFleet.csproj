@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="resources\logs\" />
-    <Folder Include="resources\saves\" />
     <Folder Include="src\Tests\" />
   </ItemGroup>
 
