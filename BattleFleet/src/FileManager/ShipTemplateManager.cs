@@ -18,7 +18,7 @@
                 using (FileStream fileStream = new FileStream(templatesFilePath, FileMode.Append, FileAccess.Write))
                 using (StreamWriter writer = new StreamWriter(fileStream))
                 {
-                    writer.WriteLine(templateName);
+                    writer.WriteLine("Name: " + templateName);
                     foreach (var str in template)
                     {
                         writer.WriteLine(str);
@@ -31,25 +31,64 @@
             }
         }
 
-        //public List<string> GetTemplateNames()
-        //{
-
-        //}
-
-        public string GetTemplateByName(string templateName)
+        public List<string> GetTemplateNames()
         {
-            string template = string.Empty;
+            var templateNames = new List<string>();
+
             try
             {
-                using (FileStream fileStream = new FileStream(templatesFilePath, FileMode.Append, FileAccess.Write))
-                using (StreamWriter writer = new StreamWriter(fileStream))
+                using (StreamReader reader = new StreamReader(templatesFilePath))
                 {
+                    string line;
 
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (line.StartsWith("Name:"))
+                        {
+                            templateNames.Add(line.Replace("Name:", "").Trim());
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error saving chat history: " + ex.Message);
+                Console.WriteLine("Error reading template names: " + ex.Message);
+            }
+
+            return templateNames;
+        }
+
+        public List<string> GetTemplateByName(string templateName)
+        {
+            var template = new List<string>();
+            try
+            {
+                using (StreamReader reader = new StreamReader(templatesFilePath))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (line.StartsWith("Name:") && line.Replace("Name:", "").Trim() == templateName)
+                        {
+                            while ((line = reader.ReadLine()) != null)
+                            {
+                                if (line.StartsWith("Name:"))
+                                {
+                                    break;
+                                }
+                                if (!string.IsNullOrWhiteSpace(line))
+                                {
+                                    template.Add(line);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error reading template: " + ex.Message);
             }
             return template;
         }
