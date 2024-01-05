@@ -107,6 +107,30 @@ namespace BattleFleet.src.Player
             }
         }
 
+        public override void PlaceShipsRandom() 
+        {
+            Random random = new Random();
+            
+            foreach (var ship in AvailableShips)
+            {
+                ShipClass shipClass = ship.Key;
+                int shipCount = ship.Value;
+
+                while (shipCount > 0)
+                {
+                    char randomColumn = (char)random.Next(65, 75);
+                    int randomRow = random.Next(0, 10);
+                    ShipDirection randomShipDirection = (ShipDirection)random.Next(1, 3);
+
+                    if (ownBoard.MovePlaceShip(randomRow, randomColumn, shipClass, randomShipDirection))
+                    {
+                        shipCount--;
+                        shipPlacement.Add($"{randomRow},{randomColumn},{shipClass},{randomShipDirection}");
+                    }
+                }
+            }
+        }
+
         public override void PlaceShipsTemplate(List<string> shipsData)
         {
             try

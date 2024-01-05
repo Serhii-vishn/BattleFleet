@@ -108,7 +108,28 @@
 
         private void randomPlacementShips()
         {
+            do
+            {
+                Console.Clear();
+                currentPlayer.ClearBoard();
 
+                currentPlayer.PlaceShipsRandom();
+
+                currentPlayer.DrawBoard();
+
+                Console.Write("\n\tUse this(Y/N): ");
+            } while (Console.ReadKey().Key != ConsoleKey.Y);
+
+            Console.Write("\n\tWant to save this template(Y/N): ");
+            if (Console.ReadKey().Key == ConsoleKey.Y)
+            {
+                Console.Write("\n\tEnter template name: ");
+                string tplName = Console.ReadLine();
+                var template = currentPlayer.GetShipPlacement();
+
+                templateManager.SaveTemplate(template, tplName);
+            }
+            Console.ReadKey();
         }
 
         private void manualPlacementShips()

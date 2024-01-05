@@ -38,6 +38,7 @@ namespace BattleFleet.src.Player
         public abstract void DrawBoard();
         public abstract void PlaceShips();
         public abstract void PlaceShipsTemplate(List<string> shipsTemplate);
+        public abstract void PlaceShipsRandom();
         public abstract bool MakeMove();
         public int CountAvaliableShips()
         {

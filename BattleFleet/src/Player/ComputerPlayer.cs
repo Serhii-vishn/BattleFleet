@@ -25,13 +25,15 @@ namespace BattleFleet.src.Player
 
         public override bool MakeMove()
         {
-
-            // Логіка для автоматичного визначення координат ходу комп'ютера
-            // Обробка ходу та оновлення дошки
             return false;
         }
 
         public override void PlaceShips()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void PlaceShipsRandom()
         {
             throw new NotImplementedException();
         }
