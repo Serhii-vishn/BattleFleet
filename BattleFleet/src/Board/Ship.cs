@@ -13,7 +13,7 @@
             this.shipClass = shipClass;
             this.position = position;
             this.shipDirection = shipDirection;
-            health = (int)shipClass;
+            this.health = (int)shipClass;
             this.isShipSunk = false;
         }
 
@@ -42,9 +42,8 @@
                 health -= damage;
 
                 if (health == 0)
-                {
-                    updateStatus();
-                }
+                    isShipSunk = true;
+
             }
             else
             {

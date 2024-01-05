@@ -248,21 +248,15 @@ namespace BattleFleet.src.PlayerBoard
         }
 
         public bool MoveCheck(int row, char column)
-        {
-            try
-            {
-                int columnIndex = verifyPosition(row, column);
+        {       
+            int columnIndex = verifyPosition(row, column);
 
-                CellStatus state = grid[row, columnIndex].GetCellStatus();
-                if (state == CellStatus.HIT)
-                    throw new Exception("Cannot be re-fired");
-                return state != CellStatus.HIT;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                return false;
-            }
+            CellStatus state = grid[row, columnIndex].GetCellStatus();
+
+            if (state == CellStatus.HIT || state == CellStatus.MISS)
+                throw new Exception("Cannot be re-fired");
+
+            return state != CellStatus.HIT;
         }
 
         public bool MoveShoot(int row, char column)
@@ -277,22 +271,54 @@ namespace BattleFleet.src.PlayerBoard
                     case CellStatus.OCCUPIED:
                         {
                             grid[row, columnIndex].UpdateCellStatus(CellStatus.HIT);
+                            foreach (Ship ship in shipsList)
+                            {
+                                var shipPosition = ship.GetPosition();
 
-                            //foreach (Ship ship in shipsList)
-                            //{
-                            //    var shipPosition = ship.GetPosition();
+                                int shipRow = shipPosition.Values.First();
+                                char shipColumn = shipPosition.Keys.First();
+                                ShipClass shipClass = ship.GetShipClass();
+                                ShipDirection shipDirection = ship.GetDirection();
 
-                            //    if (ship.GetPosition().TryGetValue(column, out int shipRow) && shipRow == row)
-                            //    {
-                            //        ship.Hit();
-                            //        Console.WriteLine(ship.GetHealth());
-                            //        //if (ship.GetHealth() == 0)
-                            //        //{
-                            //        //    var shipPosition = ship.GetPosition();
-                            //        //    markShipAreaCells(shipPosition.Keys.First(), shipPosition.Values.First(), ship.GetShipClass(), ship.GetDirection(), CellStatus.MISS);
-                            //        //}
-                            //    }
-                            //}
+                                switch (shipDirection)
+                                {
+                                    case ShipDirection.VERTICAL:
+                                        {
+                                            for (int size = 1, i = row; size <= ((int)shipClass); i++, size++)
+                                            {
+                                                if (shipRow == row && shipColumn == column)
+                                                {
+                                                    Console.WriteLine($"{shipRow} {shipColumn} {shipClass}{shipDirection} {ship.IsSunk()} {ship.GetHealth()}");
+                                                    ship.Hit();
+                                                    if (ship.IsSunk())
+                                                    {
+                                                        markShipAreaCells(shipRow, shipColumn, shipClass, shipDirection, CellStatus.HIT);
+                                                        Draw();
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case ShipDirection.HORIZONTAL:
+                                        {
+                                            for (int size = 1, i = columnIndex; size <= ((int)shipClass); i++, size++)
+                                            {
+                                                if (shipRow == row && shipColumn == column)
+                                                {
+                                                    Console.WriteLine($"{shipRow} {shipColumn} {shipClass}{shipDirection} {ship.IsSunk()} {ship.GetHealth()}");
+                                                    ship.Hit();
+                                                    if (ship.IsSunk())
+                                                    {
+                                                        markShipAreaCells(shipRow, shipColumn, shipClass, shipDirection, CellStatus.HIT);
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    default:
+                                        throw new ArgumentException("Invalid value for a Direction ship.");
+                                }
+                            }
                             return true;
                         }
                     case CellStatus.EMPTY:
