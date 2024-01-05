@@ -71,6 +71,15 @@
             } while (keyMenu);
         }
 
+        private void saveTemlateFile()
+        {
+            Console.Write("\n\tEnter template name: ");
+            string tplName = Console.ReadLine();
+            var template = currentPlayer.GetShipPlacement();
+
+            templateManager.SaveTemplate(template, tplName);
+        }
+
         private void templatesPlacementShips()
         {
             do
@@ -122,13 +131,8 @@
 
             Console.Write("\n\tWant to save this template(Y/N): ");
             if (Console.ReadKey().Key == ConsoleKey.Y)
-            {
-                Console.Write("\n\tEnter template name: ");
-                string tplName = Console.ReadLine();
-                var template = currentPlayer.GetShipPlacement();
+                saveTemlateFile();
 
-                templateManager.SaveTemplate(template, tplName);
-            }
             Console.ReadKey();
         }
 
@@ -147,6 +151,7 @@
                 {
                     Console.WriteLine($"\nError: {ex.Message}");
                 }
+
                 if (currentPlayer.CountAvaliableShips() == 0)
                 {
                     Console.WriteLine("All ships have been used. Let's get to the game");
@@ -164,14 +169,8 @@
             currentPlayer.DrawBoard();
 
             Console.Write("\n\tWant to save this template(Y/N): ");
-            if(Console.ReadKey().Key == ConsoleKey.Y)
-            {
-                Console.Write("\n\tEnter template name: ");
-                string tplName = Console.ReadLine();
-                var template = currentPlayer.GetShipPlacement();
-
-                templateManager.SaveTemplate(template, tplName);
-            }
+            if (Console.ReadKey().Key == ConsoleKey.Y)
+                saveTemlateFile();
 
             Console.ReadKey();
         }
