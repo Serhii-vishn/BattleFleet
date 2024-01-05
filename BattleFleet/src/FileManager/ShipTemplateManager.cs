@@ -18,7 +18,7 @@
                 using (FileStream fileStream = new FileStream(templatesFilePath, FileMode.Append, FileAccess.Write))
                 using (StreamWriter writer = new StreamWriter(fileStream))
                 {
-                    writer.WriteLine("Name: " + templateName);
+                    writer.WriteLine("\nName: " + templateName);
                     foreach (var str in template)
                     {
                         writer.WriteLine(str);
