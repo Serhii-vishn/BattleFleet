@@ -160,25 +160,32 @@ namespace BattleFleet.src.Player
         public override bool MakeMove()
         {
             Console.WriteLine("Opponent Board");
-            Console.WriteLine(this.opponentBoard.DrawHide());
+            Console.WriteLine(opponentBoard.DrawHide());
             try
             {
-                Console.WriteLine($"Player's move: {playerName}.");
+                bool isSuccses = false;
+                Console.WriteLine($"Player's move: {playerName}");
 
-                Console.Write("Enter: column (A-J): ");
-                char column = Console.ReadKey().KeyChar;
-
-                Console.Write(" row (0-9): ");
-                int row = int.Parse(Console.ReadLine());
+                char column = readColumn();
+                int row = readRow();
 
                 if (opponentBoard.MoveCheck(row, column))
-                    return opponentBoard.MoveShoot(row, column);
+                {
+                    isSuccses = opponentBoard.MoveShoot(row, column);                  
+                }
+
+                if(isSuccses)
+                    Console.WriteLine("Nice shoot!");
+                else 
+                    Console.WriteLine("Mised!");
+
+                return isSuccses;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"\nError: {ex.Message}");
+                return true;
             }
-            return false;
         }
 
         public override void ClearBoard()

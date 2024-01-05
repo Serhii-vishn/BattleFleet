@@ -189,25 +189,18 @@
             Console.WriteLine("Battle start. Now you have to shoot on the field");
 
             while (!isGameOver())
-            {
-                currentPlayer.DrawBoard();
-                try
+            {                
+                bool correctShot;
+                do
                 {
-                    bool successfulShot = currentPlayer.MakeMove();
-                    if (!successfulShot)
-                    {
-                        Console.WriteLine("Missed!");
-                        SwitchTurn();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Nice shoot!");
-                    }
-                }
-                catch (ArgumentException ex)
-                {
-                    Console.WriteLine($"\nError: {ex.Message}");
-                }
+                    currentPlayer.DrawBoard();
+                    correctShot = currentPlayer.MakeMove();
+
+                    Console.ReadKey();
+                    Console.Clear();
+                } while (correctShot);
+
+                SwitchTurn();
 
                 Console.ReadKey();
                 Console.Clear();
