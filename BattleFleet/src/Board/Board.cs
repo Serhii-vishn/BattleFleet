@@ -167,6 +167,61 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
+        private bool executeHitOnShip(Ship ship, int row, char column)
+        {
+            var shipPosition = ship.GetPosition();
+
+            int shipRow = shipPosition.Values.First();
+            char shipColumn = shipPosition.Keys.First();
+
+            ShipClass shipClass = ship.GetShipClass();
+            ShipDirection shipDirection = ship.GetDirection();
+
+            switch (shipDirection)
+            {
+                case ShipDirection.VERTICAL:
+                    {
+                        for (int size = 1, i = shipRow; size <= ((int)shipClass); i++, size++)
+                        {
+                            if (i == row && shipColumn == column)
+                            {
+                                ship.Hit();
+
+                                if (ship.IsSunk())
+                                {
+                                    int columnIn = verifyPosition(row, shipColumn);
+                                    markShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.HIT);
+                                    return true;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                case ShipDirection.HORIZONTAL:
+                    {
+                        for (int size = 1, j = shipColumn; size <= ((int)shipClass); j++, size++)
+                        {
+                            if (shipRow == row && j == column)
+                            {
+                                ship.Hit();
+
+                                if (ship.IsSunk())
+                                {
+                                    int columnIn = verifyPosition(row, shipColumn);
+                                    markShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.HIT);
+                                    return true;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                default:
+                    throw new ArgumentException("Invalid value for a Direction ship.");
+            }
+
+            return false;
+        }
+
         public string Draw()
         {
             const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
@@ -271,52 +326,13 @@ namespace BattleFleet.src.PlayerBoard
                     case CellStatus.OCCUPIED:
                         {
                             grid[row, columnIndex].UpdateCellStatus(CellStatus.HIT);
+
                             foreach (Ship ship in shipsList)
                             {
-                                var shipPosition = ship.GetPosition();
-
-                                int shipRow = shipPosition.Values.First();
-                                char shipColumn = shipPosition.Keys.First();
-                                ShipClass shipClass = ship.GetShipClass();
-                                ShipDirection shipDirection = ship.GetDirection();
-
-                                switch (shipDirection)
+                                if(executeHitOnShip(ship, row, column))
                                 {
-                                    case ShipDirection.VERTICAL:
-                                        {
-                                            for (int size = 1, i = row; size <= ((int)shipClass); i++, size++)
-                                            {
-                                                if (shipRow == row && shipColumn == column)
-                                                {
-                                                    Console.WriteLine($"{shipRow} {shipColumn} {shipClass}{shipDirection} {ship.IsSunk()} {ship.GetHealth()}");
-                                                    ship.Hit();
-                                                    if (ship.IsSunk())
-                                                    {
-                                                        markShipAreaCells(shipRow, shipColumn, shipClass, shipDirection, CellStatus.HIT);
-                                                        Draw();
-                                                    }
-                                                }
-                                            }
-                                            break;
-                                        }
-                                    case ShipDirection.HORIZONTAL:
-                                        {
-                                            for (int size = 1, i = columnIndex; size <= ((int)shipClass); i++, size++)
-                                            {
-                                                if (shipRow == row && shipColumn == column)
-                                                {
-                                                    Console.WriteLine($"{shipRow} {shipColumn} {shipClass}{shipDirection} {ship.IsSunk()} {ship.GetHealth()}");
-                                                    ship.Hit();
-                                                    if (ship.IsSunk())
-                                                    {
-                                                        markShipAreaCells(shipRow, shipColumn, shipClass, shipDirection, CellStatus.HIT);
-                                                    }
-                                                }
-                                            }
-                                            break;
-                                        }
-                                    default:
-                                        throw new ArgumentException("Invalid value for a Direction ship.");
+                                    Console.Write("Sank the ship ");
+                                    return true;
                                 }
                             }
                             return true;
