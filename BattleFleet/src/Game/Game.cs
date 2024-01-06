@@ -124,6 +124,7 @@
 
                 currentPlayer.PlaceShipsRandom();
 
+                Console.Clear();
                 currentPlayer.DrawBoard();
 
                 Console.Write("\n\tUse this(Y/N): ");
