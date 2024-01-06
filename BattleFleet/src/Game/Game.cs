@@ -175,9 +175,14 @@
             Console.ReadKey();
         }
 
+        private Player getWinner()
+        {
+            return player1Board.GetAliveShipsCount() > 0 ? player1 : player2;
+        }
+
         private bool isGameOver()
         {
-            if (player1Board.GetAliveShipsCount() > 0 || player2Board.GetAliveShipsCount() > 0)
+            if (player1Board.GetAliveShipsCount() > 0 && player2Board.GetAliveShipsCount() > 0)
                 return false;
             else
                 return true;
@@ -193,11 +198,14 @@
                 bool correctShot;
                 do
                 {
+                    if (isGameOver())
+                        break;
+
                     currentPlayer.DrawBoard();
                     correctShot = currentPlayer.MakeMove();
 
                     Console.ReadKey();
-                    Console.Clear();
+                    Console.Clear();                   
                 } while (correctShot);
 
                 SwitchTurn();
@@ -225,7 +233,13 @@
 
         public void EndGame()
         {
-            Console.WriteLine("Game end");
+            currentPlayer = getWinner();
+            Console.WriteLine($"\t\t\tGame end. Winner: {currentPlayer.GetPlayerName()}" +
+                                "\n\t\t\t\tPlayers Boards:");
+            
+            player1.DrawBoard();
+            player2.DrawBoard();
+            Console.ReadKey();
         }
     }
 }

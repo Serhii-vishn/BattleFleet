@@ -56,11 +56,6 @@ internal class Program
                         keyMainMenu = false;
                         break;
                     }
-                default:
-                    {
-                        //Console.Write("\n\t\t\tInvalid option, try again...");
-                        break;
-                    }
             }
         } while (keyMainMenu);
 
