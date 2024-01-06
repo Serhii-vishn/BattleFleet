@@ -123,7 +123,7 @@ namespace BattleFleet.src.PlayerBoard
                     }
                 default:
                     throw new ArgumentException("Invalid value for a Direction ship.");
-            }
+            }           
         }
 
         private void markShipAreaCells(int row, int column, ShipClass shipClass, ShipDirection shipDirection, CellStatus newCellStatus)
@@ -298,6 +298,7 @@ namespace BattleFleet.src.PlayerBoard
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"\nError: {ex.Message}");
                 return false;
             }
         }
