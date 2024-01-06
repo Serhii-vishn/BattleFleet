@@ -13,15 +13,15 @@
             this.shipClass = shipClass;
             this.position = position;
             this.shipDirection = shipDirection;
-            this.health = (int)shipClass;
-            this.isShipSunk = false;
+            health = (int)shipClass;
+            isShipSunk = false;
         }
 
         public Ship(ShipClass shipClass)
         {
             this.shipClass = shipClass;
             health = (int)shipClass;
-            this.isShipSunk = false;
+            isShipSunk = false;
         }
 
         private void updateStatus()
@@ -38,16 +38,10 @@
         {
             if (health > 0)
             {
-                int damage = 1;
-                health -= damage;
+                health -= 1;
 
-                if (health == 0)
-                    isShipSunk = true;
-
-            }
-            else
-            {
-                throw new ArgumentException("Cannot hit a ship that is already sunk.");
+                if (health <= 0)
+                    updateStatus();
             }
         }
 
