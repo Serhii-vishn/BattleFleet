@@ -9,6 +9,32 @@
         {
             templatesFilePath = Path.Combine(savesFolderPath, "Templates.txt");
             templates = new List<string>();
+
+            ensureFileExists (templatesFilePath);
+        }
+
+        private void ensureFileExists (string path)
+        {
+            if (!File.Exists(path)) 
+            {
+                using (File.Create(path)) { }
+
+                string tmplName = "Master";
+                List<string> templates = new List<string>()
+                {
+                    "5,A,FIVE_DECK,VERTICAL",
+                    "8,D,ONE_DECK,HORIZONTAL",
+                    "0,G,ONE_DECK,HORIZONTAL",
+                    "2,J,THREE_DECK,VERTICAL",
+                    "4,C,THREE_DECK,HORIZONTAL",
+                    "1,B,TWO_DECK,HORIZONTAL",
+                    "7,G,TWO_DECK,VERTICAL",
+                    "5,H,ONE_DECK,HORIZONTAL",
+                    "9,J,ONE_DECK,HORIZONTAL",
+                    "6,D,TWO_DECK,HORIZONTAL"
+                };
+                SaveTemplate(templates, tmplName);
+            }
         }
 
         public void SaveTemplate(List<string> template, string templateName)
