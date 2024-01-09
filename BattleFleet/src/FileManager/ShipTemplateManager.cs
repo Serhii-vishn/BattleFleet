@@ -28,7 +28,7 @@
             if(fileInfo.Length == 0)
             {
                 string tmplName = "Master";
-                List<string> templates = new List<string>()
+                templates.AddRange(new List<string>
                 {
                     "5,A,FIVE_DECK,VERTICAL",
                     "8,D,ONE_DECK,HORIZONTAL",
@@ -40,7 +40,7 @@
                     "5,H,ONE_DECK,HORIZONTAL",
                     "9,J,ONE_DECK,HORIZONTAL",
                     "6,D,TWO_DECK,HORIZONTAL"
-                };
+                });
                 SaveTemplate(templates, tmplName);
 
                 templates.Clear();

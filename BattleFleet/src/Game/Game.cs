@@ -71,13 +71,32 @@
             } while (keyMenu);
         }
 
+        private bool isNameExist(string name)
+        {
+            var tmplNames = templateManager.GetTemplateNames();
+            foreach (var tmpl in tmplNames)
+            {
+                if (tmpl == name)
+                    return false;
+            }
+            return true;
+        }
+
         private void saveTemlateFile()
         {
-            Console.Write("\n\tEnter template name: ");
-            string tplName = Console.ReadLine();
-            var template = currentPlayer.GetShipPlacement();
+            string tmplName = string.Empty;
+            do
+            {
+                Console.Write("\r\n\tEnter template name: ");
+                tmplName = Console.ReadLine();
 
-            templateManager.SaveTemplate(template, tplName);
+                if(!isNameExist(tmplName))
+                    Console.WriteLine("This name already exists, enter another one");
+
+            } while (!isNameExist(tmplName));
+
+            var template = currentPlayer.GetShipPlacement();
+            templateManager.SaveTemplate(template, tmplName);
         }
 
         private void templatesPlacementShips()
