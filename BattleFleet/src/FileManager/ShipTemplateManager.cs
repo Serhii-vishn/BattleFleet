@@ -11,14 +11,22 @@
             templates = new List<string>();
 
             ensureFileExists (templatesFilePath);
+            ensureFileNotEmpty (templatesFilePath);
         }
 
         private void ensureFileExists (string path)
         {
             if (!File.Exists(path)) 
             {
-                using (File.Create(path)) { }
+                using (File.Create(path)) { }               
+            }
+        }
 
+        private void ensureFileNotEmpty(string filePath)
+        {
+            FileInfo fileInfo = new FileInfo(filePath);
+            if(fileInfo.Length == 0)
+            {
                 string tmplName = "Master";
                 List<string> templates = new List<string>()
                 {
@@ -33,6 +41,60 @@
                     "9,J,ONE_DECK,HORIZONTAL",
                     "6,D,TWO_DECK,HORIZONTAL"
                 };
+                SaveTemplate(templates, tmplName);
+
+                templates.Clear();
+
+                tmplName = "Arcade";
+                templates.AddRange(new List<string>
+                {
+                    "4,C,FIVE_DECK,HORIZONTAL",
+                    "8,F,THREE_DECK,HORIZONTAL",
+                    "3,I,THREE_DECK,VERTICAL",
+                    "1,E,TWO_DECK,VERTICAL",
+                    "1,I,TWO_DECK,HORIZONTAL",
+                    "0,B,TWO_DECK,HORIZONTAL",
+                    "5,A,ONE_DECK,VERTICAL",
+                    "1,G,ONE_DECK,VERTICAL",
+                    "8,D,ONE_DECK,HORIZONTAL",
+                    "2,A,ONE_DECK,HORIZONTAL"
+                });
+                SaveTemplate(templates, tmplName);
+
+                templates.Clear();
+
+                tmplName = "Redis";
+                templates.AddRange(new List<string>
+                {
+                    "4,E,FIVE_DECK,VERTICAL",
+                    "1,C,THREE_DECK,VERTICAL",
+                    "5,A,THREE_DECK,VERTICAL",
+                    "2,E,TWO_DECK,HORIZONTAL",
+                    "8,G,TWO_DECK,HORIZONTAL",
+                    "4,J,TWO_DECK,VERTICAL",
+                    "4,G,ONE_DECK,VERTICAL",
+                    "1,A,ONE_DECK,HORIZONTAL",
+                    "0,H,ONE_DECK,VERTICAL",
+                    "5,C,ONE_DECK,HORIZONTAL"
+                });
+                SaveTemplate(templates, tmplName);
+
+                templates.Clear();
+
+                tmplName = "GLORY_FOR_UKRAINE";
+                templates.AddRange(new List<string>
+                {
+                    "5,C,FIVE_DECK,HORIZONTAL",
+                    "1,C,THREE_DECK,VERTICAL",
+                    "2,E,TWO_DECK,VERTICAL",
+                    "1,G,THREE_DECK,VERTICAL",
+                    "0,J,ONE_DECK,HORIZONTAL",
+                    "8,A,ONE_DECK,HORIZONTAL",
+                    "8,I,TWO_DECK,VERTICAL",
+                    "7,D,TWO_DECK,HORIZONTAL",
+                    "0,A,ONE_DECK,HORIZONTAL",
+                    "9,E,ONE_DECK,HORIZONTAL"
+                });
                 SaveTemplate(templates, tmplName);
             }
         }
