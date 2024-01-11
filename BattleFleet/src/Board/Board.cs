@@ -17,6 +17,163 @@ namespace BattleFleet.src.PlayerBoard
             initializeBoard();
         }
 
+        public string Draw()
+        {
+            const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
+            StringBuilder board = new StringBuilder();
+
+            board.Append(" X |");
+            board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));
+
+            for (int i = 0; i < kGridLength; i++)
+            {
+                board.AppendLine(horizontalSeparator);
+                board.Append($" {i} |");
+
+                board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].ToString())));
+            }
+
+            return board.ToString();
+        }
+
+        public string DrawHide()
+        {
+            const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
+            StringBuilder board = new StringBuilder();
+
+            board.Append(" X |");
+            board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));
+
+            for (int i = 0; i < kGridLength; i++)
+            {
+                board.AppendLine(horizontalSeparator);
+                board.Append($" {i} |");
+
+                board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].ToStringHide())));
+            }
+
+            return board.ToString();
+        }
+
+        public bool MovePlaceShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
+        {
+            try
+            {
+                canCreateNewShip(shipClass);
+
+                int columnIndex = verifyPosition(row, column);
+                canPlaceShip(row, columnIndex, shipClass, shipDirection);
+
+                markShipAreaCells(row, columnIndex, shipClass, shipDirection, CellStatus.FORBIDDEN);
+
+                switch (shipDirection)
+                {
+                    case ShipDirection.VERTICAL:
+                        {
+                            for (int size = 1, i = row; size <= ((int)shipClass); i++, size++)
+                            {
+                                grid[i, columnIndex].UpdateCellStatus(CellStatus.OCCUPIED);
+                            }
+                            break;
+                        }
+                    case ShipDirection.HORIZONTAL:
+                        {
+                            for (int size = 1, i = columnIndex; size <= ((int)shipClass); i++, size++)
+                            {
+                                grid[row, i].UpdateCellStatus(CellStatus.OCCUPIED);
+                            }
+                            break;
+                        }
+                    default:
+                        throw new ArgumentException("Invalid value for a Direction ship.");
+                }
+                shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }, shipDirection));
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\nError: {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool MoveCheck(int row, char column)
+        {
+            int columnIndex = verifyPosition(row, column);
+
+            CellStatus state = grid[row, columnIndex].GetCellStatus();
+
+            if (state == CellStatus.HIT || state == CellStatus.MISS)
+                throw new ArgumentException("Cannot be re-fired");
+
+            return state != CellStatus.HIT;
+        }
+
+        public bool MoveShoot(int row, char column)
+        {
+            try
+            {
+                int columnIndex = verifyPosition(row, column);
+
+                CellStatus state = grid[row, columnIndex].GetCellStatus();
+                switch (state)
+                {
+                    case CellStatus.OCCUPIED:
+                        {
+                            grid[row, columnIndex].UpdateCellStatus(CellStatus.HIT);
+
+                            foreach (Ship ship in shipsList)
+                            {
+                                if (executeHitOnShip(ship, row, column))
+                                {
+                                    Console.Write("Sank the ship ");
+                                    return true;
+                                }
+                            }
+                            return true;
+                        }
+                    case CellStatus.EMPTY:
+                        grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
+                        break;
+                    case CellStatus.FORBIDDEN:
+                        grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            return false;
+        }
+
+        public int GetAliveShipsCount()
+        {
+            int aliveShipCount = 0;
+            foreach (var ship in shipsList)
+            {
+                if (!ship.IsSunk())
+                    aliveShipCount++;
+            }
+            return aliveShipCount;
+        }
+
+        public void Clear()
+        {
+            shipsList.Clear();
+
+            for (int i = 0; i < kGridLength; i++)
+            {
+                for (int j = 0; j < kGridLength; j++)
+                {
+                    grid[i, j].UpdateCellStatus(CellStatus.EMPTY);
+                }
+            }
+        }
+
         private void initializeBoard()
         {
             for (int i = 0; i < kGridLength; i++)
@@ -220,163 +377,6 @@ namespace BattleFleet.src.PlayerBoard
             }
 
             return false;
-        }
-
-        public string Draw()
-        {
-            const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
-            StringBuilder board = new StringBuilder();
-
-            board.Append(" X |");
-            board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));
-
-            for (int i = 0; i < kGridLength; i++)
-            {
-                board.AppendLine(horizontalSeparator);
-                board.Append($" {i} |");
-
-                board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].ToString())));
-            }
-
-            return board.ToString();
-        }
-
-        public string DrawHide()
-        {
-            const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
-            StringBuilder board = new StringBuilder();
-
-            board.Append(" X |");
-            board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));
-
-            for (int i = 0; i < kGridLength; i++)
-            {
-                board.AppendLine(horizontalSeparator);
-                board.Append($" {i} |");
-
-                board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].ToStringHide())));
-            }
-
-            return board.ToString();
-        }
-
-        public bool MovePlaceShip(int row, char column, ShipClass shipClass, ShipDirection shipDirection)
-        {
-            try
-            {
-                canCreateNewShip(shipClass);
-
-                int columnIndex = verifyPosition(row, column);
-                canPlaceShip(row, columnIndex, shipClass, shipDirection);
-
-                markShipAreaCells(row, columnIndex, shipClass, shipDirection, CellStatus.FORBIDDEN);
-
-                switch (shipDirection)
-                {
-                    case ShipDirection.VERTICAL:
-                        {
-                            for (int size = 1, i = row; size <= ((int)shipClass); i++, size++)
-                            {
-                                grid[i, columnIndex].UpdateCellStatus(CellStatus.OCCUPIED);
-                            }
-                            break;
-                        }
-                    case ShipDirection.HORIZONTAL:
-                        {
-                            for (int size = 1, i = columnIndex; size <= ((int)shipClass); i++, size++)
-                            {
-                                grid[row, i].UpdateCellStatus(CellStatus.OCCUPIED);
-                            }
-                            break;
-                        }
-                    default:
-                        throw new ArgumentException("Invalid value for a Direction ship.");
-                }
-                shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }, shipDirection));
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\nError: {ex.Message}");
-                return false;
-            }
-        }
-
-        public bool MoveCheck(int row, char column)
-        {       
-            int columnIndex = verifyPosition(row, column);
-
-            CellStatus state = grid[row, columnIndex].GetCellStatus();
-
-            if (state == CellStatus.HIT || state == CellStatus.MISS)
-                throw new ArgumentException("Cannot be re-fired");
-
-            return state != CellStatus.HIT;
-        }
-
-        public bool MoveShoot(int row, char column)
-        {
-            try
-            {
-                int columnIndex = verifyPosition(row, column);
-
-                CellStatus state = grid[row, columnIndex].GetCellStatus();
-                switch (state)
-                {
-                    case CellStatus.OCCUPIED:
-                        {
-                            grid[row, columnIndex].UpdateCellStatus(CellStatus.HIT);
-
-                            foreach (Ship ship in shipsList)
-                            {
-                                if(executeHitOnShip(ship, row, column))
-                                {
-                                    Console.Write("Sank the ship ");
-                                    return true;
-                                }
-                            }
-                            return true;
-                        }
-                    case CellStatus.EMPTY:
-                        grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
-                        break;
-                    case CellStatus.FORBIDDEN:
-                        grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            return false;
-        }
-
-        public int GetAliveShipsCount()
-        {
-            int aliveShipCount = 0;
-            foreach (var ship in shipsList)
-            {
-                if (!ship.IsSunk())
-                    aliveShipCount++;
-            }
-            return aliveShipCount;
-        }
-
-        public void Clear()
-        {
-            shipsList.Clear();
-
-            for (int i = 0; i < kGridLength; i++)
-            {
-                for (int j = 0; j < kGridLength; j++)
-                {
-                    grid[i, j].UpdateCellStatus(CellStatus.EMPTY);
-                }
-            }
         }
     }
 }
