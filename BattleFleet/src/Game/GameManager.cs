@@ -3,8 +3,8 @@
     using BattleFleet.src.Player;
     class GameManager
     {
-        private Player player1;
-        private Player player2;
+        private readonly Player player1;
+        private readonly Player player2;
 
         public GameManager(Player player1, Player player2)
         {
@@ -45,11 +45,6 @@
             Game game = new Game(human1, human2);
 
             return game;
-        }
-
-        public void DisplayGameStatistics(Game game)
-        {
-            //
         }
     }
 }

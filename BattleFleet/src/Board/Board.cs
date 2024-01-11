@@ -5,8 +5,8 @@ namespace BattleFleet.src.PlayerBoard
     class Board
     {
         private const int kGridLength = 10;
-        private Cell[,] grid;
-        private List<Ship> shipsList;
+        private readonly Cell[,] grid;
+        private readonly List<Ship> shipsList;
         private readonly char[] alphabetCells = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
 
         public Board()

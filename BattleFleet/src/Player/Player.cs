@@ -13,6 +13,9 @@ namespace BattleFleet.src.Player
         protected Player()
         {
             this.playerName = "player";
+            this.ownBoard = new Board();
+            this.opponentBoard = new Board();
+
             AvailableShips = new Dictionary<ShipClass, int>
             {
                 { ShipClass.FIVE_DECK, 1 },

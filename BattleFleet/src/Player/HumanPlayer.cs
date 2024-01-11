@@ -130,11 +130,11 @@ namespace BattleFleet.src.Player
             }
         }
 
-        public override void PlaceShipsTemplate(List<string> shipsData)
+        public override void PlaceShipsTemplate(List<string> shipsTemplate)
         {
             try
             {
-                foreach (string ship in shipsData) 
+                foreach (string ship in shipsTemplate) 
                 {
                     string[] parts = ship.Split(',');
                     if (parts.Length == 4)
