@@ -1,6 +1,6 @@
 ﻿namespace BattleFleet.src.PlayerBoard
 {
-    class Cell
+    public class Cell
     {
         private CellStatus cellStatus;
         private string cellCode;

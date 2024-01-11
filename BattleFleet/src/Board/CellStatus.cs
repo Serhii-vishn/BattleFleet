@@ -1,6 +1,6 @@
 ﻿namespace BattleFleet.src.PlayerBoard
 {
-    enum CellStatus
+    public enum CellStatus
     {
         EMPTY,
         OCCUPIED,
