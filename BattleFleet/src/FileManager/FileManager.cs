@@ -1,6 +1,6 @@
 ﻿namespace BattleFleet.src.FileManager
 {
-    class FileManager
+    public class FileManager
     {
         protected string mainFolderPath;
         protected string logsFolderPath;
@@ -17,7 +17,17 @@
             ensureDirectoryExists(savesFolderPath);
         }
 
-        private void ensureDirectoryExists (string directoryPath)
+        protected string GetFilePathInMainFolder(string fileName)
+        {
+            string filePath = Path.Combine(mainFolderPath, fileName);
+
+            if (!File.Exists(filePath))
+                throw new ArgumentException($"File '{fileName}' does not exist.");
+
+            return filePath;
+        }
+
+        private void ensureDirectoryExists(string directoryPath)
         {
             if (!Directory.Exists(directoryPath))
             {
@@ -30,16 +40,6 @@
                     Console.WriteLine($"Error creating directory {directoryPath}: {ex.Message}");
                 }
             }
-        }
-
-        protected string GetFilePathInMainFolder(string fileName)
-        {
-            string filePath = Path.Combine(mainFolderPath, fileName);
-
-            if (!File.Exists(filePath))
-                throw new ArgumentException($"File '{fileName}' does not exist.");
-
-            return filePath;
         }
     }
 }
