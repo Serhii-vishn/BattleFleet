@@ -11,30 +11,6 @@
             cellCode = $"   |";
         }
 
-        private void updateCellCode(CellStatus newStatusCell)
-        {
-            switch (newStatusCell)
-            {
-                case CellStatus.EMPTY:
-                    cellCode = $"   |";
-                    break;
-                case CellStatus.OCCUPIED:
-                    cellCode = $" ■ |";
-                    break;
-                case CellStatus.HIT:
-                    cellCode = $" X |";
-                    break;
-                case CellStatus.MISS:
-                    cellCode = $" - |";
-                    break;
-                case CellStatus.FORBIDDEN:
-                    cellCode = $"   |";
-                    break;
-                default:
-                    break;
-            }
-        }
-
         public CellStatus GetCellStatus()
         {
             return cellStatus;
@@ -62,6 +38,30 @@
             updateCellCode(newStatusCell);
 
             return true;
+        }
+
+        private void updateCellCode(CellStatus newStatusCell)
+        {
+            switch (newStatusCell)
+            {
+                case CellStatus.EMPTY:
+                    cellCode = $"   |";
+                    break;
+                case CellStatus.OCCUPIED:
+                    cellCode = $" ■ |";
+                    break;
+                case CellStatus.HIT:
+                    cellCode = $" X |";
+                    break;
+                case CellStatus.MISS:
+                    cellCode = $" - |";
+                    break;
+                case CellStatus.FORBIDDEN:
+                    cellCode = $"   |";
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

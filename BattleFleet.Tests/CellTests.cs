@@ -1,6 +1,4 @@
 ﻿using BattleFleet.src.PlayerBoard;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Reflection;
 
 namespace BattleFleet.Tests
 {

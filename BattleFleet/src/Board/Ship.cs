@@ -17,11 +17,6 @@
             isShipSunk = false;
         }
 
-        private void updateStatus()
-        {
-            isShipSunk = true;
-        }
-
         public bool IsSunk()
         {
             return isShipSunk;
@@ -48,11 +43,6 @@
             return position;
         }
 
-        public int GetHealth()
-        {
-            return health;
-        }
-
         public ShipClass GetShipClass()
         {
             return shipClass;
@@ -61,6 +51,11 @@
         public ShipDirection GetDirection()
         {
             return shipDirection;
+        }
+
+        private void updateStatus()
+        {
+            isShipSunk = true;
         }
     }
 }
