@@ -1,6 +1,6 @@
 ﻿namespace BattleFleet.src.PlayerBoard
 {
-    enum ShipClass
+    public enum ShipClass
     {
         ONE_DECK = 1,
         TWO_DECK = 2,

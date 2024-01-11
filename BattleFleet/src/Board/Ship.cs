@@ -1,6 +1,6 @@
 ﻿namespace BattleFleet.src.PlayerBoard
 {
-    class Ship
+    public class Ship
     {
         private readonly ShipClass shipClass;
         private readonly ShipDirection shipDirection;
