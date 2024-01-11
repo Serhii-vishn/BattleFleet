@@ -2,7 +2,7 @@
 
 namespace BattleFleet.src.PlayerBoard
 {
-    class Board
+    public class Board
     {
         private const int kGridLength = 10;
         private readonly Cell[,] grid;
