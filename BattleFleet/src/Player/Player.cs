@@ -10,7 +10,7 @@ namespace BattleFleet.src.Player
         protected List<string> shipPlacement;
         public Dictionary<ShipClass, int> AvailableShips { get; private set; }
 
-        public Player()
+        protected Player()
         {
             this.playerName = "player";
             AvailableShips = new Dictionary<ShipClass, int>

@@ -2,8 +2,8 @@
 {
     class Ship
     {
-        private ShipClass shipClass;
-        private ShipDirection shipDirection;
+        private readonly ShipClass shipClass;
+        private readonly ShipDirection shipDirection;
         private Dictionary<char, int> position;
         private int health;
         private bool isShipSunk;
@@ -13,13 +13,6 @@
             this.shipClass = shipClass;
             this.position = position;
             this.shipDirection = shipDirection;
-            health = (int)shipClass;
-            isShipSunk = false;
-        }
-
-        public Ship(ShipClass shipClass)
-        {
-            this.shipClass = shipClass;
             health = (int)shipClass;
             isShipSunk = false;
         }

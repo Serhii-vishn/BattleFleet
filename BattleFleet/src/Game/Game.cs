@@ -7,15 +7,15 @@
 
     class Game : IGameRules
     {
-        private Board player1Board;
-        private Board player2Board;
+        private readonly Board player1Board;
+        private readonly Board player2Board;
 
-        private HumanPlayer player1;
-        private HumanPlayer player2;
+        private readonly HumanPlayer player1;
+        private readonly HumanPlayer player2;
 
         private Player currentPlayer;
 
-        private ShipTemplateManager templateManager;
+        private readonly ShipTemplateManager templateManager;
 
         public Game(HumanPlayer player1, HumanPlayer player2)
         {
@@ -255,7 +255,7 @@
         {
             currentPlayer = getWinner();
             Console.WriteLine($"\t\t\tGame end. Winner: {currentPlayer.GetPlayerName()}" +
-                                "\n\t\t\t\tPlayers Boards:");
+                                "\n\t\t\tPlayers Boards:");
             
             player1.DrawBoard();
             player2.DrawBoard();

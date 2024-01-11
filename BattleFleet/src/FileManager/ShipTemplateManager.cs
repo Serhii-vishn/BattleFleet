@@ -2,8 +2,8 @@
 {
     class ShipTemplateManager : FileManager
     {
-        private List<string> templates;
-        private string templatesFilePath;
+        private readonly List<string> templates;
+        private readonly string templatesFilePath;
 
         public ShipTemplateManager():base()
         {
@@ -18,7 +18,7 @@
         {
             if (!File.Exists(path)) 
             {
-                using (File.Create(path)) { }               
+                using (File.Create(path)) { }
             }
         }
 

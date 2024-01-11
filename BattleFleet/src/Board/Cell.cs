@@ -2,23 +2,13 @@
 {
     class Cell
     {
-        private int row;
-        private char column;
         private CellStatus cellStatus;
         private string cellCode;
 
-        public Cell(int row, char column)
+        public Cell()
         {
-            this.row = row;
-            this.column = column;
             cellStatus = CellStatus.EMPTY;
             cellCode = $"   |";
-        }
-        public Cell(int row, char column, CellStatus cellStatus)
-        {
-            this.row = row;
-            this.column = column;
-            this.cellStatus = cellStatus;
         }
 
         private void updateCellCode(CellStatus newStatusCell)
@@ -50,7 +40,7 @@
             return cellStatus;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return cellCode;
         }

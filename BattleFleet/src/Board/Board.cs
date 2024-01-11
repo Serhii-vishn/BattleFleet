@@ -7,7 +7,7 @@ namespace BattleFleet.src.PlayerBoard
         private const int kGridLength = 10;
         private Cell[,] grid;
         private List<Ship> shipsList;
-        private char[] alphabetCells = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
+        private readonly char[] alphabetCells = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
 
         public Board()
         {
@@ -23,7 +23,7 @@ namespace BattleFleet.src.PlayerBoard
             {
                 for (int j = 0; j < kGridLength; j++)
                 {
-                    grid[i, j] = new Cell(i, alphabetCells[j]);
+                    grid[i, j] = new Cell();
                 }
             }
         }
@@ -31,7 +31,7 @@ namespace BattleFleet.src.PlayerBoard
         private int verifyPosition(int row, char column)
         {
             if (row < 0 || row >= kGridLength)
-                throw new ArgumentOutOfRangeException("Incorrect value for a row.", nameof(row));
+                throw new ArgumentException("Incorrect value for a row.", nameof(row));
 
             int columnIndex = -1;
             for (int i = 0; i < kGridLength; i++)
@@ -63,7 +63,7 @@ namespace BattleFleet.src.PlayerBoard
                     {
                         if (numberShips >= 4)
                             throw new InvalidOperationException("Cannot place more than 4 ships of ONE_DECK class.");
-
+                        
                         break;
                     }
                 case ShipClass.TWO_DECK:
@@ -310,7 +310,7 @@ namespace BattleFleet.src.PlayerBoard
             CellStatus state = grid[row, columnIndex].GetCellStatus();
 
             if (state == CellStatus.HIT || state == CellStatus.MISS)
-                throw new Exception("Cannot be re-fired");
+                throw new ArgumentException("Cannot be re-fired");
 
             return state != CellStatus.HIT;
         }
