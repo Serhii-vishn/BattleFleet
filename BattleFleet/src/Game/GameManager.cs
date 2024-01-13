@@ -17,9 +17,10 @@
         {
             Console.Clear();
 
-            Console.WriteLine("The sea battle game has started!");
-            Console.WriteLine($"Player 1: {player1.GetPlayerName()}");
-            Console.WriteLine($"Player 2: {player2.GetPlayerName()}");
+            Console.WriteLine("\n\n\t\t\t\tThe sea battle game has started!");
+            Console.WriteLine($"\t\t\t\tPlayer 1: {player1.GetPlayerName()}");
+            Console.WriteLine($"\t\t\t\tPlayer 2: {player2.GetPlayerName()}");
+            Console.ReadLine();
 
             if (player2.GetType() == typeof(ComputerPlayer))
             {
