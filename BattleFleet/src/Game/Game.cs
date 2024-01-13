@@ -68,7 +68,7 @@
 
             computerPlayer.PlaceShips();
 
-            startBattle();
+            startBattleComputer();
         }
 
         public void SwitchTurn()
@@ -287,6 +287,14 @@
                 Console.ReadKey();
                 Console.Clear();
             }
+        }
+       
+        private void startBattleComputer()
+        {
+            //TODO implement game abily and play computer vs player
+            Console.WriteLine("Battle start");
+            Console.ReadLine();
+
         }
     }
 }

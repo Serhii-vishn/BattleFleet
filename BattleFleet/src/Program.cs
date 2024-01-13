@@ -43,12 +43,12 @@ internal class Program
                         ComputerPlayer computerPlayer = new ComputerPlayer();
 
                         GameManager gameManager = new GameManager(humanPlayer, computerPlayer);
+                        
                         Game game = gameManager.InitializeGame();
 
-                        //TODO fix for computer
                         game.StartGameComputer();
 
-                        game.EndGame();
+                        //game.EndGame();
 
                         GameConsoleUI.ExitGame();
                         keyMainMenu = false;

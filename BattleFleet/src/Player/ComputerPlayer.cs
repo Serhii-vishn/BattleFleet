@@ -7,6 +7,11 @@ namespace BattleFleet.src.Player
     {
         public ComputerPlayer() : base() { }
 
+        public ComputerPlayer(string playerName)
+        {
+            this.playerName = playerName;
+        }
+
         public void ClearBoard()
         {
             throw new NotImplementedException();
@@ -14,7 +19,8 @@ namespace BattleFleet.src.Player
 
         public override void DrawBoard()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Player's board: {playerName}");
+            Console.WriteLine(this.ownBoard.Draw());
         }
 
         public override void Initialize(Board ownBoard, Board opponentBoard)
@@ -30,7 +36,27 @@ namespace BattleFleet.src.Player
 
         public override void PlaceShips()
         {
-            throw new NotImplementedException();
+            Random random = new Random();
+
+            foreach (var ship in AvailableShips)
+            {
+                ShipClass shipClass = ship.Key;
+                int shipCount = ship.Value;
+
+                while (shipCount > 0)
+                {
+                    char randomColumn = (char)random.Next(65, 75);
+                    int randomRow = random.Next(0, 10);
+                    ShipDirection randomShipDirection = (ShipDirection)random.Next(1, 3);
+
+                    if (ownBoard.MovePlaceShip(randomRow, randomColumn, shipClass, randomShipDirection))
+                    {
+                        shipCount--;
+                        shipPlacement.Add($"{randomRow},{randomColumn},{shipClass},{randomShipDirection}");
+                        Console.Clear();
+                    }
+                }
+            }
         }
     }
 }

@@ -25,7 +25,7 @@
             if (player2.GetType() == typeof(ComputerPlayer))
             {
                 HumanPlayer human1 = new HumanPlayer(player1.GetPlayerName());
-                ComputerPlayer computerPlayer = new ComputerPlayer();
+                ComputerPlayer computerPlayer = new ComputerPlayer(player2.GetPlayerName());
 
                 Game game = new Game(human1, computerPlayer);
 
