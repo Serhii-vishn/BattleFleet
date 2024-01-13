@@ -37,7 +37,21 @@ internal class Program
                     }
                 case '2':
                     {
-                        Console.WriteLine("\nin development...");
+                        Console.Clear();
+
+                        HumanPlayer humanPlayer = new HumanPlayer();
+                        ComputerPlayer computerPlayer = new ComputerPlayer();
+
+                        GameManager gameManager = new GameManager(humanPlayer, computerPlayer);
+                        Game game = gameManager.InitializeGame();
+
+                        //TODO fix for computer
+                        game.StartGameComputer();
+
+                        game.EndGame();
+
+                        GameConsoleUI.ExitGame();
+                        keyMainMenu = false;
                         break;
                     }
                 case '3':
