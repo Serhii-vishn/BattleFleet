@@ -11,6 +11,125 @@ namespace BattleFleet.src.Player
             this.playerName = playerName;
         }
 
+        public override void Initialize(Board ownBoard, Board opponentBoard)
+        {
+            this.ownBoard = ownBoard;
+            this.opponentBoard = opponentBoard;
+        }
+
+        public override void DrawBoard()
+        {
+            Console.WriteLine($"Player's board: {playerName}");
+            Console.WriteLine(this.ownBoard.Draw());
+        }
+
+        public override void PlaceShips()
+        {
+            try
+            {
+                char column = readColumn();
+                int row = readRow();
+                ShipClass shipClass = selectShip();
+                ShipDirection shipDirection = readShipDirection(shipClass);
+
+                if (ownBoard.MovePlaceShip(row, column, shipClass, shipDirection))
+                {
+                    shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
+                    AvailableShips[shipClass]--;
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"\nError: {ex.Message}");
+            }
+        }
+
+        public void PlaceShipsRandom()
+        {
+            Random random = new Random();
+
+            foreach (var ship in AvailableShips)
+            {
+                ShipClass shipClass = ship.Key;
+                int shipCount = ship.Value;
+
+                while (shipCount > 0)
+                {
+                    char randomColumn = (char)random.Next(65, 75);
+                    int randomRow = random.Next(0, 10);
+                    ShipDirection randomShipDirection = (ShipDirection)random.Next(1, 3);
+
+                    if (ownBoard.MovePlaceShip(randomRow, randomColumn, shipClass, randomShipDirection))
+                    {
+                        shipCount--;
+                        shipPlacement.Add($"{randomRow},{randomColumn},{shipClass},{randomShipDirection}");
+                    }
+                }
+            }
+        }
+
+        public void PlaceShipsTemplate(List<string> shipsTemplate)
+        {
+            try
+            {
+                foreach (string ship in shipsTemplate)
+                {
+                    string[] parts = ship.Split(',');
+                    if (parts.Length == 4)
+                    {
+                        int row = int.Parse(parts[0]);
+                        char column = parts[1][0];
+                        ShipClass shipClass = (ShipClass)Enum.Parse(typeof(ShipClass), parts[2]);
+                        ShipDirection shipDirection = (ShipDirection)Enum.Parse(typeof(ShipDirection), parts[3]);
+
+                        ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
+
+                        shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
+                    }
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"\nError: {ex.Message}");
+            }
+        }
+
+        public override bool MakeMove()
+        {
+            Console.WriteLine("Opponent Board");
+            Console.WriteLine(opponentBoard.DrawHide());
+            try
+            {
+                bool isSuccses = false;
+                Console.WriteLine($"Player's move: {playerName}");
+
+                char column = readColumn();
+                int row = readRow();
+
+                if (opponentBoard.MoveCheck(row, column))
+                {
+                    isSuccses = opponentBoard.MoveShoot(row, column);
+                }
+
+                if (isSuccses)
+                    Console.WriteLine("Nice shoot!");
+                else
+                    Console.WriteLine("Mised!");
+
+                return isSuccses;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\nError: {ex.Message}");
+                return true;
+            }
+        }
+
+        public void ClearBoard()
+        {
+            shipPlacement.Clear();
+            ownBoard.Clear();
+        }
         private char readColumn()
         {
             Console.Write("Enter column (A-J): ");
@@ -71,126 +190,6 @@ namespace BattleFleet.src.Player
                 throw new ArgumentException("Invalid ship direction. Please enter a valid direction.");
 
             return (ShipDirection)Enum.ToObject(typeof(ShipDirection), direction);
-        }
-
-        public override void Initialize(Board ownBoard, Board opponentBoard)
-        {
-            this.ownBoard = ownBoard;
-            this.opponentBoard = opponentBoard;
-        }
-
-        public override void DrawBoard()
-        {
-            Console.WriteLine($"Player's board: {playerName}");
-            Console.WriteLine(this.ownBoard.Draw());
-        }
-
-        public override void PlaceShips()
-        {
-            try
-            {
-                char column = readColumn();
-                int row = readRow();
-                ShipClass shipClass = selectShip();
-                ShipDirection shipDirection = readShipDirection(shipClass);
-
-                if (ownBoard.MovePlaceShip(row, column, shipClass, shipDirection))
-                {
-                    shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
-                    AvailableShips[shipClass]--;
-                }
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine($"\nError: {ex.Message}");
-            }
-        }
-
-        public override void PlaceShipsRandom()
-        {
-            Random random = new Random();
-
-            foreach (var ship in AvailableShips)
-            {
-                ShipClass shipClass = ship.Key;
-                int shipCount = ship.Value;
-
-                while (shipCount > 0)
-                {
-                    char randomColumn = (char)random.Next(65, 75);
-                    int randomRow = random.Next(0, 10);
-                    ShipDirection randomShipDirection = (ShipDirection)random.Next(1, 3);
-
-                    if (ownBoard.MovePlaceShip(randomRow, randomColumn, shipClass, randomShipDirection))
-                    {
-                        shipCount--;
-                        shipPlacement.Add($"{randomRow},{randomColumn},{shipClass},{randomShipDirection}");
-                    }
-                }
-            }
-        }
-
-        public override void PlaceShipsTemplate(List<string> shipsTemplate)
-        {
-            try
-            {
-                foreach (string ship in shipsTemplate)
-                {
-                    string[] parts = ship.Split(',');
-                    if (parts.Length == 4)
-                    {
-                        int row = int.Parse(parts[0]);
-                        char column = parts[1][0];
-                        ShipClass shipClass = (ShipClass)Enum.Parse(typeof(ShipClass), parts[2]);
-                        ShipDirection shipDirection = (ShipDirection)Enum.Parse(typeof(ShipDirection), parts[3]);
-
-                        ownBoard.MovePlaceShip(row, column, shipClass, shipDirection);
-
-                        shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
-                    }
-                }
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine($"\nError: {ex.Message}");
-            }
-        }
-
-        public override bool MakeMove()
-        {
-            Console.WriteLine("Opponent Board");
-            Console.WriteLine(opponentBoard.DrawHide());
-            try
-            {
-                bool isSuccses = false;
-                Console.WriteLine($"Player's move: {playerName}");
-
-                char column = readColumn();
-                int row = readRow();
-
-                if (opponentBoard.MoveCheck(row, column))
-                {
-                    isSuccses = opponentBoard.MoveShoot(row, column);
-                }
-
-                if (isSuccses)
-                    Console.WriteLine("Nice shoot!");
-                else
-                    Console.WriteLine("Mised!");
-
-                return isSuccses;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\nError: {ex.Message}");
-                return true;
-            }
-        }
-
-        public override void ClearBoard()
-        {
-            shipPlacement.Clear();
-            ownBoard.Clear();
         }
     }
 }
