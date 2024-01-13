@@ -10,6 +10,8 @@
         {
             this.player1 = player1;
             this.player2 = player2;
+
+            setupPlayers();
         }
 
         private void setupPlayers()
@@ -22,29 +24,47 @@
 
             player1.SetPlayerName(player1Name);
 
-            Console.Write("\n\t\t\tEnter Player 2 name: ");
-            string player2Name = Console.ReadLine();
+            if(player2.GetType() == typeof(ComputerPlayer))
+            {
+                player2.SetPlayerName("Strategist (computer)");
+            }
+            else
+            {
+                Console.Write("\n\t\t\tEnter Player 2 name: ");
+                string player2Name = Console.ReadLine();
 
-            if (string.IsNullOrEmpty(player2Name))
-                player2Name = "player2";
+                if (string.IsNullOrEmpty(player2Name))
+                    player2Name = "player2";
 
-            player2.SetPlayerName(player2Name);
+                player2.SetPlayerName(player2Name);
+            }
         }
 
         public Game InitializeGame()
         {
-            setupPlayers();
             Console.Clear();
 
             Console.WriteLine("The sea battle game has started!");
             Console.WriteLine($"Player 1: {player1.GetPlayerName()}");
             Console.WriteLine($"Player 2: {player2.GetPlayerName()}");
 
-            HumanPlayer human1 = new HumanPlayer(player1.GetPlayerName());
-            HumanPlayer human2 = new HumanPlayer(player2.GetPlayerName());
-            Game game = new Game(human1, human2);
+            if (player2.GetType() == typeof(ComputerPlayer))
+            {
+                HumanPlayer human1 = new HumanPlayer(player1.GetPlayerName());
+                ComputerPlayer computerPlayer = new ComputerPlayer();
 
-            return game;
+                Game game = new Game(human1, computerPlayer);
+
+                return game;
+            }
+            else
+            {
+                HumanPlayer human1 = new HumanPlayer(player1.GetPlayerName());
+                HumanPlayer human2 = new HumanPlayer(player2.GetPlayerName());
+                Game game = new Game(human1, human2);
+
+                return game;
+            }
         }
     }
 }
