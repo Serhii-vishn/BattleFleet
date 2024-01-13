@@ -13,7 +13,9 @@
         private readonly HumanPlayer player1;
         private readonly HumanPlayer player2;
 
-        private Player currentPlayer;
+        private readonly ComputerPlayer computerPlayer;
+
+        private HumanPlayer currentPlayer;
 
         private readonly ShipTemplateManager templateManager;
 
@@ -31,6 +33,58 @@
             currentPlayer = this.player1;
 
             this.templateManager = new ShipTemplateManager();
+        }
+
+        public Game(HumanPlayer player1, ComputerPlayer computerPlayer)
+        {
+            player1Board = new Board();
+            player2Board = new Board();
+
+            this.player1 = player1;
+            this.computerPlayer = computerPlayer;
+
+            this.player1.Initialize(player1Board, player2Board);
+            this.computerPlayer.Initialize(player2Board, player1Board);
+
+            currentPlayer = this.player1;
+
+            this.templateManager = new ShipTemplateManager();
+        }
+
+        public void StartGame()
+        {
+            placeShipsPhase();
+
+            SwitchTurn();
+
+            placeShipsPhase();
+
+            startBattle();
+        }
+
+        public void StartGameComputer()
+        {
+            placeShipsPhase();
+
+            computerPlayer.PlaceShips();
+
+            startBattle();
+        }
+
+        public void SwitchTurn()
+        {
+            currentPlayer = (currentPlayer == player1) ? player2 : player1;
+        }
+
+        public void EndGame()
+        {
+            currentPlayer = getWinner();
+            Console.WriteLine($"\t\t\tGame end. Winner: {currentPlayer.GetPlayerName()}" +
+                                "\n\t\t\tPlayers Boards:");
+
+            player1.DrawBoard();
+            player2.DrawBoard();
+            Console.ReadKey();
         }
 
         private void placeShipsPhase()
@@ -195,7 +249,7 @@
             Console.ReadKey();
         }
 
-        private Player getWinner()
+        private HumanPlayer getWinner()
         {
             return player1Board.GetAliveShipsCount() > 0 ? player1 : player2;
         }
@@ -233,33 +287,6 @@
                 Console.ReadKey();
                 Console.Clear();
             }
-        }
-
-        public void StartGame()
-        {
-            placeShipsPhase();
-
-            SwitchTurn();
-
-            placeShipsPhase();
-
-            startBattle();
-        }
-
-        public void SwitchTurn()
-        {
-            currentPlayer = (currentPlayer == player1) ? player2 : player1;
-        }
-
-        public void EndGame()
-        {
-            currentPlayer = getWinner();
-            Console.WriteLine($"\t\t\tGame end. Winner: {currentPlayer.GetPlayerName()}" +
-                                "\n\t\t\tPlayers Boards:");
-
-            player1.DrawBoard();
-            player2.DrawBoard();
-            Console.ReadKey();
         }
     }
 }
