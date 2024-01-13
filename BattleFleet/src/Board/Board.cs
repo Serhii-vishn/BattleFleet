@@ -220,7 +220,7 @@ namespace BattleFleet.src.PlayerBoard
                     {
                         if (numberShips >= 4)
                             throw new InvalidOperationException("Cannot place more than 4 ships of ONE_DECK class.");
-                        
+
                         break;
                     }
                 case ShipClass.TWO_DECK:
@@ -280,7 +280,7 @@ namespace BattleFleet.src.PlayerBoard
                     }
                 default:
                     throw new ArgumentException("Invalid value for a Direction ship.");
-            }           
+            }
         }
 
         private void markShipAreaCells(int row, int column, ShipClass shipClass, ShipDirection shipDirection, CellStatus newCellStatus)

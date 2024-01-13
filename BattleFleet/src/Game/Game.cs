@@ -90,7 +90,7 @@
                 Console.Write("\r\n\tEnter template name: ");
                 tmplName = Console.ReadLine();
 
-                if(!isNameExist(tmplName))
+                if (!isNameExist(tmplName))
                     Console.WriteLine("This name already exists, enter another one");
 
             } while (!isNameExist(tmplName));
@@ -214,7 +214,7 @@
             Console.WriteLine("Battle start. Now you have to shoot on the field");
 
             while (!isGameOver())
-            {                
+            {
                 bool correctShot;
                 do
                 {
@@ -225,7 +225,7 @@
                     correctShot = currentPlayer.MakeMove();
 
                     Console.ReadKey();
-                    Console.Clear();                   
+                    Console.Clear();
                 } while (correctShot);
 
                 SwitchTurn();
@@ -256,7 +256,7 @@
             currentPlayer = getWinner();
             Console.WriteLine($"\t\t\tGame end. Winner: {currentPlayer.GetPlayerName()}" +
                                 "\n\t\t\tPlayers Boards:");
-            
+
             player1.DrawBoard();
             player2.DrawBoard();
             Console.ReadKey();

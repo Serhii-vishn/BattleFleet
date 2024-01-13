@@ -94,7 +94,7 @@ namespace BattleFleet.src.Player
                 ShipClass shipClass = selectShip();
                 ShipDirection shipDirection = readShipDirection(shipClass);
 
-                if(ownBoard.MovePlaceShip(row, column, shipClass, shipDirection))
+                if (ownBoard.MovePlaceShip(row, column, shipClass, shipDirection))
                 {
                     shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
                     AvailableShips[shipClass]--;
@@ -106,10 +106,10 @@ namespace BattleFleet.src.Player
             }
         }
 
-        public override void PlaceShipsRandom() 
+        public override void PlaceShipsRandom()
         {
             Random random = new Random();
-            
+
             foreach (var ship in AvailableShips)
             {
                 ShipClass shipClass = ship.Key;
@@ -134,7 +134,7 @@ namespace BattleFleet.src.Player
         {
             try
             {
-                foreach (string ship in shipsTemplate) 
+                foreach (string ship in shipsTemplate)
                 {
                     string[] parts = ship.Split(',');
                     if (parts.Length == 4)
@@ -148,7 +148,7 @@ namespace BattleFleet.src.Player
 
                         shipPlacement.Add($"{row},{column},{shipClass},{shipDirection}");
                     }
-                }               
+                }
             }
             catch (ArgumentException ex)
             {
@@ -170,12 +170,12 @@ namespace BattleFleet.src.Player
 
                 if (opponentBoard.MoveCheck(row, column))
                 {
-                    isSuccses = opponentBoard.MoveShoot(row, column);                  
+                    isSuccses = opponentBoard.MoveShoot(row, column);
                 }
 
-                if(isSuccses)
+                if (isSuccses)
                     Console.WriteLine("Nice shoot!");
-                else 
+                else
                     Console.WriteLine("Mised!");
 
                 return isSuccses;

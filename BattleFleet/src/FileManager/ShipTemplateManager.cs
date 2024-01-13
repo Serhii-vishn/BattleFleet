@@ -5,13 +5,13 @@
         private readonly List<string> templates;
         private readonly string templatesFilePath;
 
-        public ShipTemplateManager():base()
+        public ShipTemplateManager() : base()
         {
             templatesFilePath = Path.Combine(savesFolderPath, "Templates.txt");
             templates = new List<string>();
 
-            ensureFileExists (templatesFilePath);
-            ensureFileNotEmpty (templatesFilePath);
+            ensureFileExists(templatesFilePath);
+            ensureFileNotEmpty(templatesFilePath);
         }
 
         public void SaveTemplate(List<string> template, string templateName)
@@ -96,9 +96,9 @@
             return template;
         }
 
-        private void ensureFileExists (string path)
+        private void ensureFileExists(string path)
         {
-            if (!File.Exists(path)) 
+            if (!File.Exists(path))
             {
                 using (File.Create(path)) { }
             }
@@ -107,7 +107,7 @@
         private void ensureFileNotEmpty(string filePath)
         {
             FileInfo fileInfo = new FileInfo(filePath);
-            if(fileInfo.Length == 0)
+            if (fileInfo.Length == 0)
             {
                 string tmplName = "Master";
                 templates.AddRange(new List<string>
