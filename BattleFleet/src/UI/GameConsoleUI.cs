@@ -1,11 +1,11 @@
 ﻿namespace BattleFleet.src.UI
 {
-    class GameConsoleUI
+    public static class GameConsoleUI
     {
-        public int consoleWidth { get; private set; }
-        public int consoleHeight { get; private set; }
+        private static int consoleWidth { get; set; }
+        private static int consoleHeight { get; set; }
 
-        public GameConsoleUI()
+        public static void Initialize()
         {
             Console.Title = "BattleFleet";
 
@@ -16,7 +16,7 @@
             Console.SetBufferSize(consoleWidth, consoleHeight);
         }
 
-        public void DisplayHeader()
+        public static void DisplayHeader()
         {
             Console.Clear();
 
@@ -47,7 +47,7 @@
         }
 
 
-        public void DisplayMainMenu()
+        public static void DisplayMainMenu()
         {
             Console.Clear();
 
@@ -60,7 +60,7 @@
             Console.Write("\t\t\tOption: ");
         }
 
-        public void DisplayRules()
+        public static void DisplayRules()
         {
             Console.Clear();
 
@@ -77,7 +77,7 @@
             Console.ReadKey();
         }
 
-        public void ExitGame()
+        public static void ExitGame()
         {
             Console.Clear();
 
