@@ -13,33 +13,6 @@
 
             setupPlayers();
         }
-
-        private void setupPlayers()
-        {
-            Console.Write("\n\n\t\t\tEnter Player 1 name: ");
-            string player1Name = Console.ReadLine();
-
-            if (string.IsNullOrEmpty(player1Name))
-                player1Name = "player1";
-
-            player1.SetPlayerName(player1Name);
-
-            if(player2.GetType() == typeof(ComputerPlayer))
-            {
-                player2.SetPlayerName("Strategist (computer)");
-            }
-            else
-            {
-                Console.Write("\n\t\t\tEnter Player 2 name: ");
-                string player2Name = Console.ReadLine();
-
-                if (string.IsNullOrEmpty(player2Name))
-                    player2Name = "player2";
-
-                player2.SetPlayerName(player2Name);
-            }
-        }
-
         public Game InitializeGame()
         {
             Console.Clear();
@@ -64,6 +37,32 @@
                 Game game = new Game(human1, human2);
 
                 return game;
+            }
+        }
+
+        private void setupPlayers()
+        {
+            Console.Write("\n\n\t\t\tEnter Player 1 name: ");
+            string player1Name = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(player1Name))
+                player1Name = "player1";
+
+            player1.SetPlayerName(player1Name);
+
+            if(player2.GetType() == typeof(ComputerPlayer))
+            {
+                player2.SetPlayerName("Strategist (computer)");
+            }
+            else
+            {
+                Console.Write("\n\t\t\tEnter Player 2 name: ");
+                string player2Name = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(player2Name))
+                    player2Name = "player2";
+
+                player2.SetPlayerName(player2Name);
             }
         }
     }
