@@ -79,11 +79,11 @@ namespace BattleFleet.src.Player
             }
         }
 
-        public override void ClearBoard()
-        {
-            shipPlacement.Clear();
-            ownBoard.Clear();
-        }
+        //public override void ClearBoard()
+        //{
+        //    shipPlacement.Clear();
+        //    ownBoard.Clear();
+        //}
 
         private void placeShipsManual()
         {

@@ -12,9 +12,9 @@ namespace BattleFleet.src.Player
 
         protected Player()
         {
-            this.playerName = "player";
-            this.ownBoard = new Board();
-            this.opponentBoard = new Board();
+            playerName = "player";
+            ownBoard = new Board();
+            opponentBoard = new Board();
 
             AvailableShips = new Dictionary<ShipClass, int>
             {
@@ -36,11 +36,12 @@ namespace BattleFleet.src.Player
             return playerName;
         }
 
-        public abstract void Initialize(Board ownBoard, Board opponentBoard);
-        public abstract void ClearBoard();
-        public abstract void DrawBoard();
-        public abstract void PlaceShips(PlacementMode placementMode);
-        public abstract bool MakeMove();
+        public void ClearBoard()
+        {
+            shipPlacement.Clear();
+            ownBoard.Clear();
+        }
+
         public int CountAvaliableShips()
         {
             int shipsCount = 0;
@@ -55,5 +56,10 @@ namespace BattleFleet.src.Player
         {
             return shipPlacement;
         }
+
+        public abstract void Initialize(Board ownBoard, Board opponentBoard);   
+        public abstract void DrawBoard();
+        public abstract void PlaceShips(PlacementMode placementMode);
+        public abstract bool MakeMove();
     }
 }

@@ -12,10 +12,11 @@ namespace BattleFleet.src.Player
             this.playerName = playerName;
         }
 
-        public override void ClearBoard()
-        {
-            throw new NotImplementedException();
-        }
+        //public override void ClearBoard()
+        //{
+        //    shipPlacement.Clear();
+        //    ownBoard.Clear();
+        //}
 
         public override void DrawBoard()
         {
