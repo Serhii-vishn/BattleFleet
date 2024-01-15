@@ -26,7 +26,26 @@ namespace BattleFleet.src.Player
 
         public override bool MakeMove()
         {
-            return false;
+            Random random = new Random();
+
+            bool isSuccses = false;
+            do
+            {
+                char randomColumn = (char)random.Next(65, 75);
+                int randomRow = random.Next(0, 10);
+
+                try
+                {
+                    if (opponentBoard.MoveCheck(randomRow, randomColumn))
+                        return isSuccses = opponentBoard.MoveShoot(randomRow, randomColumn);
+                }
+                catch
+                {
+                    isSuccses = false;
+                }
+            } while (isSuccses);
+
+            return isSuccses;
         }
 
         public override void PlaceShips(PlacementMode placementMode)

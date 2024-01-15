@@ -46,7 +46,7 @@
             this.player1.Initialize(player1Board, player2Board);
             this.computerPlayer.Initialize(player2Board, player1Board);
 
-            currentPlayer = this.player1;
+            currentPlayer = this.computerPlayer;
 
             this.templateManager = new ShipTemplateManager();
         }
@@ -62,18 +62,16 @@
             startBattle();
         }
 
-        public void StartGameComputer()
-        {
-            placeShipsPhase();
-
-            computerPlayer.PlaceShips(PlacementMode.RANDOM);
-
-            startBattleComputer();
-        }
-
         public void SwitchTurn()
         {
-            currentPlayer = (currentPlayer == player1) ? player2 : player1;
+            if (currentPlayer == player1 && computerPlayer is null)
+                currentPlayer = player2;
+            else if (currentPlayer == player2 && computerPlayer is null)
+                currentPlayer = player1;
+            else if (currentPlayer == player1 && player2 is null)
+                currentPlayer = computerPlayer;
+            else if (currentPlayer == computerPlayer)
+                currentPlayer = player1;
         }
 
         public void EndGame()
@@ -89,40 +87,47 @@
 
         private void placeShipsPhase()
         {
-            bool keyMenu = true;
-
-            do
+            if (currentPlayer == computerPlayer)
             {
-                GameConsoleUI.DisplayPlaceShipsMenu(currentPlayer.GetPlayerName());
-                char option = Console.ReadKey().KeyChar;
+                currentPlayer.PlaceShips(PlacementMode.RANDOM);
+            }
+            else
+            {
+                bool keyMenu = true;
 
-                switch (option)
+                do
                 {
-                    case '1':
-                        {
-                            templatesPlacementShips();
-                            keyMenu = false;
-                            break;
-                        }
-                    case '2':
-                        {
-                            randomPlacementShips();
-                            keyMenu = false;
-                            break;
-                        }
-                    case '3':
-                        {
-                            manualPlacementShips();
-                            keyMenu = false;
-                            break;
-                        }
-                    default:
-                        {
-                            Console.Write("\n\t\t\tInvalid option, try again...");
-                            break;
-                        }
-                }
-            } while (keyMenu);
+                    GameConsoleUI.DisplayPlaceShipsMenu(currentPlayer.GetPlayerName());
+                    char option = Console.ReadKey().KeyChar;
+
+                    switch (option)
+                    {
+                        case '1':
+                            {
+                                templatesPlacementShips();
+                                keyMenu = false;
+                                break;
+                            }
+                        case '2':
+                            {
+                                randomPlacementShips();
+                                keyMenu = false;
+                                break;
+                            }
+                        case '3':
+                            {
+                                manualPlacementShips();
+                                keyMenu = false;
+                                break;
+                            }
+                        default:
+                            {
+                                Console.Write("\n\t\t\tInvalid option, try again...");
+                                break;
+                            }
+                    }
+                } while (keyMenu);
+            }
         }
 
         private bool isNameExist(string name)
@@ -265,11 +270,16 @@
                     if (isGameOver())
                         break;
 
-                    currentPlayer.DrawBoard();
+                    if (currentPlayer != computerPlayer)
+                        currentPlayer.DrawBoard();
+
                     correctShot = currentPlayer.MakeMove();
 
-                    Console.ReadKey();
-                    Console.Clear();
+                    if (currentPlayer != computerPlayer)
+                    {
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
                 } while (correctShot);
 
                 SwitchTurn();
@@ -277,35 +287,6 @@
                 Console.ReadKey();
                 Console.Clear();
             }
-        }
-       
-        private void startBattleComputer()
-        {
-            //TODO implement game abily and play computer vs player
-            Console.Clear();
-            Console.WriteLine("Battle start. Now you have to shoot on the field");
-
-            while (!isGameOver())
-            {
-                bool correctShot;
-                do
-                {
-                    if (isGameOver())
-                        break;
-
-                    currentPlayer.DrawBoard();
-                    correctShot = currentPlayer.MakeMove();
-
-                    Console.ReadKey();
-                    Console.Clear();
-                } while (correctShot);
-
-                //SwitchTurn();
-
-                Console.ReadKey();
-                Console.Clear();
-            }
-
         }
     }
 }

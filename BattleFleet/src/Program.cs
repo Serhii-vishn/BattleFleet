@@ -46,7 +46,7 @@ internal class Program
                         
                         Game game = gameManager.InitializeGame();
 
-                        game.StartGameComputer();
+                        game.StartGame();
 
                         //game.EndGame();
 
