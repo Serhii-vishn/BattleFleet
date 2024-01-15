@@ -15,7 +15,7 @@
 
         private readonly ComputerPlayer computerPlayer;
 
-        private HumanPlayer currentPlayer;
+        private Player currentPlayer;
 
         private readonly ShipTemplateManager templateManager;
 
@@ -66,7 +66,7 @@
         {
             placeShipsPhase();
 
-            computerPlayer.PlaceShips();
+            //computerPlayer.PlaceShips();
 
             startBattleComputer();
         }
@@ -158,30 +158,20 @@
             do
             {
                 Console.Clear();
-                currentPlayer.ClearBoard();
-
-                Console.WriteLine("\n\t\t\tList of all templates:");
-                var templNames = templateManager.GetTemplateNames();
-                int i = 0;
-                foreach (var name in templNames)
+      
+                try
                 {
-                    i++;
-                    Console.WriteLine($"\t\t\t\t{i}. {name}");
+                    currentPlayer.ClearBoard();
+
+                    currentPlayer.PlaceShips(PlacementMode.TEMPLATE);
+
+                    currentPlayer.DrawBoard();
                 }
-
-                Console.Write("\t\t\tSelect by number: ");
-                if (!int.TryParse(Console.ReadLine(), out int templNumber) || templNumber < 1 || templNumber > templNames.Count)
+                catch (ArgumentException ex)
                 {
-                    Console.WriteLine("\t\tInvalid data. Please enter a valid template number.");
-                    Console.ReadKey();
+                    Console.WriteLine($"\nError: {ex.Message}");
                     continue;
                 }
-
-                var template = templateManager.GetTemplateByName(templNames[templNumber - 1]);
-
-                currentPlayer.PlaceShipsTemplate(template);
-
-                currentPlayer.DrawBoard();
 
                 Console.Write("\nUse this template (Y/N): ");
             } while (Console.ReadKey().Key != ConsoleKey.Y);
@@ -195,7 +185,7 @@
                 Console.Clear();
                 currentPlayer.ClearBoard();
 
-                currentPlayer.PlaceShipsRandom();
+                currentPlayer.PlaceShips(PlacementMode.RANDOM);
 
                 Console.Clear();
                 currentPlayer.DrawBoard();
@@ -219,7 +209,7 @@
 
                 try
                 {
-                    currentPlayer.PlaceShips();
+                    currentPlayer.PlaceShips(PlacementMode.MANUAL);
                 }
                 catch (ArgumentException ex)
                 {
@@ -292,8 +282,29 @@
         private void startBattleComputer()
         {
             //TODO implement game abily and play computer vs player
-            Console.WriteLine("Battle start");
-            Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("Battle start. Now you have to shoot on the field");
+
+            while (!isGameOver())
+            {
+                bool correctShot;
+                do
+                {
+                    if (isGameOver())
+                        break;
+
+                    currentPlayer.DrawBoard();
+                    correctShot = currentPlayer.MakeMove();
+
+                    Console.ReadKey();
+                    Console.Clear();
+                } while (correctShot);
+
+                SwitchTurn();
+
+                Console.ReadKey();
+                Console.Clear();
+            }
 
         }
     }
