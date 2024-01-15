@@ -13,6 +13,8 @@
         private readonly HumanPlayer player1;
         private readonly HumanPlayer player2;
 
+        private readonly ComputerPlayer computerPlayer;
+
         private Player currentPlayer;
 
         private readonly ShipTemplateManager templateManager;
@@ -33,42 +35,99 @@
             this.templateManager = new ShipTemplateManager();
         }
 
+        public Game(HumanPlayer player1, ComputerPlayer computerPlayer)
+        {
+            player1Board = new Board();
+            player2Board = new Board();
+
+            this.player1 = player1;
+            this.computerPlayer = computerPlayer;
+
+            this.player1.Initialize(player1Board, player2Board);
+            this.computerPlayer.Initialize(player2Board, player1Board);
+
+            currentPlayer = this.computerPlayer;
+
+            this.templateManager = new ShipTemplateManager();
+        }
+
+        public void StartGame()
+        {
+            placeShipsPhase();
+
+            SwitchTurn();
+
+            placeShipsPhase();
+
+            startBattle();
+        }
+
+        public void SwitchTurn()
+        {
+            if (currentPlayer == player1 && computerPlayer is null)
+                currentPlayer = player2;
+            else if (currentPlayer == player2 && computerPlayer is null)
+                currentPlayer = player1;
+            else if (currentPlayer == player1 && player2 is null)
+                currentPlayer = computerPlayer;
+            else if (currentPlayer == computerPlayer)
+                currentPlayer = player1;
+        }
+
+        public void EndGame()
+        {
+            currentPlayer = getWinner();
+            Console.WriteLine($"\t\t\tGame end. Winner: {currentPlayer.GetPlayerName()}" +
+                                "\n\t\t\tPlayers Boards:");
+
+            player1.DrawBoard();
+            player2.DrawBoard();
+            Console.ReadKey();
+        }
+
         private void placeShipsPhase()
         {
-            bool keyMenu = true;
-
-            do
+            if (currentPlayer == computerPlayer)
             {
-                GameConsoleUI.DisplayPlaceShipsMenu(currentPlayer.GetPlayerName());
-                char option = Console.ReadKey().KeyChar;
+                currentPlayer.PlaceShips(PlacementMode.RANDOM);
+            }
+            else
+            {
+                bool keyMenu = true;
 
-                switch (option)
+                do
                 {
-                    case '1':
-                        {
-                            templatesPlacementShips();
-                            keyMenu = false;
-                            break;
-                        }
-                    case '2':
-                        {
-                            randomPlacementShips();
-                            keyMenu = false;
-                            break;
-                        }
-                    case '3':
-                        {
-                            manualPlacementShips();
-                            keyMenu = false;
-                            break;
-                        }
-                    default:
-                        {
-                            Console.Write("\n\t\t\tInvalid option, try again...");
-                            break;
-                        }
-                }
-            } while (keyMenu);
+                    GameConsoleUI.DisplayPlaceShipsMenu(currentPlayer.GetPlayerName());
+                    char option = Console.ReadKey().KeyChar;
+
+                    switch (option)
+                    {
+                        case '1':
+                            {
+                                templatesPlacementShips();
+                                keyMenu = false;
+                                break;
+                            }
+                        case '2':
+                            {
+                                randomPlacementShips();
+                                keyMenu = false;
+                                break;
+                            }
+                        case '3':
+                            {
+                                manualPlacementShips();
+                                keyMenu = false;
+                                break;
+                            }
+                        default:
+                            {
+                                Console.Write("\n\t\t\tInvalid option, try again...");
+                                break;
+                            }
+                    }
+                } while (keyMenu);
+            }
         }
 
         private bool isNameExist(string name)
@@ -104,30 +163,20 @@
             do
             {
                 Console.Clear();
-                currentPlayer.ClearBoard();
-
-                Console.WriteLine("\n\t\t\tList of all templates:");
-                var templNames = templateManager.GetTemplateNames();
-                int i = 0;
-                foreach (var name in templNames)
+      
+                try
                 {
-                    i++;
-                    Console.WriteLine($"\t\t\t\t{i}. {name}");
+                    currentPlayer.ClearBoard();
+
+                    currentPlayer.PlaceShips(PlacementMode.TEMPLATE);
+
+                    currentPlayer.DrawBoard();
                 }
-
-                Console.Write("\t\t\tSelect by number: ");
-                if (!int.TryParse(Console.ReadLine(), out int templNumber) || templNumber < 1 || templNumber > templNames.Count)
+                catch (ArgumentException ex)
                 {
-                    Console.WriteLine("\t\tInvalid data. Please enter a valid template number.");
-                    Console.ReadKey();
+                    Console.WriteLine($"\nError: {ex.Message}");
                     continue;
                 }
-
-                var template = templateManager.GetTemplateByName(templNames[templNumber - 1]);
-
-                currentPlayer.PlaceShipsTemplate(template);
-
-                currentPlayer.DrawBoard();
 
                 Console.Write("\nUse this template (Y/N): ");
             } while (Console.ReadKey().Key != ConsoleKey.Y);
@@ -141,7 +190,7 @@
                 Console.Clear();
                 currentPlayer.ClearBoard();
 
-                currentPlayer.PlaceShipsRandom();
+                currentPlayer.PlaceShips(PlacementMode.RANDOM);
 
                 Console.Clear();
                 currentPlayer.DrawBoard();
@@ -165,7 +214,7 @@
 
                 try
                 {
-                    currentPlayer.PlaceShips();
+                    currentPlayer.PlaceShips(PlacementMode.MANUAL);
                 }
                 catch (ArgumentException ex)
                 {
@@ -197,7 +246,10 @@
 
         private Player getWinner()
         {
-            return player1Board.GetAliveShipsCount() > 0 ? player1 : player2;
+            if (computerPlayer is null)
+                return player1Board.GetAliveShipsCount() > 0 ? player1 : player2;
+            else
+                return player1Board.GetAliveShipsCount() > 0 ? player1 : computerPlayer;
         }
 
         private bool isGameOver()
@@ -217,49 +269,30 @@
             {
                 bool correctShot;
                 do
-                {
+                {                  
                     if (isGameOver())
                         break;
 
-                    currentPlayer.DrawBoard();
+                    if (currentPlayer != computerPlayer)
+                        currentPlayer.DrawBoard();
+
                     correctShot = currentPlayer.MakeMove();
 
-                    Console.ReadKey();
-                    Console.Clear();
+                    if (currentPlayer != computerPlayer)
+                    {
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
                 } while (correctShot);
 
                 SwitchTurn();
 
-                Console.ReadKey();
-                Console.Clear();
+                if (computerPlayer is null)
+                {
+                    Console.ReadKey();
+                    Console.Clear();
+                }                
             }
-        }
-
-        public void StartGame()
-        {
-            placeShipsPhase();
-
-            SwitchTurn();
-
-            placeShipsPhase();
-
-            startBattle();
-        }
-
-        public void SwitchTurn()
-        {
-            currentPlayer = (currentPlayer == player1) ? player2 : player1;
-        }
-
-        public void EndGame()
-        {
-            currentPlayer = getWinner();
-            Console.WriteLine($"\t\t\tGame end. Winner: {currentPlayer.GetPlayerName()}" +
-                                "\n\t\t\tPlayers Boards:");
-
-            player1.DrawBoard();
-            player2.DrawBoard();
-            Console.ReadKey();
         }
     }
 }

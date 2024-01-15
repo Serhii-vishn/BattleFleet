@@ -2,63 +2,80 @@
 using BattleFleet.src.Player;
 using BattleFleet.src.UI;
 
-internal class Program
+namespace BattleFleet
 {
-    public static void Main()
+    internal class Program
     {
-        GameConsoleUI.Initialize();
-        GameConsoleUI.DisplayHeader(); 
-
-        bool keyMainMenu = true;
-
-        do
+        public static void Main()
         {
-            GameConsoleUI.DisplayMainMenu();
-            char option = Console.ReadKey().KeyChar;
+            GameConsoleUI.Initialize();
+            GameConsoleUI.DisplayHeader();
 
-            switch (option)
+            bool keyMainMenu = true;
+
+            do
             {
-                case '1':
-                    {
-                        Console.Clear();
-                        HumanPlayer player1 = new HumanPlayer();
-                        HumanPlayer player2 = new HumanPlayer();
+                GameConsoleUI.DisplayMainMenu();
+                char option = Console.ReadKey().KeyChar;
 
-                        GameManager gameManager = new GameManager(player1, player2);
-                        Game game = gameManager.InitializeGame();
+                switch (option)
+                {
+                    case '1':
+                        {
+                            Console.Clear();
+                            HumanPlayer player1 = new HumanPlayer();
+                            HumanPlayer player2 = new HumanPlayer();
 
-                        game.StartGame();
+                            GameManager gameManager = new GameManager(player1, player2);
+                            Game game = gameManager.InitializeGame();
 
-                        game.EndGame();
+                            game.StartGame();
 
-                        GameConsoleUI.ExitGame();
-                        keyMainMenu = false;
-                        break;
-                    }
-                case '2':
-                    {
-                        Console.WriteLine("\nin development...");
-                        break;
-                    }
-                case '3':
-                    {
-                        Console.WriteLine("\nin development...");
-                        break;
-                    }
-                case '4':
-                    {
-                        GameConsoleUI.DisplayRules();
-                        break;
-                    }
-                case '0':
-                    {
-                        GameConsoleUI.ExitGame();
-                        keyMainMenu = false;
-                        break;
-                    }
-            }
-        } while (keyMainMenu);
+                            game.EndGame();
 
-        Console.ReadKey();
+                            GameConsoleUI.ExitGame();
+                            keyMainMenu = false;
+                            break;
+                        }
+                    case '2':
+                        {
+                            Console.Clear();
+
+                            HumanPlayer humanPlayer = new HumanPlayer();
+                            ComputerPlayer computerPlayer = new ComputerPlayer();
+
+                            GameManager gameManager = new GameManager(humanPlayer, computerPlayer);
+
+                            Game game = gameManager.InitializeGame();
+
+                            game.StartGame();
+
+                            game.EndGame();
+
+                            GameConsoleUI.ExitGame();
+                            keyMainMenu = false;
+                            break;
+                        }
+                    case '3':
+                        {
+                            Console.WriteLine("\nin development...");
+                            break;
+                        }
+                    case '4':
+                        {
+                            GameConsoleUI.DisplayRules();
+                            break;
+                        }
+                    case '0':
+                        {
+                            GameConsoleUI.ExitGame();
+                            keyMainMenu = false;
+                            break;
+                        }
+                }
+            } while (keyMainMenu);
+
+            Console.ReadKey();
+        }
     }
 }
