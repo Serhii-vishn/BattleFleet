@@ -244,9 +244,12 @@
             Console.ReadKey();
         }
 
-        private HumanPlayer getWinner()
+        private Player getWinner()
         {
-            return player1Board.GetAliveShipsCount() > 0 ? player1 : player2;
+            if (computerPlayer is null)
+                return player1Board.GetAliveShipsCount() > 0 ? player1 : player2;
+            else
+                return player1Board.GetAliveShipsCount() > 0 ? player1 : computerPlayer;
         }
 
         private bool isGameOver()
@@ -266,7 +269,7 @@
             {
                 bool correctShot;
                 do
-                {
+                {                  
                     if (isGameOver())
                         break;
 
@@ -284,8 +287,11 @@
 
                 SwitchTurn();
 
-                Console.ReadKey();
-                Console.Clear();
+                if (computerPlayer is null)
+                {
+                    Console.ReadKey();
+                    Console.Clear();
+                }                
             }
         }
     }
