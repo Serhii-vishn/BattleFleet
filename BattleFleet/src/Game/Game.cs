@@ -66,7 +66,7 @@
         {
             placeShipsPhase();
 
-            //computerPlayer.PlaceShips();
+            computerPlayer.PlaceShips(PlacementMode.RANDOM);
 
             startBattleComputer();
         }
@@ -300,7 +300,7 @@
                     Console.Clear();
                 } while (correctShot);
 
-                SwitchTurn();
+                //SwitchTurn();
 
                 Console.ReadKey();
                 Console.Clear();

@@ -79,12 +79,6 @@ namespace BattleFleet.src.Player
             }
         }
 
-        //public override void ClearBoard()
-        //{
-        //    shipPlacement.Clear();
-        //    ownBoard.Clear();
-        //}
-
         private void placeShipsManual()
         {
             char column = readColumn();

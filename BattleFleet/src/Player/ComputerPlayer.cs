@@ -12,12 +12,6 @@ namespace BattleFleet.src.Player
             this.playerName = playerName;
         }
 
-        //public override void ClearBoard()
-        //{
-        //    shipPlacement.Clear();
-        //    ownBoard.Clear();
-        //}
-
         public override void DrawBoard()
         {
             Console.WriteLine($"Player's board: {playerName}");
