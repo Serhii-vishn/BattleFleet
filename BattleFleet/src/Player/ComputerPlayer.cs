@@ -26,6 +26,7 @@ namespace BattleFleet.src.Player
 
         public override bool MakeMove()
         {
+            //TODO fix if succses rand rzdom
             Random random = new Random();
 
             bool isSuccses = false;
