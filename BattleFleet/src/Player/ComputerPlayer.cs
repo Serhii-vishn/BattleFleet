@@ -12,7 +12,7 @@ namespace BattleFleet.src.Player
             this.playerName = playerName;
         }
 
-        public void ClearBoard()
+        public override void ClearBoard()
         {
             throw new NotImplementedException();
         }
@@ -34,7 +34,7 @@ namespace BattleFleet.src.Player
             return false;
         }
 
-        public override void PlaceShips()
+        public override void PlaceShips(PlacementMode placementMode)
         {
             Random random = new Random();
 
