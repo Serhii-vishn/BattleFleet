@@ -347,7 +347,7 @@ namespace BattleFleet.src.PlayerBoard
                                 if (ship.IsSunk())
                                 {
                                     int columnIn = verifyPosition(row, shipColumn);
-                                    markShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.HIT);
+                                    markShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.SANK_FORBIDEN);
                                     return true;
                                 }
                             }
@@ -365,7 +365,7 @@ namespace BattleFleet.src.PlayerBoard
                                 if (ship.IsSunk())
                                 {
                                     int columnIn = verifyPosition(row, shipColumn);
-                                    markShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.HIT);
+                                    markShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.SANK_FORBIDEN);
                                     return true;
                                 }
                             }

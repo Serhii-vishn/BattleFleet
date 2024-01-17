@@ -51,13 +51,16 @@
                     cellCode = $" ■ |";
                     break;
                 case CellStatus.HIT:
-                    cellCode = $" X |";
+                    cellCode = $" \u001b[31mX\u001b[0m |";
                     break;
                 case CellStatus.MISS:
-                    cellCode = $" - |";
+                    cellCode = $" \u001b[36m-\u001b[0m |";
                     break;
                 case CellStatus.FORBIDDEN:
                     cellCode = $"   |";
+                    break;
+                case CellStatus.SANK_FORBIDEN:
+                    cellCode = $" \u001b[37mX\u001b[0m |";
                     break;
                 default:
                     break;

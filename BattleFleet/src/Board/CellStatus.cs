@@ -6,6 +6,7 @@
         OCCUPIED,
         HIT,
         MISS,
-        FORBIDDEN
+        FORBIDDEN,
+        SANK_FORBIDEN
     }
 }
