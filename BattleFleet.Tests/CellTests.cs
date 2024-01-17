@@ -5,7 +5,7 @@ namespace BattleFleet.Tests
     [TestClass]
     public sealed class CellTests
     {
-        private readonly Cell cell = new Cell();
+        private readonly Cell cell = new();
 
         [TestMethod]
         public void CellStatus_ContainsExpectedValues()

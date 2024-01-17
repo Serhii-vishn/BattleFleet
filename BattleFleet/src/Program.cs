@@ -23,10 +23,10 @@ namespace BattleFleet
                     case '1':
                         {
                             Console.Clear();
-                            HumanPlayer player1 = new HumanPlayer();
-                            HumanPlayer player2 = new HumanPlayer();
+                            HumanPlayer player1 = new();
+                            HumanPlayer player2 = new();
 
-                            GameManager gameManager = new GameManager(player1, player2);
+                            GameManager gameManager = new(player1, player2);
                             Game game = gameManager.InitializeGame();
 
                             game.StartGame();
@@ -41,10 +41,10 @@ namespace BattleFleet
                         {
                             Console.Clear();
 
-                            HumanPlayer humanPlayer = new HumanPlayer();
-                            ComputerPlayer computerPlayer = new ComputerPlayer();
+                            HumanPlayer humanPlayer = new();
+                            ComputerPlayer computerPlayer = new();
 
-                            GameManager gameManager = new GameManager(humanPlayer, computerPlayer);
+                            GameManager gameManager = new(humanPlayer, computerPlayer);
 
                             Game game = gameManager.InitializeGame();
 

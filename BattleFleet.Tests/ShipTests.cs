@@ -58,9 +58,9 @@ namespace BattleFleet.Tests
         {
             ShipClass shipClass = ShipClass.FIVE_DECK;
             ShipDirection shipDirection = ShipDirection.HORIZONTAL;
-            Dictionary<char, int> position = new Dictionary<char, int> { { 'A', 5 }};
+            var position = new Dictionary<char, int> { { 'A', 5 }};
 
-            Ship ship = new Ship(shipClass, position, shipDirection);
+            Ship ship = new(shipClass, position, shipDirection);
 
 
             Assert.AreEqual(shipClass, ship.GetShipClass());
@@ -72,7 +72,7 @@ namespace BattleFleet.Tests
         [TestMethod]
         public void ShipHitReducesHealthIsSunk()
         {
-            Ship ship = new Ship(ShipClass.ONE_DECK, new Dictionary<char, int> { { 'A', 0 } }, ShipDirection.VERTICAL);
+            Ship ship = new(ShipClass.ONE_DECK, new Dictionary<char, int> { { 'A', 0 } }, ShipDirection.VERTICAL);
 
             ship.Hit();
 
@@ -82,8 +82,8 @@ namespace BattleFleet.Tests
         [TestMethod]
         public void ShipSetPositionUpdatesPosition()
         {
-            Ship ship = new Ship(ShipClass.TWO_DECK, new Dictionary<char, int> { { 'D', 2 }}, ShipDirection.HORIZONTAL);
-            Dictionary<char, int> newPosition = new Dictionary<char, int> { { 'B', 1 }};
+            Ship ship = new(ShipClass.TWO_DECK, new Dictionary<char, int> { { 'D', 2 }}, ShipDirection.HORIZONTAL);
+            var newPosition = new Dictionary<char, int> { { 'B', 1 }};
 
             ship.SetPosition(newPosition);
 

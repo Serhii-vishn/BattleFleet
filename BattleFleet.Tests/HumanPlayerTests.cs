@@ -9,7 +9,7 @@ namespace BattleFleet.Tests
         [TestMethod]
         public void DefaultConstructor_InitializesCorrectly()
         {
-            HumanPlayer player = new HumanPlayer();
+            HumanPlayer player = new();
 
             Assert.AreEqual("player", player.GetPlayerName());
             Assert.IsNotNull(player.AvailableShips);
@@ -25,7 +25,7 @@ namespace BattleFleet.Tests
         [TestMethod]
         public void Constructor_WithPlayerName_InitializesCorrectly()
         {
-            HumanPlayer player = new HumanPlayer("TestPlayer");
+            HumanPlayer player = new("TestPlayer");
 
             Assert.AreEqual("TestPlayer", player.GetPlayerName());
         }

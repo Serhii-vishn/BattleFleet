@@ -143,19 +143,19 @@
 
         private void saveTemlateFile()
         {
-            string tmplName = string.Empty;
+            string templateName;
             do
             {
                 Console.Write("\r\n\tEnter template name: ");
-                tmplName = Console.ReadLine();
+                templateName = Console.ReadLine();
 
-                if (!isNameExist(tmplName))
+                if (!isNameExist(templateName))
                     Console.WriteLine("This name already exists, enter another one");
 
-            } while (!isNameExist(tmplName));
+            } while (!isNameExist(templateName));
 
             var template = currentPlayer.GetShipPlacement();
-            templateManager.SaveTemplate(template, tmplName);
+            templateManager.SaveTemplate(template, templateName);
         }
 
         private void templatesPlacementShips()

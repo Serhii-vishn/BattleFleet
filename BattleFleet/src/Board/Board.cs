@@ -20,7 +20,7 @@ namespace BattleFleet.src.PlayerBoard
         public string Draw()
         {
             const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
-            StringBuilder board = new StringBuilder();
+            StringBuilder board = new();
 
             board.Append(" X |");
             board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));
@@ -39,7 +39,7 @@ namespace BattleFleet.src.PlayerBoard
         public string DrawHide()
         {
             const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
-            StringBuilder board = new StringBuilder();
+            StringBuilder board = new();
 
             board.Append(" X |");
             board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));

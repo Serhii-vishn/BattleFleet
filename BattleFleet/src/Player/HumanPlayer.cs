@@ -95,7 +95,7 @@ namespace BattleFleet.src.Player
 
         private void placeShipsRandom()
         {
-            Random random = new Random();
+            Random random = new();
 
             foreach (var ship in AvailableShips)
             {
@@ -153,7 +153,7 @@ namespace BattleFleet.src.Player
             }
         }
 
-        private char readColumn()
+        private static char readColumn()
         {
             Console.Write("Enter column (A-J): ");
             char column = char.ToUpper(Console.ReadKey().KeyChar);
@@ -164,7 +164,7 @@ namespace BattleFleet.src.Player
             return column;
         }
 
-        private int readRow()
+        private static int readRow()
         {
             Console.Write(" row (0-9): ");
 
@@ -196,7 +196,7 @@ namespace BattleFleet.src.Player
             return selectedShipClass;
         }
 
-        private ShipDirection readShipDirection(ShipClass shipClass)
+        private static ShipDirection readShipDirection(ShipClass shipClass)
         {
             if (shipClass == ShipClass.ONE_DECK)
                 return ShipDirection.HORIZONTAL;

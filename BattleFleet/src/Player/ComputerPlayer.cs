@@ -31,7 +31,7 @@ namespace BattleFleet.src.Player
 
         public override bool MakeMove()
         {
-            Random random = new Random();
+            Random random = new();
 
             bool isSuccses = false;
 
@@ -93,7 +93,7 @@ namespace BattleFleet.src.Player
 
         public override void PlaceShips(PlacementMode placementMode)
         {
-            Random random = new Random();
+            Random random = new();
 
             foreach (var ship in AvailableShips)
             {
