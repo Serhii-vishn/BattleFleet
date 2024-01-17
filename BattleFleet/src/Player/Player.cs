@@ -2,7 +2,7 @@
 
 namespace BattleFleet.src.Player
 {
-    abstract class Player
+    public abstract class Player
     {
         protected string playerName;
         protected Board ownBoard;
