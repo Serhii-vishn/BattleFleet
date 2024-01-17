@@ -8,7 +8,7 @@ namespace BattleFleet.Tests
         private readonly Cell cell = new Cell();
 
         [TestMethod]
-        public void Enum_ContainsExpectedValues()
+        public void CellStatus_ContainsExpectedValues()
         {
             var expectedValues = new CellStatus[]
             {
