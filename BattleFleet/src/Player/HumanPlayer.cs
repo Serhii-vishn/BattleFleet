@@ -3,7 +3,7 @@ using BattleFleet.src.PlayerBoard;
 
 namespace BattleFleet.src.Player
 {
-    class HumanPlayer : Player
+    public class HumanPlayer : Player
     {
         public HumanPlayer() : base() { }
 
