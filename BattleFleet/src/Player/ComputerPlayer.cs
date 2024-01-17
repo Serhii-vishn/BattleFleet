@@ -1,14 +1,16 @@
 ﻿using BattleFleet.src.PlayerBoard;
-using System;
 
 namespace BattleFleet.src.Player
 {
     class ComputerPlayer : Player
     {
+        private Dictionary<char, int> succesShots;
+        
         public ComputerPlayer() : base() { }
 
         public ComputerPlayer(string playerName)
         {
+            succesShots = new Dictionary<char, int>();
             this.playerName = playerName;
         }
 
@@ -26,26 +28,63 @@ namespace BattleFleet.src.Player
 
         public override bool MakeMove()
         {
-            //TODO fix if succses rand rzdom
             Random random = new Random();
 
             bool isSuccses = false;
+
+            char randomColumn;
+            int randomRow;
+
             do
             {
-                char randomColumn = (char)random.Next(65, 75);
-                int randomRow = random.Next(0, 10);
+                if (succesShots.Count > 0)
+                {
+                    var lastShot = succesShots.Last();
+
+                    randomColumn = lastShot.Key;
+                    randomRow = lastShot.Value;
+
+                    int direction = random.Next(0, 4);
+
+                    switch (direction)
+                    {
+                        case 0:
+                            randomRow--;
+                            break;
+                        case 1:
+                            randomRow++;
+                            break;
+                        case 2:
+                            randomColumn--;
+                            break;
+                        case 3:
+                            randomColumn++;
+                            break;
+                    }
+                }
+                else
+                {
+                    randomColumn = (char)random.Next(65, 75);
+                    randomRow = random.Next(0, 10);
+                }
 
                 try
                 {
                     if (opponentBoard.MoveCheck(randomRow, randomColumn))
-                        return isSuccses = opponentBoard.MoveShoot(randomRow, randomColumn);
+                    {
+                        isSuccses = opponentBoard.MoveShoot(randomRow, randomColumn);
+
+                        if (isSuccses)
+                            succesShots.Add(randomColumn, randomRow);
+                    }
                 }
                 catch
                 {
-                    isSuccses = false;
+                    isSuccses = true;
+                    succesShots.Clear();
                 }
             } while (isSuccses);
-
+        
             return isSuccses;
         }
 
