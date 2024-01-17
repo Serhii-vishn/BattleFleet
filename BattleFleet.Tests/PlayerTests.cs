@@ -1,12 +1,24 @@
 ﻿using BattleFleet.src.Player;
 using BattleFleet.src.PlayerBoard;
-using System.Numerics;
 
 namespace BattleFleet.Tests
 {
     [TestClass]
     public sealed class PlayerTests
     {
+        [TestMethod]
+        public void ShipClass_ContainsExpectedValues()
+        {
+            var expectedValues = new PlacementMode[]
+            {
+                PlacementMode.RANDOM,
+                PlacementMode.MANUAL,
+                PlacementMode.TEMPLATE
+            };
+
+            CollectionAssert.AreEqual(expectedValues, Enum.GetValues(typeof(PlacementMode)));
+        }
+
         [TestMethod]
         public void DefaultConstructor_InitializesCorrectly()
         {
