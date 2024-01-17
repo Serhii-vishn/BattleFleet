@@ -8,6 +8,22 @@ namespace BattleFleet.Tests
         private readonly Cell cell = new Cell();
 
         [TestMethod]
+        public void Enum_ContainsExpectedValues()
+        {
+            var expectedValues = new CellStatus[]
+            {
+                CellStatus.EMPTY,
+                CellStatus.OCCUPIED,
+                CellStatus.HIT,
+                CellStatus.MISS,
+                CellStatus.FORBIDDEN,
+                CellStatus.SANK_FORBIDEN
+            };
+
+            CollectionAssert.AreEqual(expectedValues, Enum.GetValues(typeof(CellStatus)));
+        }
+
+        [TestMethod]
         public void CreateCellAndCheckInitialValue()
         {
             CellStatus cellStatus = cell.GetCellStatus();
@@ -42,8 +58,8 @@ namespace BattleFleet.Tests
         [DataRow(CellStatus.EMPTY, $"   |")]
         [DataRow(CellStatus.OCCUPIED, $"   |")]
         [DataRow(CellStatus.FORBIDDEN, $"   |")]
-        [DataRow(CellStatus.HIT, $" X |")]
-        [DataRow(CellStatus.MISS, $" - |")]
+        [DataRow(CellStatus.HIT, $" \u001b[31mX\u001b[0m |")]
+        [DataRow(CellStatus.MISS, $" \u001b[36m-\u001b[0m |")]
         public void SetCellStatusAndGetHideCell(CellStatus startStatusCell, string expectedResult)
         {
             cell.UpdateCellStatus(startStatusCell);
@@ -57,8 +73,9 @@ namespace BattleFleet.Tests
         [DataRow(CellStatus.EMPTY, $"   |")]
         [DataRow(CellStatus.OCCUPIED, $" ■ |")]
         [DataRow(CellStatus.FORBIDDEN, $"   |")]
-        [DataRow(CellStatus.HIT, $" X |")]
-        [DataRow(CellStatus.MISS, $" - |")]
+        [DataRow(CellStatus.HIT, $" \u001b[31mX\u001b[0m |")]
+        [DataRow(CellStatus.MISS, $" \u001b[36m-\u001b[0m |")]
+        [DataRow(CellStatus.SANK_FORBIDEN, $" \u001b[37mX\u001b[0m |")]
         public void SetCellStatusAndGetCodeCell(CellStatus startStatusCell, string expectedResult)
         {
             cell.UpdateCellStatus(startStatusCell);
