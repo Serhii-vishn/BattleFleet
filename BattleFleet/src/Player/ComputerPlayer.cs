@@ -2,11 +2,14 @@
 
 namespace BattleFleet.src.Player
 {
-    class ComputerPlayer : Player
+    public class ComputerPlayer : Player
     {
         private Dictionary<char, int> succesShots;
         
-        public ComputerPlayer() : base() { }
+        public ComputerPlayer() : base() 
+        { 
+            succesShots = new Dictionary<char, int>(); 
+        }
 
         public ComputerPlayer(string playerName)
         {
