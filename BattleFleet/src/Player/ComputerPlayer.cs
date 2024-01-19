@@ -4,23 +4,23 @@ namespace BattleFleet.src.Player
 {
     public class ComputerPlayer : Player
     {
-        private Dictionary<char, int> succesShots;
+        private Dictionary<char, int> _succesShots;
         
         public ComputerPlayer() : base() 
         { 
-            succesShots = new Dictionary<char, int>(); 
+            _succesShots = new Dictionary<char, int>(); 
         }
 
         public ComputerPlayer(string playerName)
         {
-            succesShots = new Dictionary<char, int>();
+            _succesShots = new Dictionary<char, int>();
             this.playerName = playerName;
         }
 
         public override void DrawBoard()
         {
             Console.WriteLine($"Player's board: {playerName}");
-            Console.WriteLine(this.ownBoard.Draw());
+            Console.WriteLine(this.ownBoard.GetBoardToString());
         }
 
         public override void Initialize(Board ownBoard, Board opponentBoard)
@@ -40,9 +40,9 @@ namespace BattleFleet.src.Player
 
             do
             {
-                if (succesShots.Count > 0)
+                if (_succesShots.Count > 0)
                 {
-                    var lastShot = succesShots.Last();
+                    var lastShot = _succesShots.Last();
 
                     randomColumn = lastShot.Key;
                     randomRow = lastShot.Value;
@@ -78,13 +78,13 @@ namespace BattleFleet.src.Player
                         isSuccses = opponentBoard.MoveShoot(randomRow, randomColumn);
 
                         if (isSuccses)
-                            succesShots.Add(randomColumn, randomRow);
+                            _succesShots.Add(randomColumn, randomRow);
                     }
                 }
                 catch
                 {
                     isSuccses = true;
-                    succesShots.Clear();
+                    _succesShots.Clear();
                 }
             } while (isSuccses);
         

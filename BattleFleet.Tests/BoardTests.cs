@@ -10,7 +10,7 @@ namespace BattleFleet.Tests
         {
             Board board = new Board();
 
-            string result = board.Draw();
+            string result = board.GetBoardToString();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Contains("A | B | C | D | E | F | G | H | I | J |"));

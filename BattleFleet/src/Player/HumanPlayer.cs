@@ -21,7 +21,7 @@ namespace BattleFleet.src.Player
         public override void DrawBoard()
         {
             Console.WriteLine($"Player's board: {playerName}");
-            Console.WriteLine(this.ownBoard.Draw());
+            Console.WriteLine(this.ownBoard.GetBoardToString());
         }
 
         public override void PlaceShips(PlacementMode placementMode)
@@ -30,17 +30,17 @@ namespace BattleFleet.src.Player
             {
                 case PlacementMode.RANDOM:
                     {
-                        placeShipsRandom();
+                        PlaceShipsRandom();
                         break;
                     }
                 case PlacementMode.MANUAL:
                     {
-                        placeShipsManual();
+                        PlaceShipsManual();
                         break;
                     }
                 case PlacementMode.TEMPLATE:
                     {
-                        placeShipsTemplate();
+                        PlaceShipsTemplate();
                         break;
                     }
                 default:
@@ -57,8 +57,8 @@ namespace BattleFleet.src.Player
                 bool isSuccses = false;
                 Console.WriteLine($"Player's move: {playerName}");
 
-                char column = readColumn();
-                int row = readRow();
+                char column = ReadColumn();
+                int row = ReadRow();
 
                 if (opponentBoard.MoveCheck(row, column))
                 {
@@ -79,12 +79,12 @@ namespace BattleFleet.src.Player
             }
         }
 
-        private void placeShipsManual()
+        private void PlaceShipsManual()
         {
-            char column = readColumn();
-            int row = readRow();
-            ShipClass shipClass = selectShip();
-            ShipDirection shipDirection = readShipDirection(shipClass);
+            char column = ReadColumn();
+            int row = ReadRow();
+            ShipClass shipClass = SelectShip();
+            ShipDirection shipDirection = ReadShipDirection(shipClass);
 
             if (ownBoard.MovePlaceShip(row, column, shipClass, shipDirection))
             {
@@ -93,7 +93,7 @@ namespace BattleFleet.src.Player
             }
         }
 
-        private void placeShipsRandom()
+        private void PlaceShipsRandom()
         {
             Random random = new();
 
@@ -117,7 +117,7 @@ namespace BattleFleet.src.Player
             }
         }
 
-        private void placeShipsTemplate()
+        private void PlaceShipsTemplate()
         {
             var templateManager = new ShipTemplateManager();
 
@@ -153,7 +153,7 @@ namespace BattleFleet.src.Player
             }
         }
 
-        private static char readColumn()
+        private static char ReadColumn()
         {
             Console.Write("Enter column (A-J): ");
             char column = char.ToUpper(Console.ReadKey().KeyChar);
@@ -164,7 +164,7 @@ namespace BattleFleet.src.Player
             return column;
         }
 
-        private static int readRow()
+        private static int ReadRow()
         {
             Console.Write(" row (0-9): ");
 
@@ -174,7 +174,7 @@ namespace BattleFleet.src.Player
             return row;
         }
 
-        private ShipClass selectShip()
+        private ShipClass SelectShip()
         {
             Console.Write($"Available ships:");
             foreach (var kvp in AvailableShips)
@@ -196,7 +196,7 @@ namespace BattleFleet.src.Player
             return selectedShipClass;
         }
 
-        private static ShipDirection readShipDirection(ShipClass shipClass)
+        private static ShipDirection ReadShipDirection(ShipClass shipClass)
         {
             if (shipClass == ShipClass.ONE_DECK)
                 return ShipDirection.HORIZONTAL;

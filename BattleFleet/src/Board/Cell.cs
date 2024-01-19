@@ -2,65 +2,65 @@
 {
     public class Cell
     {
-        private CellStatus cellStatus;
-        private string cellCode;
+        private CellStatus _cellStatus;
+        private string _cellCode;
 
         public Cell()
         {
-            cellStatus = CellStatus.EMPTY;
-            cellCode = $"   |";
+            _cellStatus = CellStatus.EMPTY;
+            _cellCode = $"   |";
         }
 
         public CellStatus GetCellStatus()
         {
-            return cellStatus;
+            return _cellStatus;
         }
 
         public override string ToString()
         {
-            return cellCode;
+            return _cellCode;
         }
 
         public string ToStringHide()
         {
-            if (cellStatus == CellStatus.OCCUPIED)
+            if (_cellStatus == CellStatus.OCCUPIED)
                 return $"   |";
 
-            return cellCode;
+            return _cellCode;
         }
 
         public bool UpdateCellStatus(CellStatus newStatusCell)
         {
-            if (cellStatus == CellStatus.HIT)
+            if (_cellStatus == CellStatus.HIT)
                 return false;
 
-            this.cellStatus = newStatusCell;
-            updateCellCode(newStatusCell);
+            this._cellStatus = newStatusCell;
+            UpdateCellCode(newStatusCell);
 
             return true;
         }
 
-        private void updateCellCode(CellStatus newStatusCell)
+        private void UpdateCellCode(CellStatus newStatusCell)
         {
             switch (newStatusCell)
             {
                 case CellStatus.EMPTY:
-                    cellCode = $"   |";
+                    _cellCode = $"   |";
                     break;
                 case CellStatus.OCCUPIED:
-                    cellCode = $" ■ |";
+                    _cellCode = $" ■ |";
                     break;
                 case CellStatus.HIT:
-                    cellCode = $" \u001b[31mX\u001b[0m |";
+                    _cellCode = $" \u001b[31mX\u001b[0m |";
                     break;
                 case CellStatus.MISS:
-                    cellCode = $" \u001b[36m-\u001b[0m |";
+                    _cellCode = $" \u001b[36m-\u001b[0m |";
                     break;
                 case CellStatus.FORBIDDEN:
-                    cellCode = $"   |";
+                    _cellCode = $"   |";
                     break;
                 case CellStatus.SANK_FORBIDEN:
-                    cellCode = $" \u001b[37mX\u001b[0m |";
+                    _cellCode = $" \u001b[37mX\u001b[0m |";
                     break;
                 default:
                     break;

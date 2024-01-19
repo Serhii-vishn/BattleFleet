@@ -2,60 +2,60 @@
 {
     public class Ship
     {
-        private readonly ShipClass shipClass;
-        private readonly ShipDirection shipDirection;
-        private Dictionary<char, int> position;
-        private int health;
-        private bool isShipSunk;
+        private readonly ShipClass _shipClass;
+        private readonly ShipDirection _shipDirection;
+        private Dictionary<char, int> _position;
+        private int _health;
+        private bool _isShipSunk;
 
         public Ship(ShipClass shipClass, Dictionary<char, int> position, ShipDirection shipDirection)
         {
-            this.shipClass = shipClass;
-            this.position = position;
-            this.shipDirection = shipDirection;
-            health = (int)shipClass;
-            isShipSunk = false;
+            _shipClass = shipClass;
+            _position = position;
+            _shipDirection = shipDirection;
+            _health = (int)shipClass;
+            _isShipSunk = false;
         }
 
         public bool IsSunk()
         {
-            return isShipSunk;
+            return _isShipSunk;
         }
 
         public void Hit()
         {
-            if (health > 0)
+            if (_health > 0)
             {
-                health -= 1;
+                _health -= 1;
 
-                if (health <= 0)
-                    updateStatus();
+                if (_health <= 0)
+                    UpdateStatus();
             }
         }
 
         public void SetPosition(Dictionary<char, int> position)
         {
-            this.position = position;
+            _position = position;
         }
 
         public Dictionary<char, int> GetPosition()
         {
-            return position;
+            return _position;
         }
 
         public ShipClass GetShipClass()
         {
-            return shipClass;
+            return _shipClass;
         }
 
         public ShipDirection GetDirection()
         {
-            return shipDirection;
+            return _shipDirection;
         }
 
-        private void updateStatus()
+        private void UpdateStatus()
         {
-            isShipSunk = true;
+            _isShipSunk = true;
         }
     }
 }

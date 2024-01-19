@@ -12,9 +12,9 @@
             logsFolderPath = Path.Combine(mainFolderPath, "logs");
             savesFolderPath = Path.Combine(mainFolderPath, "saves");
 
-            ensureDirectoryExists(mainFolderPath);
-            ensureDirectoryExists(logsFolderPath);
-            ensureDirectoryExists(savesFolderPath);
+            EnsureDirectoryExists(mainFolderPath);
+            EnsureDirectoryExists(logsFolderPath);
+            EnsureDirectoryExists(savesFolderPath);
         }
 
         protected string GetFilePathInMainFolder(string fileName)
@@ -27,7 +27,7 @@
             return filePath;
         }
 
-        private void ensureDirectoryExists(string directoryPath)
+        private static void EnsureDirectoryExists(string directoryPath)
         {
             if (!Directory.Exists(directoryPath))
             {

@@ -2,30 +2,28 @@
 {
     public class ShipTemplateManager : FileManager
     {
-        private readonly List<string> templates;
-        private readonly string templatesFilePath;
+        private readonly List<string> _templates;
+        private readonly string _templatesFilePath;
 
         public ShipTemplateManager() : base()
         {
-            templatesFilePath = Path.Combine(savesFolderPath, "Templates.txt");
-            templates = new List<string>();
+            _templatesFilePath = Path.Combine(savesFolderPath, "Templates.txt");
+            _templates = new List<string>();
 
-            ensureFileExists(templatesFilePath);
-            ensureFileNotEmpty(templatesFilePath);
+            EnsureFileExists(_templatesFilePath);
+            EnsureFileNotEmpty(_templatesFilePath);
         }
 
         public void SaveTemplate(List<string> template, string templateName)
         {
             try
             {
-                using (FileStream fileStream = new FileStream(templatesFilePath, FileMode.Append, FileAccess.Write))
-                using (StreamWriter writer = new StreamWriter(fileStream))
+                using FileStream fileStream = new(_templatesFilePath, FileMode.Append, FileAccess.Write);
+                using StreamWriter writer = new(fileStream);
+                writer.WriteLine("\nName: " + templateName);
+                foreach (var str in template)
                 {
-                    writer.WriteLine("\nName: " + templateName);
-                    foreach (var str in template)
-                    {
-                        writer.WriteLine(str);
-                    }
+                    writer.WriteLine(str);
                 }
             }
             catch (Exception ex)
@@ -40,17 +38,13 @@
 
             try
             {
-                using (StreamReader reader = new StreamReader(templatesFilePath))
-                {
-                    string line;
+                using StreamReader reader = new(_templatesFilePath);
+                string line;
 
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        if (line.StartsWith("Name:"))
-                        {
-                            templateNames.Add(line.Replace("Name:", "").Trim());
-                        }
-                    }
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.StartsWith("Name:"))
+                        templateNames.Add(line.Replace("Name:", "").Trim());
                 }
             }
             catch (Exception ex)
@@ -66,7 +60,7 @@
             var template = new List<string>();
             try
             {
-                using (StreamReader reader = new StreamReader(templatesFilePath))
+                using (StreamReader reader = new(_templatesFilePath))
                 {
                     string line;
                     while ((line = reader.ReadLine()) != null)
@@ -96,7 +90,7 @@
             return template;
         }
 
-        private void ensureFileExists(string path)
+        private static void EnsureFileExists(string path)
         {
             if (!File.Exists(path))
             {
@@ -104,13 +98,13 @@
             }
         }
 
-        private void ensureFileNotEmpty(string filePath)
+        private void EnsureFileNotEmpty(string filePath)
         {
-            FileInfo fileInfo = new FileInfo(filePath);
+            FileInfo fileInfo = new(filePath);
             if (fileInfo.Length == 0)
             {
                 string tmplName = "Master";
-                templates.AddRange(new List<string>
+                _templates.AddRange(new List<string>
                 {
                     "5,A,FIVE_DECK,VERTICAL",
                     "8,D,ONE_DECK,HORIZONTAL",
@@ -123,12 +117,12 @@
                     "9,J,ONE_DECK,HORIZONTAL",
                     "6,D,TWO_DECK,HORIZONTAL"
                 });
-                SaveTemplate(templates, tmplName);
+                SaveTemplate(_templates, tmplName);
 
-                templates.Clear();
+                _templates.Clear();
 
                 tmplName = "Arcade";
-                templates.AddRange(new List<string>
+                _templates.AddRange(new List<string>
                 {
                     "4,C,FIVE_DECK,HORIZONTAL",
                     "8,F,THREE_DECK,HORIZONTAL",
@@ -141,12 +135,12 @@
                     "8,D,ONE_DECK,HORIZONTAL",
                     "2,A,ONE_DECK,HORIZONTAL"
                 });
-                SaveTemplate(templates, tmplName);
+                SaveTemplate(_templates, tmplName);
 
-                templates.Clear();
+                _templates.Clear();
 
                 tmplName = "Redis";
-                templates.AddRange(new List<string>
+                _templates.AddRange(new List<string>
                 {
                     "4,E,FIVE_DECK,VERTICAL",
                     "1,C,THREE_DECK,VERTICAL",
@@ -159,12 +153,12 @@
                     "0,H,ONE_DECK,VERTICAL",
                     "5,C,ONE_DECK,HORIZONTAL"
                 });
-                SaveTemplate(templates, tmplName);
+                SaveTemplate(_templates, tmplName);
 
-                templates.Clear();
+                _templates.Clear();
 
                 tmplName = "GLORY_FOR_UKRAINE";
-                templates.AddRange(new List<string>
+                _templates.AddRange(new List<string>
                 {
                     "5,C,FIVE_DECK,HORIZONTAL",
                     "1,C,THREE_DECK,VERTICAL",
@@ -177,7 +171,7 @@
                     "0,A,ONE_DECK,HORIZONTAL",
                     "9,E,ONE_DECK,HORIZONTAL"
                 });
-                SaveTemplate(templates, tmplName);
+                SaveTemplate(_templates, tmplName);
             }
         }
     }

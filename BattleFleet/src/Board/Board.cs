@@ -4,33 +4,33 @@ namespace BattleFleet.src.PlayerBoard
 {
     public class Board
     {
-        private const int kGridLength = 10;
-        private readonly Cell[,] grid;
-        private readonly List<Ship> shipsList;
-        private readonly char[] alphabetCells = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
+        private const int k_GridLength = 10;
+        private readonly Cell[,] _grid;
+        private readonly List<Ship> _shipsList;
+        private readonly char[] _alphabetCells = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
 
         public Board()
         {
-            grid = new Cell[10, 10];
-            shipsList = new List<Ship>();
+            _grid = new Cell[10, 10];
+            _shipsList = new List<Ship>();
 
-            initializeBoard();
+            InitializeBoard();
         }
 
-        public string Draw()
+        public string GetBoardToString()
         {
             const string horizontalSeparator = "\n---+---+---+---+---+---+---+---+---+---+---+";
             StringBuilder board = new();
 
             board.Append(" X |");
-            board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));
+            board.Append(string.Join("", Enumerable.Range(0, k_GridLength).Select(i => $" {_alphabetCells[i]} |")));
 
-            for (int i = 0; i < kGridLength; i++)
+            for (int i = 0; i < k_GridLength; i++)
             {
                 board.AppendLine(horizontalSeparator);
                 board.Append($" {i} |");
 
-                board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].ToString())));
+                board.Append(string.Join("", Enumerable.Range(0, k_GridLength).Select(j => _grid[i, j].ToString())));
             }
 
             return board.ToString();
@@ -42,14 +42,14 @@ namespace BattleFleet.src.PlayerBoard
             StringBuilder board = new();
 
             board.Append(" X |");
-            board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(i => $" {alphabetCells[i]} |")));
+            board.Append(string.Join("", Enumerable.Range(0, k_GridLength).Select(i => $" {_alphabetCells[i]} |")));
 
-            for (int i = 0; i < kGridLength; i++)
+            for (int i = 0; i < k_GridLength; i++)
             {
                 board.AppendLine(horizontalSeparator);
                 board.Append($" {i} |");
 
-                board.Append(string.Join("", Enumerable.Range(0, kGridLength).Select(j => grid[i, j].ToStringHide())));
+                board.Append(string.Join("", Enumerable.Range(0, k_GridLength).Select(j => _grid[i, j].ToStringHide())));
             }
 
             return board.ToString();
@@ -59,12 +59,12 @@ namespace BattleFleet.src.PlayerBoard
         {
             try
             {
-                canCreateNewShip(shipClass);
+                CanCreateNewShip(shipClass);
 
-                int columnIndex = verifyPosition(row, column);
-                canPlaceShip(row, columnIndex, shipClass, shipDirection);
+                int columnIndex = VerifyPosition(row, column);
+                CanPlaceShip(row, columnIndex, shipClass, shipDirection);
 
-                markShipAreaCells(row, columnIndex, shipClass, shipDirection, CellStatus.FORBIDDEN);
+                MarkShipAreaCells(row, columnIndex, shipClass, shipDirection, CellStatus.FORBIDDEN);
 
                 switch (shipDirection)
                 {
@@ -72,7 +72,7 @@ namespace BattleFleet.src.PlayerBoard
                         {
                             for (int size = 1, i = row; size <= ((int)shipClass); i++, size++)
                             {
-                                grid[i, columnIndex].UpdateCellStatus(CellStatus.OCCUPIED);
+                                _grid[i, columnIndex].UpdateCellStatus(CellStatus.OCCUPIED);
                             }
                             break;
                         }
@@ -80,14 +80,14 @@ namespace BattleFleet.src.PlayerBoard
                         {
                             for (int size = 1, i = columnIndex; size <= ((int)shipClass); i++, size++)
                             {
-                                grid[row, i].UpdateCellStatus(CellStatus.OCCUPIED);
+                                _grid[row, i].UpdateCellStatus(CellStatus.OCCUPIED);
                             }
                             break;
                         }
                     default:
                         throw new ArgumentException("Invalid value for a Direction ship.");
                 }
-                shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }, shipDirection));
+                _shipsList.Add(new Ship(shipClass, new Dictionary<char, int> { { column, row } }, shipDirection));
 
                 return true;
             }
@@ -100,9 +100,9 @@ namespace BattleFleet.src.PlayerBoard
 
         public bool MoveCheck(int row, char column)
         {
-            int columnIndex = verifyPosition(row, column);
+            int columnIndex = VerifyPosition(row, column);
 
-            CellStatus state = grid[row, columnIndex].GetCellStatus();
+            CellStatus state = _grid[row, columnIndex].GetCellStatus();
 
             if (state == CellStatus.HIT || state == CellStatus.MISS)
                 throw new ArgumentException("Cannot be re-fired");
@@ -114,18 +114,18 @@ namespace BattleFleet.src.PlayerBoard
         {
             try
             {
-                int columnIndex = verifyPosition(row, column);
+                int columnIndex = VerifyPosition(row, column);
 
-                CellStatus state = grid[row, columnIndex].GetCellStatus();
+                CellStatus state = _grid[row, columnIndex].GetCellStatus();
                 switch (state)
                 {
                     case CellStatus.OCCUPIED:
                         {
-                            grid[row, columnIndex].UpdateCellStatus(CellStatus.HIT);
+                            _grid[row, columnIndex].UpdateCellStatus(CellStatus.HIT);
 
-                            foreach (Ship ship in shipsList)
+                            foreach (Ship ship in _shipsList)
                             {
-                                if (executeHitOnShip(ship, row, column))
+                                if (ExecuteHitOnShip(ship, row, column))
                                 {
                                     Console.Write("Sank the ship ");
                                     return true;
@@ -134,10 +134,10 @@ namespace BattleFleet.src.PlayerBoard
                             return true;
                         }
                     case CellStatus.EMPTY:
-                        grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
+                        _grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
                         break;
                     case CellStatus.FORBIDDEN:
-                        grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
+                        _grid[row, columnIndex].UpdateCellStatus(CellStatus.MISS);
                         break;
                     default:
                         break;
@@ -153,7 +153,7 @@ namespace BattleFleet.src.PlayerBoard
         public int GetAliveShipsCount()
         {
             int aliveShipCount = 0;
-            foreach (var ship in shipsList)
+            foreach (var ship in _shipsList)
             {
                 if (!ship.IsSunk())
                     aliveShipCount++;
@@ -163,37 +163,37 @@ namespace BattleFleet.src.PlayerBoard
 
         public void Clear()
         {
-            shipsList.Clear();
+            _shipsList.Clear();
 
-            for (int i = 0; i < kGridLength; i++)
+            for (int i = 0; i < k_GridLength; i++)
             {
-                for (int j = 0; j < kGridLength; j++)
+                for (int j = 0; j < k_GridLength; j++)
                 {
-                    grid[i, j].UpdateCellStatus(CellStatus.EMPTY);
+                    _grid[i, j].UpdateCellStatus(CellStatus.EMPTY);
                 }
             }
         }
 
-        private void initializeBoard()
+        private void InitializeBoard()
         {
-            for (int i = 0; i < kGridLength; i++)
+            for (int i = 0; i < k_GridLength; i++)
             {
-                for (int j = 0; j < kGridLength; j++)
+                for (int j = 0; j < k_GridLength; j++)
                 {
-                    grid[i, j] = new Cell();
+                    _grid[i, j] = new Cell();
                 }
             }
         }
 
-        private int verifyPosition(int row, char column)
+        private int VerifyPosition(int row, char column)
         {
-            if (row < 0 || row >= kGridLength)
+            if (row < 0 || row >= k_GridLength)
                 throw new ArgumentException("Incorrect value for a row.", nameof(row));
 
             int columnIndex = -1;
-            for (int i = 0; i < kGridLength; i++)
+            for (int i = 0; i < k_GridLength; i++)
             {
-                if (alphabetCells[i] == char.ToUpper(column))
+                if (_alphabetCells[i] == char.ToUpper(column))
                     columnIndex = i;
             }
             if (columnIndex == -1)
@@ -202,11 +202,11 @@ namespace BattleFleet.src.PlayerBoard
             return columnIndex;
         }
 
-        private void canCreateNewShip(ShipClass shipClass)
+        private void CanCreateNewShip(ShipClass shipClass)
         {
             int numberShips = 0;
 
-            foreach (Ship ship in shipsList)
+            foreach (Ship ship in _shipsList)
             {
                 if (ship.GetShipClass() == shipClass)
                 {
@@ -216,17 +216,10 @@ namespace BattleFleet.src.PlayerBoard
 
             switch (shipClass)
             {
-                case ShipClass.ONE_DECK:
+                case ShipClass.FIVE_DECK:
                     {
-                        if (numberShips >= 4)
-                            throw new InvalidOperationException("Cannot place more than 4 ships of ONE_DECK class.");
-
-                        break;
-                    }
-                case ShipClass.TWO_DECK:
-                    {
-                        if (numberShips >= 3)
-                            throw new InvalidOperationException("Cannot place more than 3 ships of TWO_DECK class.");
+                        if (numberShips >= 1)
+                            throw new InvalidOperationException("Cannot place more than 1 ship of FIVE_DECK class.");
 
                         break;
                     }
@@ -237,10 +230,17 @@ namespace BattleFleet.src.PlayerBoard
 
                         break;
                     }
-                case ShipClass.FIVE_DECK:
+                case ShipClass.TWO_DECK:
                     {
-                        if (numberShips >= 1)
-                            throw new InvalidOperationException("Cannot place more than 1 ship of FIVE_DECK class.");
+                        if (numberShips >= 3)
+                            throw new InvalidOperationException("Cannot place more than 3 ships of TWO_DECK class.");
+
+                        break;
+                    }
+                case ShipClass.ONE_DECK:
+                    {
+                        if (numberShips >= 4)
+                            throw new InvalidOperationException("Cannot place more than 4 ships of ONE_DECK class.");
 
                         break;
                     }
@@ -249,7 +249,7 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        private void canPlaceShip(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
+        private void CanPlaceShip(int row, int column, ShipClass shipClass, ShipDirection shipDirection)
         {
             switch (shipDirection)
             {
@@ -257,11 +257,11 @@ namespace BattleFleet.src.PlayerBoard
                     {
                         for (int size = 1; size <= ((int)shipClass); row++, size++)
                         {
-                            if (grid[row, column].GetCellStatus() != CellStatus.EMPTY)
+                            if (_grid[row, column].GetCellStatus() != CellStatus.EMPTY)
                             {
-                                if (grid[row, column].GetCellStatus() == CellStatus.OCCUPIED)
+                                if (_grid[row, column].GetCellStatus() == CellStatus.OCCUPIED)
                                     throw new ArgumentException("Сan't put a ship in its way, there is another ship");
-                                else if (grid[row, column].GetCellStatus() == CellStatus.FORBIDDEN)
+                                else if (_grid[row, column].GetCellStatus() == CellStatus.FORBIDDEN)
                                     throw new ArgumentException("Сan't place a ship, it occupies the free zone of another ship");
                             }
                         }
@@ -271,9 +271,9 @@ namespace BattleFleet.src.PlayerBoard
                     {
                         for (int size = 1; size <= ((int)shipClass); column++, size++)
                         {
-                            if (grid[row, column].GetCellStatus() == CellStatus.OCCUPIED)
+                            if (_grid[row, column].GetCellStatus() == CellStatus.OCCUPIED)
                                 throw new ArgumentException("Сan't put a ship in its way, there is another ship");
-                            else if (grid[row, column].GetCellStatus() == CellStatus.FORBIDDEN)
+                            else if (_grid[row, column].GetCellStatus() == CellStatus.FORBIDDEN)
                                 throw new ArgumentException("Сan't place a ship, it occupies the free zone of another ship");
                         }
                         break;
@@ -283,22 +283,22 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        private void markShipAreaCells(int row, int column, ShipClass shipClass, ShipDirection shipDirection, CellStatus newCellStatus)
+        private void MarkShipAreaCells(int row, int column, ShipClass shipClass, ShipDirection shipDirection, CellStatus newCellStatus)
         {
             switch (shipDirection)
             {
                 case ShipDirection.HORIZONTAL:
                     {
                         int startRow = Math.Max(row - 1, 0);
-                        int endRow = Math.Min(row + 1, kGridLength - 1);
+                        int endRow = Math.Min(row + 1, k_GridLength - 1);
                         int startColumn = Math.Max(column - 1, 0);
-                        int endColumn = Math.Min(column + (int)shipClass, kGridLength - 1);
+                        int endColumn = Math.Min(column + (int)shipClass, k_GridLength - 1);
 
                         for (int i = startRow; i <= endRow; i++)
                         {
                             for (int j = startColumn; j <= endColumn; j++)
                             {
-                                grid[i, j].UpdateCellStatus(newCellStatus);
+                                _grid[i, j].UpdateCellStatus(newCellStatus);
                             }
                         }
                         break;
@@ -306,15 +306,15 @@ namespace BattleFleet.src.PlayerBoard
                 case ShipDirection.VERTICAL:
                     {
                         int startRow = Math.Max(row - 1, 0);
-                        int endRow = Math.Min(row + (int)shipClass, kGridLength - 1);
+                        int endRow = Math.Min(row + (int)shipClass, k_GridLength - 1);
                         int startColumn = Math.Max(column - 1, 0);
-                        int endColumn = Math.Min(column + 1, kGridLength - 1);
+                        int endColumn = Math.Min(column + 1, k_GridLength - 1);
 
                         for (int i = startRow; i <= endRow; i++)
                         {
                             for (int j = startColumn; j <= endColumn; j++)
                             {
-                                grid[i, j].UpdateCellStatus(newCellStatus);
+                                _grid[i, j].UpdateCellStatus(newCellStatus);
                             }
                         }
                         break;
@@ -324,7 +324,7 @@ namespace BattleFleet.src.PlayerBoard
             }
         }
 
-        private bool executeHitOnShip(Ship ship, int row, char column)
+        private bool ExecuteHitOnShip(Ship ship, int row, char column)
         {
             var shipPosition = ship.GetPosition();
 
@@ -346,8 +346,8 @@ namespace BattleFleet.src.PlayerBoard
 
                                 if (ship.IsSunk())
                                 {
-                                    int columnIn = verifyPosition(row, shipColumn);
-                                    markShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.SANK_FORBIDEN);
+                                    int columnIn = VerifyPosition(row, shipColumn);
+                                    MarkShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.SANK_FORBIDEN);
                                     return true;
                                 }
                             }
@@ -364,8 +364,8 @@ namespace BattleFleet.src.PlayerBoard
 
                                 if (ship.IsSunk())
                                 {
-                                    int columnIn = verifyPosition(row, shipColumn);
-                                    markShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.SANK_FORBIDEN);
+                                    int columnIn = VerifyPosition(row, shipColumn);
+                                    MarkShipAreaCells(shipRow, columnIn, shipClass, shipDirection, CellStatus.SANK_FORBIDEN);
                                     return true;
                                 }
                             }
